@@ -1,0 +1,9 @@
+.env
+.env.test
+build
+node_modules
+
+# Local Development
+.env
+localchain/
+references/
