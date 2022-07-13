@@ -5,25 +5,24 @@
 ## The Solution
 
 ### Examples
-1. ```Currier Service```: 
-2. ```Manual Tasks or Day Labor```:
-3. ```Ratings for non-industry specific work```: 
-
+1. ```Currier Service```: A simple job of taking a package across town. Utilizing the system of Profiles (of both sender and )
+2. ```Unique tasks for people trying to transition career fields```: Allows for job history of individuals to be tracked and also used as a resume builder by individuals who want to work outside of traditional employment paradigms 
+3. ```Ratings for non-industry specific work```: Allows for people with parallel backgrounds to perform side job tasks that would otherwise require extensive background or references.
 
 ## Key Features
 1. ```General Task requests```
-2. ```Profile ratings``:
+2. ```Profile ratings```:
 3. ```History of honoring contracts```:
 
 ### Smart Contracts
 * Ethereum
-1. ```Task Requests```:
-2. ```Profile```:
+1. ```Jobs```:
+2. ```Profiles```:
 
 * Polygon
-1. ```Rate negotiation```:
-2. ```Completion of Tasks```:
-3. ```Rating success```:
+1. ```Job Negotiation```:
+2. ```Completion criteria```:
+3. ```Rating```:
 
 ### Mobile App
 Everyone uses a phone. The phone, and ultimately it's next wearable, will be the way the way that you will be able to officially make your will known. For the sake of this hackathon, the interaction vector will be through a mobile app.
