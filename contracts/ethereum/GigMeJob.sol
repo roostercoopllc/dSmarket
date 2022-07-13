@@ -15,6 +15,13 @@ contract GigMeJobCatalogue is Ownable{
         WITHDRAWN
     }
 
+    enum JobType {
+        SERVICE,
+        LABOR,
+        TRANSPORT,
+        OTHER
+    }
+
     address gigMeJobAcceptance;
     address gigMeProfile;
 
@@ -23,30 +30,26 @@ contract GigMeJobCatalogue is Ownable{
     uint256 salary;
     uint256 duration;
     uint256 startTime;
-    uint256 endTime;
+    uint256 endtime;
     JobStatus status;
     
-    mapping(address => Job) jobMap;
-
     constructor(){
 
     }
+
     function AdvertiseJob(
         string memory _title,
         string memory _description,
         address _GigMeJobAcceptance,
         uint256 _salary,
         uint256 _duration,
-        uint256 _startTime,
-        uint256 _endtime,
-        uint256 _expectedTime
+        uint256 _startTime
     ) public onlyOwner {
             title = _title;
             description = _description;
             salary = _salary;
             duration = _duration;
             startTime = _startTime;
-            endtime = _endtime;
             status = JobStatus.OPEN;
             gigMeJobAcceptance = _GigMeJobAcceptance;
     }
