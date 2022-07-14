@@ -3,8 +3,13 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract GigMeJob is Ownable{
+    using SafeMath for uint256;
+    using Strings for string;
+
     event ContractorSelected(address _contractorAddress);
     event JobMarkedCompleted(address _jobCompletionAddress);
 
@@ -37,8 +42,9 @@ contract GigMeJob is Ownable{
     uint256 endtime;
     GigMeJobCompletion public gigMeJobCompletion;
     
-    // Owner sets final aspects of job
+    // Owner sets final aspects of job and confirms funds released
     GigMeJobAcceptance public gigMeJobAcceptance;
+    bool public fundsReleased();
     
     constructor(        
         string memory _title,
@@ -72,6 +78,7 @@ contract GigMeJob is Ownable{
         gigMeJobCompletion = _gigMeJobCompletion;
         status = JobStatus.COMPLETED;
         emit JobMarkedCompleted(msg.sender);
+        // start timer to release funds
     }
     
     function acceptContract(GigMeJobAcceptance _gigMeJobAcceptance) 
@@ -79,10 +86,14 @@ contract GigMeJob is Ownable{
     onlyOwner 
     {
         gigMeJobAcceptance = _gigMeJobAcceptance;
+        // release funds;
     }
 }
 
 contract GigMeJobAcceptance is Ownable {
+    using SafeMath for uint256;
+    using Strings for string;
+
     address public contractor;
     GigMeJobRating jobRating;
     uint256 expectedTime;
@@ -100,9 +111,16 @@ contract GigMeJobAcceptance is Ownable {
         expectedTime = _expectedTime;
         status = CompletionStatus.INPROGRESS;
     }
+
+    function markJobAsComplete() public {
+        status = CompletionStatus.COMPLETED;
+    }
 }
 
 contract GigMeJobCompletion {
+    using SafeMath for uint256;
+    using Strings for string;
+
     address public job;
     string public jobCompletionSummary;
     string[] public ipfsProofs;
@@ -116,6 +134,9 @@ contract GigMeJobCompletion {
 }
 
 contract GigMeProfile is Ownable {
+    using SafeMath for uint256;
+    using Strings for string;
+
     address public contractorAddress;
     string public profileAlias;
     string firstname;
@@ -145,6 +166,9 @@ contract GigMeProfile is Ownable {
 }
 
 contract GigMeJobRating is Ownable{
+    using Strings for string;
+    using SafeMath for uint256;
+
   GigMeJob job;
   string ratingTitle;
   enum Rating {
