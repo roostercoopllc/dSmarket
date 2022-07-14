@@ -41,3 +41,4 @@ The App is written using the [apache cordova](https://cordova.apache.org/) frame
 9. [vue-pdf](https://github.com/FranckFreiburger/vue-pdf)
 10. [Possible Way to use public addresses to encrypt data](https://stackoverflow.com/questions/55755569/could-we-use-public-address-and-private-key-of-a-crypto-wallet-to-encrypt-a-file#55762196)
 11. (D&D Chainlink Example)[https://github.com/PatrickAlphaC/dungeons-and-dragons-nft/blob/master/contracts/DungeonsAndDragonsCharacter.sol]
+12. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
