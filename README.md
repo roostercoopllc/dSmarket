@@ -1,8 +1,10 @@
 # Polygon Blockchain Hackathon
 
 ## Problem
+In a world where individuals have a wide array of needs, and those needs require a now increasingly diverse skill set 
 
 ## The Solution
+Eliminating the middle man would be greatly preferred for both the contractor and the solicitor. 
 
 ### Examples
 1. ```Currier Service```: A simple job of taking a package across town. Utilizing the system of Profiles (of both sender and )
@@ -30,8 +32,20 @@ Everyone uses a phone. The phone, and ultimately it's next wearable, will be the
 Utilizing the [Flutter](https://flutter.dev/) framework, the development team can deploy for iOS, Android and Web Utilizing the same codebase. Big thanks to Bhaskar for the layout on how to use [Flutter with Metamask](https://dev.to/bhaskardutta/building-with-flutter-and-metamask-8h5).
 
 ```Build```
+Built and Tested on Pixel 4 (API 30).
+
+```Test```
+With an Virtual device running (I used android studios AVD Laucher)
+```sh
+user@polygon-hackathon-submission$ cd mobile
+user@mobile$ flutter run
+```
 
 ```Deployment```
+
+```sh
+adb push xxx
+```
 
 ## The Team 
 ```Smart Contracts```
@@ -46,6 +60,6 @@ Utilizing the [Flutter](https://flutter.dev/) framework, the development team ca
 3. [Truffle Boxes](https://trufflesuite.com/boxes/)
 4. [Ganache Local Chain](https://github.com/trufflesuite/ganache)
 5. [Solidity Documents](https://docs.soliditylang.org/en/v0.8.15/)
-10. [Possible Way to use public addresses to encrypt data](https://stackoverflow.com/questions/55755569/could-we-use-public-address-and-private-key-of-a-crypto-wallet-to-encrypt-a-file#55762196)
-11. (D&D Chainlink Example)[https://github.com/PatrickAlphaC/dungeons-and-dragons-nft/blob/master/contracts/DungeonsAndDragonsCharacter.sol]
-12. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
+6. (D&D Chainlink Example)[https://github.com/PatrickAlphaC/dungeons-and-dragons-nft/blob/master/contracts/DungeonsAndDragonsCharacter.sol]
+7. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
+8. [Awesome Flutter](https://github.com/Solido/awesome-flutter)
