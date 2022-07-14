@@ -5,17 +5,20 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract GigMeJobAdvertisement {
+  event newJobPosting(address _jobPoster);
   address availableJob;
   address[] availableJobs;
   constructor() {
-
   }
   function advertiseJob(address _jobAddress) public {
     availableJobs.push(_jobAddress);
+    emit newJobPosting(_jobAddress);
   }
 }
 
-contract GigMeJobNegotiation {
+contract GigMeJobNegotiation is Ownable {
+  event newOfferSubmitted(address _job, address _sender);
+  event newMessageAvailable(address _address, string _message);
   address jobAddress;
   address jobOwner;
   address contractor;
@@ -38,10 +41,15 @@ contract GigMeJobNegotiation {
     jobAddress = _jobAddress;
     jobOwner = _jobOwner;
     contractor = _contractor;
+    emit newOfferSubmitted(_jobAddress, msg.sender);
   }
 
   function isNegotiating(address _addressCheck) public view returns(bool){
-    return (jobOwner == _addressCheck || contractor == _addressCheck) && status != NegotiationStatus.FINAL;
+    return (jobOwner == _addressCheck || contractor == _addressCheck);
+  }
+
+  function isNegotiationFinal() public view returns(bool){
+    return status != NegotiationStatus.FINAL;
   }
 
   function negotiateJob(
@@ -53,6 +61,7 @@ contract GigMeJobNegotiation {
   public
   {
     require (isNegotiating(msg.sender), "You are not part of this negotiation");
+    require (isNegotiationFinal(), "The negotiation has closed and cannot be updated");
     messages.push(Message(
       msg.sender,
       _description,
@@ -60,5 +69,14 @@ contract GigMeJobNegotiation {
       _salary,
       _duration
     ));
+    emit newMessageAvailable(msg.sender, _description);
+  }
+
+  function acceptNegotiation() public {
+    status = NegotiationStatus.FINAL;
+  }
+
+  function withdrawNegotiation() public {
+    status = NegotiationStatus.CLOSED;
   }
 }
