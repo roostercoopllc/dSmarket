@@ -57,7 +57,8 @@ Built and Tested on Pixel 4 (API 30).
 With an Virtual device running (I used android studios AVD Laucher)
 ```sh
 user@polygon-hackathon-submission$ cd mobile
-user@mobile$ flutter run
+user@mobile$ flutter run --no-sound-null-safety
+# no-sound-null-safety because package:vibration needs this check
 ```
 
 ```Deployment```

@@ -9,3 +9,4 @@ localchain/
 references/
 artifacts/
 .deps/
+.vscode/
