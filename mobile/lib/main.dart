@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/routes.dart';
+import 'package:mobile/pages/login_page.dart';
+
+void main(List<String> args) {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: MyRoutes.loginRoute,
+      routes: {
+        MyRoutes.loginRoute: (context) => const LoginPage(),
+      },
+    );
+  }
+}
+
+/*
+import 'package:flutter/material.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:mobile/utils/routes.dart';
+import 'package:my_app/pages/login_page.dart';
 
 void main() {
   runApp(
@@ -136,9 +161,28 @@ class _GigMeLogin extends State<GigMeLogin> {
 
   @override
   Widget build(BuildContext context) {
+    connector.on(
+        'connect',
+        (session) => setState(
+              () {
+                _session = _session;
+              },
+            ));
+    connector.on(
+        'session_update',
+        (payload) => setState(() {
+              _session = payload;
+              print(payload.accounts[0]);
+              print(payload.chainId);
+            }));
+    connector.on(
+        'disconnect',
+        (payload) => setState(() {
+              _session = null;
+            }));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to GigMe Mark!'),
+        title: const Text('Welcome to GigMe Marketplace!'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -157,3 +201,4 @@ class _GigMeLogin extends State<GigMeLogin> {
     );
   }
 }
+*/

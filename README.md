@@ -82,3 +82,7 @@ adb push xxx
 6. [D&D Chainlink Example](https://github.com/PatrickAlphaC/dungeons-and-dragons-nft/blob/master/contracts/DungeonsAndDragonsCharacter.sol)
 7. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
 8. [Awesome Flutter](https://github.com/Solido/awesome-flutter)
+9. [Developing Metamask App with Flutter](https://github.com/BhaskarDutta2209/FlutterAppWithMetamask)
+
+## Thanks to
+1. BhaskarDutta - For the awesome tutorial for linking up metamask with flutter applications!
