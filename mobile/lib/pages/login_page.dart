@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: const Text('GigMe Marketplace Login'),
       ),
       body: SingleChildScrollView(
         child: Column(

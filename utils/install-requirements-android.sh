@@ -1,5 +1,5 @@
 echo "Installing the Metamask apk from GitHub"
-wget https://github.com/MetaMask/metamask-mobile/releases/download/v5.3.0/app-release.apk -o metamask.apk
+wget https://github.com/MetaMask/metamask-mobile/releases/download/v5.3.0/app-release.apk -O metamask.apk
 adb install metamask.apk
 rm metamask.apk
 
