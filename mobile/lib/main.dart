@@ -3,18 +3,39 @@ import 'package:mobile/utils/routes.dart';
 import 'package:mobile/pages/login_page.dart';
 
 void main(List<String> args) {
-  runApp(const MyApp());
+  runApp(const GigMe());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class GigMe extends StatelessWidget {
+  const GigMe({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: MyRoutes.loginRoute,
+      title: "GigMe",
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+
+        // Define the default font family.
+        fontFamily: 'Roboto Condensed',
+
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
+      initialRoute: GigMeRoutes.loginRoute,
       routes: {
-        MyRoutes.loginRoute: (context) => const LoginPage(),
+        GigMeRoutes.loginRoute: (context) => const LoginPage(),
+        GigMeRoutes.homeRoute: (context) => const LoginPage(),
+        GigMeRoutes.profileRoute: (context) => const LoginPage(),
+        GigMeRoutes.jobsRoute: (context) => const LoginPage(),
+        GigMeRoutes.marketplaceRoute: (context) => const LoginPage(),
       },
     );
   }

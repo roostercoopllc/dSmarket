@@ -1,4 +1,4 @@
-class MyRoutes {
+class GigMeRoutes {
   static String loginRoute = '/login';
   static String homeRoute = '/home';
   static String profileRoute = '/profile';
