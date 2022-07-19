@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GigMe'),
+        title: const Text('GigMe Home'),
       ),
       body: SingleChildScrollView(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -146,37 +146,85 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      account_logo,
-                      height: 100,
-                      width: 100,
-                    ),
-                    Text(
-                      '${_session.accounts[0].substring(0, 6)}...',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      '${getNetworkName(_session.chainId)}',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Account Balance',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [],
+                          )
+                        ])
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      account_logo,
-                      height: 100,
-                      width: 100,
-                    ),
-                    Text(
-                      '${_session.accounts[0].substring(0, 6)}...',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      '${getNetworkName(_session.chainId)}',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Job Market Highlights',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [],
+                          )
+                        ])
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Job History and Updates',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [],
+                          )
+                        ])
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Job Recommendations',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [],
+                          )
+                        ])
                   ],
                 ),
               ])

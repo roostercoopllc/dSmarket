@@ -17,16 +17,11 @@ class _ProfilePageState extends State<ProfilePage> {
       lastnameStr,
       contactTypeEnum,
       contactValueStr;
-  var contactTypeOptions = {
-    'PHONE': 1,
-    'EMAIL': 2,
-    'IPFS': 3,
-    'SOCIAL': 4,
-    'OTHER': 5
-  };
+  var contactTypeOptions = ['PHONE', 'EMAIL', 'IPFS', 'SOCIAL', 'OTHER'];
 
   editFields(BuildContext context) {
     setState(() {
+      print(context);
       editing = !editing;
     });
   }
@@ -46,6 +41,48 @@ class _ProfilePageState extends State<ProfilePage> {
                 'Profile Page',
               ),
             ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Job History and Updates',
+                      ),
+                      Switch.adaptive(
+                          value: editing, onChanged: editFields(context)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Profile Alias',
+                          ),
+                          Text(
+                            'First Name',
+                          ),
+                          Text(
+                            'Last Name',
+                          ),
+                          Text(
+                            'Contact Type',
+                          ),
+                          Text(
+                            'Contact Value',
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ])
+              ],
+            ),
           ],
         ),
       ),

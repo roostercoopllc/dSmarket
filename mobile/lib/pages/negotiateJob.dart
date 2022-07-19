@@ -12,7 +12,7 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Negotaite Jobs'),
+        title: const Text('Negotiate Jobs'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -20,9 +20,49 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
-                'Negotiate Page',
+                'Negotiate Job Page',
               ),
             ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Job History and Updates',
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Message to Employer',
+                          ),
+                          Text(
+                            'Proposed Update',
+                          ),
+                          Text(
+                            'Proposed Start Date',
+                          ),
+                          Text(
+                            'Proposed Salary',
+                          ),
+                          Text(
+                            'Expected Duration',
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ])
+              ],
+            ),
           ],
         ),
       ),

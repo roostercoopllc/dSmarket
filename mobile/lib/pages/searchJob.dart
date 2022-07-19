@@ -12,7 +12,7 @@ class _SearchJobState extends State<SearchJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Jobs'),
+        title: const Text('Search Available Jobs'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -20,9 +20,49 @@ class _SearchJobState extends State<SearchJobPage> {
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
-                'Search Jobs Page',
+                'Profile Page',
               ),
             ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Job History and Updates',
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Profile Alias',
+                          ),
+                          Text(
+                            'First Name',
+                          ),
+                          Text(
+                            'Last Name',
+                          ),
+                          Text(
+                            'Contact Type',
+                          ),
+                          Text(
+                            'Contact Value',
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ])
+              ],
+            ),
           ],
         ),
       ),

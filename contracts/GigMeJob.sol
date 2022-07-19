@@ -189,22 +189,25 @@ contract GigMeJobRating is Ownable{
 }
 
 contract GigMeSignatures() {
-  function verifySignature(string memory message, bytes memory signature) public pure returns(address) {
-        bytes32 messageHash = getMessageHash(message);
-        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+    using Strings for string;
+    using SafeMath for uint256;
+    
+    function verifySignature(string memory message, bytes memory signature) public pure returns(address) {
+            bytes32 messageHash = getMessageHash(message);
+            bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
 
-        return recover(ethSignedMessageHash, signature);
-    }
+            return recover(ethSignedMessageHash, signature);
+        }
 
-  function signMessage(bytes32 _message, address _signature) public onlyOwner {
-    if (gigMeContractorSignature == 0) {
-        gigMeContractorSignature = _signature;
-    } else if (gigMeJobCompletionSignature == 0) {
-        gigMeJobCompletionSignature = _signature;
-    } else if (gigMeJobAcceptanceSignature == 0) {
-        gigMeJobAcceptanceSignature = _signature;
-    } else {
-        revert("Message already signed");
+    function signMessage(bytes32 _message, address _signature) public onlyOwner {
+        if (gigMeContractorSignature == 0) {
+            gigMeContractorSignature = _signature;
+        } else if (gigMeJobCompletionSignature == 0) {
+            gigMeJobCompletionSignature = _signature;
+        } else if (gigMeJobAcceptanceSignature == 0) {
+            gigMeJobAcceptanceSignature = _signature;
+        } else {
+            revert("Message already signed");
+        }
     }
-  }
 }
