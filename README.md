@@ -7,7 +7,7 @@ Let's be honest. Even with the constant discussion on how blockchain decentraliz
 This dApp's concept is not revolutionary. However, the advantages, and implementation of the app in an independant, distributed and decentralized manner truly is. Simply put the dApp is market place infrastructure to coordinate requested services with service providers through the most beneficial part blockchain technologies: Smart Contracts.
 
 In the words of Vitalik Buterin:
-```
+```md
 Whereas most technologies tend to automate workers on the periphery doing menial tasks, blockchains automate away the center. Instead of putting the taxi driver out of a job, blockchain puts Uber out of a job and lets the taxi drivers work with the customer directly.
 ```
 
