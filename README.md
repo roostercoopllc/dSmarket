@@ -45,6 +45,12 @@ Possible Layer 2
 1. ```Job Publication```:
 2. ```Job Negotiation```:
 
+## Prerequisites to running the app
+1. You must have the [metamask](https://github.com/MetaMask/metamask-mobile/releases) apk to run the GigMe apk. This is because you will be using MetaMask to integrate your wallet management with the GigMe App.
+2. You will need to login to MetaMask with your MetaMask Account
+3. (Development Only) you will need to add in, and select the Mumbai testnet with directions that can be found [here](https://docs.polygon.technology/docs/develop/network-details/network/). I had trouble with the RPC url provided and ended up using the [https://chainlist.org/](https://chainlist.org/): ```https://rpc-mumbai.maticvigil.com```
+4. You will need to fill your wallet from the Poly or Mumbai Faucet [here](https://faucet.polygon.technology/). We filled up until grey listed :). 
+
 ### Mobile App
 Everyone uses a phone. The phone, and ultimately it's next wearable, will be the way the way that you will be able to officially make your will known. For the sake of this hackathon, the interaction vector will be through a mobile app.
 
@@ -72,7 +78,7 @@ adb push xxx
 1. Atilla
 
 ```Mobile App```
-2. Atilla 
+1. Atilla 
 
 ## References
 1. [Devpost Submission](https://devpost.com/submit-to/15647-polygon-buidl-it-summer-2022/manage/submissions)

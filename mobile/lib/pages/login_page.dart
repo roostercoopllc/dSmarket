@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/helperfunctions.dart';
+import 'package:mobile/pages/profile.dart';
+import 'package:mobile/pages/searchJob.dart';
+import 'package:mobile/pages/negotiateJob.dart';
+import 'package:mobile/pages/createJob.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:slider_button/slider_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,6 +42,12 @@ class _LoginPageState extends State<LoginPage> {
         print(exp);
       }
     }
+  }
+
+  logoutUsingMetamask(BuildContext context) async {
+    setState(() {
+      _session = null;
+    });
   }
 
   signMessageWithMetamask(BuildContext context, String message) async {
@@ -108,9 +115,11 @@ class _LoginPageState extends State<LoginPage> {
               _session = null;
             }));
 
+    var account_logo = 'assets/images/rooster_coop_logo.png';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: const Text('GigMe'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -120,97 +129,65 @@ class _LoginPageState extends State<LoginPage> {
               'assets/images/rooster_coop_logo.png',
               fit: BoxFit.fitHeight,
             ),
-            (_session != null)
-                ? Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Account',
-                          style: GoogleFonts.merriweather(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          '${_session.accounts[0]}',
-                          style: GoogleFonts.inconsolata(fontSize: 16),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              'Chain: ',
-                              style: GoogleFonts.merriweather(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Text(
-                              getNetworkName(_session.chainId),
-                              style: GoogleFonts.inconsolata(fontSize: 16),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        (_session.chainId != 80001)
-                            ? Row(
-                                children: const [
-                                  Icon(Icons.warning,
-                                      color: Colors.redAccent, size: 15),
-                                  Text('Network not supported. Switch to '),
-                                  Text(
-                                    'Mumbai Testnet',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )
-                            : (_signature == null)
-                                ? Container(
-                                    alignment: Alignment.center,
-                                    child: ElevatedButton(
-                                        onPressed: () =>
-                                            signMessageWithMetamask(
-                                                context,
-                                                generateSessionMessage(
-                                                    _session.accounts[0])),
-                                        child: const Text('Sign Message')),
-                                  )
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Signature: ",
-                                            style: GoogleFonts.merriweather(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                          ),
-                                          Text(
-                                              truncateString(
-                                                  _signature.toString(), 4, 2),
-                                              style: GoogleFonts.inconsolata(
-                                                  fontSize: 16))
-                                        ],
-                                      ),
-                                      const SizedBox(height: 20),
-                                      SliderButton(
-                                        action: () async {
-                                          // TODO: Navigate to main page
-                                        },
-                                        label: const Text('Slide to login'),
-                                        icon: const Icon(Icons.check),
-                                      )
-                                    ],
-                                  )
-                      ],
-                    ))
-                : ElevatedButton(
-                    onPressed: () => loginUsingMetamask(context),
-                    child: const Text("Connect with Metamask"))
+            ElevatedButton(
+                onPressed: () => loginUsingMetamask(context),
+                child: const Text("Connect with Metamask"))
           ],
         ),
       ),
+      drawer: (_session != null)
+          ? Drawer(
+              child: ListView(
+                // Important: Remove any padding from the ListView.
+                padding: EdgeInsets.zero,
+                children: [
+                  const DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                    ),
+                    child: Image(
+                        image:
+                            AssetImage('assets/images/rooster_coop_logo.png')),
+                  ),
+                  ListTile(
+                    title: const Text('Profile'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Create Jobs'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const CreateJobPage()));
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Search Jobs'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const SearchJobPage()));
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Negotiate Jobs'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const NegotiateJobPage()));
+                    },
+                  ),
+                ],
+              ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Text('Please Connect with MetaMask First')],
+            ),
     );
   }
 }
