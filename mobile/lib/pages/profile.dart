@@ -8,6 +8,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // The Profile Page vars
+  // The Profile Contract vars
+  var editing = false;
+
+  var profileAliasStr,
+      firstnameStr,
+      lastnameStr,
+      contactTypeEnum,
+      contactValueStr;
+  var contactTypeOptions = {
+    'PHONE': 1,
+    'EMAIL': 2,
+    'IPFS': 3,
+    'SOCIAL': 4,
+    'OTHER': 5
+  };
+
+  editFields(BuildContext context) {
+    setState(() {
+      editing = !editing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,195 +41,14 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Profile Page',
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Profile Page',
+              ),
+            ]),
           ],
         ),
       ),
     );
   }
 }
-
-/*
-import 'package:flutter/material.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:mobile/utils/routes.dart';
-import 'package:my_app/pages/login_page.dart';
-
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'GigMe Marketplace',
-      // Start the app with the "/" named route. In this case, the app starts
-      // on the FirstScreen widget.
-      initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => const GigMeLogin(title: "GigMe Marketplace"),
-        '/home': (context) => const GigMeHome(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/profile': (context) => const GigMeProfile(),
-      },
-    ),
-  );
-}
-
-/*
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login Page'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /*Image.asset(
-              'assets/images/rooter_coop_logo.png',
-              fit: BoxFit.fitHeight,
-            ),*/
-            ElevatedButton(
-                onPressed: () => {}, child: const Text("Connect with Metamask"))
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
-
-class GigMeHome extends StatelessWidget {
-  const GigMeHome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          // Within the `FirstScreen` widget
-          onPressed: () {
-            // Navigate to the second screen using a named route.
-            Navigator.pushNamed(context, '/profile');
-          },
-          child: const Text('Launch screen'),
-        ),
-      ),
-    );
-  }
-}
-
-class GigMeProfile extends StatelessWidget {
-  const GigMeProfile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('GigMe Profile'),
-      ),
-      body: const Center(
-        child: Text('Profile Page'),
-      ),
-    );
-  }
-}
-
-class GigMeLogin extends StatefulWidget {
-  const GigMeLogin({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<GigMeLogin> createState() => _GigMeLogin();
-}
-
-class _GigMeLogin extends State<GigMeLogin> {
-  var connector = WalletConnect(
-      bridge: 'https://bridge.walletconnect.org',
-      clientMeta: const PeerMeta(
-          name: 'GigMeWallet',
-          description: 'quick app for using eth wallet',
-          url: 'https://walletconnect.org',
-          icons: [
-            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
-          ]));
-
-  var _session, _uri;
-
-  loginUsingMetamask(BuildContext context) async {
-    if (!connector.connected) {
-      try {
-        var session = await connector.createSession(onDisplayUri: (uri) async {
-          _uri = uri;
-          await launchUrlString(uri, mode: LaunchMode.externalApplication);
-        });
-        setState(() {
-          _session = session;
-        });
-      } catch (exp) {
-        print(exp);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    connector.on(
-        'connect',
-        (session) => setState(
-              () {
-                _session = _session;
-              },
-            ));
-    connector.on(
-        'session_update',
-        (payload) => setState(() {
-              _session = payload;
-              print(payload.accounts[0]);
-              print(payload.chainId);
-            }));
-    connector.on(
-        'disconnect',
-        (payload) => setState(() {
-              _session = null;
-            }));
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome to GigMe Marketplace!'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /* Image.asset(
-              'images/rooster_coop_logo.png',
-              fit: BoxFit.fitHeight,
-            ),*/
-            ElevatedButton(
-                onPressed: () => loginUsingMetamask(context),
-                child: const Text("Connect with Metamask"))
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/

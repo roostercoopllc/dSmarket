@@ -73,6 +73,10 @@ user@mobile$ flutter run --no-sound-null-safety
 adb push xxx
 ```
 
+## Known Bugs 
+1. ```Problem```: When attempting to connect to metamask, metamask will open but won't prompt for the app to ask for permission. ```Work Around```: Go back to the app and then click the "connect to metamask" button again.
+2. ```Problem```: When logging out, you might not be able to log back in. ```Work Around``` close the app and log backin.
+
 ## The Team 
 ```Smart Contracts```
 1. Atilla

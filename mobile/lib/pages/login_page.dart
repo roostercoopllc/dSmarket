@@ -122,19 +122,74 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text('GigMe'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/rooster_coop_logo.png',
-              fit: BoxFit.fitHeight,
-            ),
-            ElevatedButton(
-                onPressed: () => loginUsingMetamask(context),
-                child: const Text("Connect with Metamask"))
-          ],
-        ),
-      ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        (_session != null)
+            ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      account_logo,
+                      height: 100,
+                      width: 100,
+                    ),
+                    Text(
+                      '${_session.accounts[0].substring(0, 6)}...',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${getNetworkName(_session.chainId)}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      account_logo,
+                      height: 100,
+                      width: 100,
+                    ),
+                    Text(
+                      '${_session.accounts[0].substring(0, 6)}...',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${getNetworkName(_session.chainId)}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      account_logo,
+                      height: 100,
+                      width: 100,
+                    ),
+                    Text(
+                      '${_session.accounts[0].substring(0, 6)}...',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      '${getNetworkName(_session.chainId)}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ])
+            : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Image.asset(
+                  'assets/images/rooster_coop_logo.png',
+                  fit: BoxFit.fitHeight,
+                ),
+                ElevatedButton(
+                    onPressed: () => loginUsingMetamask(context),
+                    child: const Text("Connect with Metamask")),
+              ]),
+      ])),
       drawer: (_session != null)
           ? Drawer(
               child: ListView(
@@ -179,6 +234,13 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pop(context);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const NegotiateJobPage()));
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Logout'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      logoutUsingMetamask(context);
                     },
                   ),
                 ],
