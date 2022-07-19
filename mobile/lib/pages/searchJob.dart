@@ -18,9 +18,11 @@ class _SearchJobState extends State<SearchJobPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'SearchJob',
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Search Jobs Page',
+              ),
+            ]),
           ],
         ),
       ),

@@ -18,9 +18,11 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Negotiate Job',
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Negotiate Page',
+              ),
+            ]),
           ],
         ),
       ),

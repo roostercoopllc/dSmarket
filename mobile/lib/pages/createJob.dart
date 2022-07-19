@@ -18,9 +18,11 @@ class _CreateJobState extends State<CreateJobPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'CreateJob',
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Create Page',
+              ),
+            ]),
           ],
         ),
       ),
