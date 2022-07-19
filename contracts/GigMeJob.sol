@@ -36,15 +36,18 @@ contract GigMeJob is Ownable{
 
     // Select and Actor for the job
     address public gigMeContractorAddress;
+    address public gigMeContractorSignature;
     
     // Contractor fills out this information
     uint256 duration;
     uint256 endtime;
     GigMeJobCompletion public gigMeJobCompletion;
+    address public gigMeJobCompletionSignature;
     
     // Owner sets final aspects of job and confirms funds released
     GigMeJobAcceptance public gigMeJobAcceptance;
-    bool public fundsReleased();
+    address public gigMeJobAcceptanceSignature;
+    bool public fundsReleased;
     
     constructor(        
         string memory _title,
@@ -182,5 +185,26 @@ contract GigMeJobRating is Ownable{
 
   constructor() {
     
+  }
+}
+
+contract GigMeSignatures() {
+  function verifySignature(string memory message, bytes memory signature) public pure returns(address) {
+        bytes32 messageHash = getMessageHash(message);
+        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+
+        return recover(ethSignedMessageHash, signature);
+    }
+
+  function signMessage(bytes32 _message, address _signature) public onlyOwner {
+    if (gigMeContractorSignature == 0) {
+        gigMeContractorSignature = _signature;
+    } else if (gigMeJobCompletionSignature == 0) {
+        gigMeJobCompletionSignature = _signature;
+    } else if (gigMeJobAcceptanceSignature == 0) {
+        gigMeJobAcceptanceSignature = _signature;
+    } else {
+        revert("Message already signed");
+    }
   }
 }
