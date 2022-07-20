@@ -1,5 +1,5 @@
-name: mobile
-description: A new Flutter project.
+name: gigme
+description: Package for the GigMe ecosystem.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

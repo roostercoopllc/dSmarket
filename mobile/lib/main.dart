@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/routes.dart';
-import 'package:mobile/pages/login_page.dart';
+import 'package:gigme/utils/routes.dart';
+import 'package:gigme/pages/login_page.dart';
 
 void main(List<String> args) {
   runApp(const GigMe());

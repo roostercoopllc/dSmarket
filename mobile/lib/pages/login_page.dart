@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/pages/profile.dart';
-import 'package:mobile/pages/searchJob.dart';
-import 'package:mobile/pages/negotiateJob.dart';
-import 'package:mobile/pages/createJob.dart';
-import 'package:mobile/utils/helperfunctions.dart';
-import 'package:mobile/utils/helperwidgets.dart';
+import 'package:gigme/pages/profile.dart';
+import 'package:gigme/pages/searchJob.dart';
+import 'package:gigme/pages/negotiateJob.dart';
+import 'package:gigme/pages/createJob.dart';
+import 'package:gigme/utils/helperfunctions.dart';
+import 'package:gigme/utils/helperwidgets.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -76,9 +76,47 @@ class _LoginPageState extends State<LoginPage> {
 
     var account_logo = 'assets/images/rooster_coop_logo.png';
 
-    List<int> marketHighlights = [1, 2, 3];
-    List<int> historyHighlights = [1, 2, 3];
-    List<Map<String, dynamic>> recommendationHighlights = [
+    List<Map<String, String>> marketHighlights = [
+      {
+        'title': 'Totally Do This Job!',
+        'decription': 'This is a description of the job',
+        'status': 'Pending',
+        'price': '\$100',
+      },
+      {
+        'title': 'Totally Do This Job2!',
+        'decription': 'This is a description of the job2',
+        'status': 'Pending',
+        'price': '\$200',
+      },
+      {
+        'title': 'Totally Do This Job3!',
+        'decription': 'This is a description of the job3',
+        'status': 'Pending',
+        'price': '\$300',
+      }
+    ];
+    List<Map<String, String>> historyHighlights = [
+      {
+        'title': 'Totally Do This Job!',
+        'decription': 'This is a description of the job',
+        'status': 'Pending',
+        'price': '\$100',
+      },
+      {
+        'title': 'Totally Do This Job2!',
+        'decription': 'This is a description of the job2',
+        'status': 'Pending',
+        'price': '\$200',
+      },
+      {
+        'title': 'Totally Do This Job3!',
+        'decription': 'This is a description of the job3',
+        'status': 'Pending',
+        'price': '\$300',
+      }
+    ];
+    List<Map<String, String>> recommendationHighlights = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
@@ -138,17 +176,40 @@ class _LoginPageState extends State<LoginPage> {
                   'Job History and Updates',
                   style: TextStyle(fontSize: 20),
                 ),
-                for (var i in marketHighlights) JobViewCard(),
+
+                /*
+
+                */
+                for (var i in marketHighlights)
+                  JobViewCard(
+                    jobTitle: i['title'].toString(),
+                    jobDescription: i['decription'].toString(),
+                  ),
                 Text(
                   'Job Market Highlights',
                   style: TextStyle(fontSize: 20),
                 ),
-                for (var i in historyHighlights) JobViewCard(),
+                /*
+
+                */
+                for (var i in historyHighlights)
+                  JobViewCard(
+                    jobTitle: i['title'].toString(),
+                    jobDescription: i['decription'].toString(),
+                  ),
                 Text(
                   'Job Recommendations',
                   style: TextStyle(fontSize: 20),
                 ),
-                for (var i in marketHighlights) JobViewCard(),
+
+                /*
+
+                */
+                for (var i in marketHighlights)
+                  JobViewCard(
+                    jobTitle: i['title'].toString(),
+                    jobDescription: i['decription'].toString(),
+                  ),
               ])
             : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Image.asset(

@@ -3,23 +3,21 @@ import 'package:flutter/material.dart';
 class JobViewCard extends StatelessWidget {
   const JobViewCard({
     Key? key,
-    this.color = const Color(0xFF2DBD3A),
-    this.child,
+    this.jobTitle = 'Default Job Title',
+    this.jobDescription = 'Default Job Description',
   }) : super(key: key);
-
-  final Color color;
-  final Widget? child;
-
+  final String jobTitle;
+  final String jobDescription;
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.album),
-            title: Text('The Enchanted Nightingale'),
-            subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            title: Text(jobTitle),
+            subtitle: Text(jobDescription),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
