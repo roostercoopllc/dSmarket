@@ -23,12 +23,12 @@ class JobViewCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                child: const Text('BUY TICKETS'),
+                child: const Text('Negotiate'),
                 onPressed: () {/* ... */},
               ),
               const SizedBox(width: 8),
               TextButton(
-                child: const Text('LISTEN'),
+                child: const Text('Remove'),
                 onPressed: () {/* ... */},
               ),
               const SizedBox(width: 8),
