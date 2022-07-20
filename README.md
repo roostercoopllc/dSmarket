@@ -94,6 +94,8 @@ adb push xxx
 7. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
 8. [Awesome Flutter](https://github.com/Solido/awesome-flutter)
 9. [Developing Metamask App with Flutter](https://github.com/BhaskarDutta2209/FlutterAppWithMetamask)
+10. [Flutter dApp](https://www.geeksforgeeks.org/flutter-and-blockchain-hello-world-dapp/)
+11. [Ethereum Dart Developer](https://ethereum.org/en/developers/docs/programming-languages/dart/)
 
 ## Thanks to
 1. BhaskarDutta - For the awesome tutorial for linking up metamask with flutter applications!

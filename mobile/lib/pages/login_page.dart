@@ -3,6 +3,8 @@ import 'package:mobile/pages/profile.dart';
 import 'package:mobile/pages/searchJob.dart';
 import 'package:mobile/pages/negotiateJob.dart';
 import 'package:mobile/pages/createJob.dart';
+import 'package:mobile/utils/helperfunctions.dart';
+import 'package:mobile/utils/helperwidgets.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -50,49 +52,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  signMessageWithMetamask(BuildContext context, String message) async {
-    if (connector.connected) {
-      try {
-        print("Message received");
-        print(message);
-
-        EthereumWalletConnectProvider provider =
-            EthereumWalletConnectProvider(connector);
-        launchUrlString(_uri, mode: LaunchMode.externalApplication);
-        var signature = await provider.personalSign(
-            message: message, address: _session.accounts[0], password: "");
-        print(signature);
-        setState(() {
-          _signature = signature;
-        });
-      } catch (exp) {
-        print("Error while signing transaction");
-        print(exp);
-      }
-    }
-  }
-
-  getNetworkName(chainId) {
-    switch (chainId) {
-      case 1:
-        return 'Ethereum Mainnet';
-      case 3:
-        return 'Ropsten Testnet';
-      case 4:
-        return 'Rinkeby Testnet';
-      case 5:
-        return 'Goreli Testnet';
-      case 42:
-        return 'Kovan Testnet';
-      case 137:
-        return 'Polygon Mainnet';
-      case 80001:
-        return 'Mumbai Testnet';
-      default:
-        return 'Unknown Chain';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     connector.on(
@@ -106,8 +65,8 @@ class _LoginPageState extends State<LoginPage> {
         'session_update',
         (payload) => setState(() {
               _session = payload;
-              print(_session.accounts[0]);
-              print(_session.chainId);
+              // print(_session.accounts[0]);
+              // print(_session.chainId);
             }));
     connector.on(
         'disconnect',
@@ -151,138 +110,45 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      account_logo,
-                      height: 100,
-                      width: 100,
-                    ),
-                    Text(
-                      '${_session.accounts[0].substring(0, 6)}...',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      '${getNetworkName(_session.chainId)}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Account Balance',
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [],
-                          )
-                        ])
+                      children: [
+                        Image.asset(
+                          account_logo,
+                          height: 100,
+                          width: 100,
+                        ),
+                      ],
+                    ),
+                    Column(children: [
+                      Text(
+                        '${_session.accounts[0].substring(0, 6)}...${_session.accounts[0].substring(_session.accounts[0].length - 4)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        '${getNetworkName(_session.chainId)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        'Account Balance: \$100',
+                      ),
+                    ]),
                   ],
                 ),
                 Text(
                   'Job History and Updates',
+                  style: TextStyle(fontSize: 20),
                 ),
-                for (var i in marketHighlights)
-                  Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const ListTile(
-                          leading: Icon(Icons.album),
-                          title: Text('The Enchanted Nightingale'),
-                          subtitle: Text(
-                              'Music by Julie Gable. Lyrics by Sidney Stein.'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            TextButton(
-                              child: const Text('BUY TICKETS'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                            TextButton(
-                              child: const Text('LISTEN'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                for (var i in marketHighlights) JobViewCard(),
                 Text(
                   'Job Market Highlights',
+                  style: TextStyle(fontSize: 20),
                 ),
-                for (var i in historyHighlights)
-                  Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const ListTile(
-                          leading: Icon(Icons.album),
-                          title: Text('Holder which isn\'t a holder'),
-                          subtitle: Text(
-                              'Music by Julie Gable. Lyrics by Sidney Stein.'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            TextButton(
-                              child: const Text('BUY TICKETS'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                            TextButton(
-                              child: const Text('LISTEN'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                for (var i in historyHighlights) JobViewCard(),
                 Text(
                   'Job Recommendations',
+                  style: TextStyle(fontSize: 20),
                 ),
-                for (var i in marketHighlights)
-                  Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const ListTile(
-                          leading: Icon(Icons.album),
-                          title: Text('Holder'),
-                          subtitle: Text(
-                              'Music by Julie Gable. Lyrics by Sidney Stein.'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            TextButton(
-                              child: const Text('BUY TICKETS'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                            TextButton(
-                              child: const Text('LISTEN'),
-                              onPressed: () {/* ... */},
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                for (var i in marketHighlights) JobViewCard(),
               ])
             : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Image.asset(
@@ -290,8 +156,16 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.fitHeight,
                 ),
                 ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 209, 219, 210))),
                     onPressed: () => loginUsingMetamask(context),
-                    child: const Text("Connect with Metamask")),
+                    child: const Text(
+                      "Connect with Metamask App",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 33, 47, 243),
+                      ),
+                    )),
               ]),
       ])),
       drawer: (_session != null)

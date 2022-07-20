@@ -22,7 +22,7 @@ contract GigMeJob is Ownable{
 
     enum JobType {
         SERVICE,
-        LABOR,
+        LABOR, 
         TRANSPORT,
         OTHER
     }
@@ -91,6 +91,28 @@ contract GigMeJob is Ownable{
         gigMeJobAcceptance = _gigMeJobAcceptance;
         // release funds;
     }
+
+    function recover(bytes32 ethSignedMessageHash, bytes memory signature) public pure returns(address) {
+        (bytes32 r, bytes32 s, uint8 v) = _split(signature);
+        return ecrecover(ethSignedMessageHash, v, r, s);
+    }
+    function signMessage(bytes32 _message, address _signature) {
+        if (gigMeContractorSignature == 0) {
+            gigMeContractorSignature = _signature;
+        } else if (gigMeJobCompletionSignature == 0) {
+            gigMeJobCompletionSignature = _signature;
+        } else if (gigMeJobAcceptanceSignature == 0) {
+            gigMeJobAcceptanceSignature = _signature;
+        } else {
+            revert("Message already signed");
+        }
+    }
+    function verifySignature(string memory message, bytes memory signature) public pure returns(address) {
+        bytes32 messageHash = getMessageHash(message);
+        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+
+        return recover(ethSignedMessageHash, signature);
+    }
 }
 
 contract GigMeJobAcceptance is Ownable {
@@ -140,7 +162,6 @@ contract GigMeProfile is Ownable {
     using SafeMath for uint256;
     using Strings for string;
 
-    address public contractorAddress;
     string public profileAlias;
     string firstname;
     string lastname;
@@ -188,26 +209,3 @@ contract GigMeJobRating is Ownable{
   }
 }
 
-contract GigMeSignatures() {
-    using Strings for string;
-    using SafeMath for uint256;
-    
-    function verifySignature(string memory message, bytes memory signature) public pure returns(address) {
-            bytes32 messageHash = getMessageHash(message);
-            bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
-
-            return recover(ethSignedMessageHash, signature);
-        }
-
-    function signMessage(bytes32 _message, address _signature) public onlyOwner {
-        if (gigMeContractorSignature == 0) {
-            gigMeContractorSignature = _signature;
-        } else if (gigMeJobCompletionSignature == 0) {
-            gigMeJobCompletionSignature = _signature;
-        } else if (gigMeJobAcceptanceSignature == 0) {
-            gigMeJobAcceptanceSignature = _signature;
-        } else {
-            revert("Message already signed");
-        }
-    }
-}
