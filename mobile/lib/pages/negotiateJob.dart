@@ -14,7 +14,7 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Negotiate an Available Job'),
+          title: const Text('Negotiate Jobs'),
         ),
         body: Form(
             key: _NegotiationKey,
@@ -25,7 +25,7 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Negotiate a Job',
+                      'Negotiate Jobs',
                     ),
                   ],
                 ),
