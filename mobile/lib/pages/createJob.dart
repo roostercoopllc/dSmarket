@@ -92,18 +92,25 @@ class _CreateJobState extends State<CreateJobPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (_JobCreateKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color.fromARGB(255, 209, 219, 210))),
+                      onPressed: () {
+                        // Validate returns true if the form is valid, or false otherwise.
+                        if (_JobCreateKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Submit Changes to Profile",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 33, 47, 243),
+                        ),
+                      )),
                 ),
               ],
             )));

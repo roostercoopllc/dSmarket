@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _ProfileKey = GlobalKey<FormState>();
-  var editing = false;
+  var editing = true;
 
   var profileAliasStr,
       firstnameStr,
@@ -23,111 +24,134 @@ class _ProfilePageState extends State<ProfilePage> {
       contactValueStr;
   var contactTypeOptions = ['PHONE', 'EMAIL', 'IPFS', 'SOCIAL', 'OTHER'];
 
-  editFields(BuildContext context) {
-    setState(() {
-      print(context);
-      editing = !editing;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Profile'),
         ),
-        body: Form(
-            key: _ProfileKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+            child: Form(
+                key: _ProfileKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Job History and Updates',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Edit Profile',
+                        ),
+                        FlutterSwitch(
+                          width: 50.0,
+                          height: 20.0,
+                          // valueFontSize: 25.0,
+                          toggleSize: 10.0,
+                          value: editing,
+                          // padding: 8.0,
+                          // showOnOff: true,
+                          onToggle: (val) {
+                            setState(() {
+                              editing = val;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    Switch.adaptive(
-                        value: editing, onChanged: editFields(context)),
+                    Text(
+                      'Profile Alias',
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      enabled: editing,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    Text(
+                      'First Name',
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      enabled: editing,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter somemore text';
+                        }
+                        return null;
+                      },
+                    ),
+                    Text(
+                      'Last Name',
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      enabled: editing,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter somemore text';
+                        }
+                        return null;
+                      },
+                    ),
+                    Text(
+                      'Contact Type',
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      enabled: editing,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter somemore text';
+                        }
+                        return null;
+                      },
+                    ),
+                    Text(
+                      'Contact Value',
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      enabled: editing,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter somemore text';
+                        }
+                        return null;
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: (editing)
+                          ? ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromARGB(255, 209, 219, 210))),
+                              onPressed: () {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (editing &&
+                                    _ProfileKey.currentState!.validate()) {
+                                  // If the form is valid, display a snackbar. In the real world,
+                                  // you'd often call a server or save the information in a database.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Processing Data')),
+                                  );
+                                }
+                              },
+                              child: const Text(
+                                "Submit Changes to Profile",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 33, 47, 243),
+                                ),
+                              ))
+                          : Container(),
+                    ),
                   ],
-                ),
-                Text(
-                  'Profile Alias',
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
-                Text(
-                  'First Name',
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                Text(
-                  'Last Name',
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                Text(
-                  'Contact Type',
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                Text(
-                  'Contact Value',
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (_ProfileKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
-                ),
-              ],
-            )));
+                ))));
   }
 }

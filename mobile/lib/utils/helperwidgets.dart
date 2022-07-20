@@ -8,6 +8,7 @@ class JobViewCard extends StatelessWidget {
   }) : super(key: key);
   final String jobTitle;
   final String jobDescription;
+
   @override
   Widget build(BuildContext context) {
     return Card(

@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
 
     var account_logo = 'assets/images/rooster_coop_logo.png';
 
-    List<Map<String, String>> marketHighlights = [
+    List<Map<String, String>> currentActivity = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
         'price': '\$300',
       }
     ];
-    List<Map<String, String>> historyHighlights = [
+    List<Map<String, String>> marketHighlights = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
@@ -172,40 +172,39 @@ class _LoginPageState extends State<LoginPage> {
                     ]),
                   ],
                 ),
+                /*
+                  Current Activity
+                */
                 Text(
-                  'Job History and Updates',
+                  'Current Activity',
                   style: TextStyle(fontSize: 20),
                 ),
+                for (var i in currentActivity)
+                  JobViewCard(
+                    jobTitle: i['title'].toString(),
+                    jobDescription: i['decription'].toString(),
+                  ),
 
                 /*
-
+                  Market Highlights
                 */
+                Text(
+                  'Market Highlights',
+                  style: TextStyle(fontSize: 20),
+                ),
                 for (var i in marketHighlights)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
                   ),
-                Text(
-                  'Job Market Highlights',
-                  style: TextStyle(fontSize: 20),
-                ),
                 /*
-
+                  Job Recommendations
                 */
-                for (var i in historyHighlights)
-                  JobViewCard(
-                    jobTitle: i['title'].toString(),
-                    jobDescription: i['decription'].toString(),
-                  ),
                 Text(
                   'Job Recommendations',
                   style: TextStyle(fontSize: 20),
                 ),
-
-                /*
-
-                */
-                for (var i in marketHighlights)
+                for (var i in recommendationHighlights)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
