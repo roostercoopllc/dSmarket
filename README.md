@@ -96,6 +96,8 @@ adb push xxx
 9. [Developing Metamask App with Flutter](https://github.com/BhaskarDutta2209/FlutterAppWithMetamask)
 10. [Flutter dApp](https://www.geeksforgeeks.org/flutter-and-blockchain-hello-world-dapp/)
 11. [Ethereum Dart Developer](https://ethereum.org/en/developers/docs/programming-languages/dart/)
+12. [Best ecrecover explaination ever](https://soliditydeveloper.com/ecrecover)
+13. [Good Web3Dart Example with ABI Interaction](https://github.com/MCarlomagno/fluthereum/blob/master/lib/main.dart)
 
 ## Thanks to
 1. BhaskarDutta - For the awesome tutorial for linking up metamask with flutter applications!

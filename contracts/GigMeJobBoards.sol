@@ -3,20 +3,31 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-contract GigMeJobAdvertisement {
+
+contract GigMeJobAdvertisement is EIP712 {
+  using ECDSA for bytes32;
+
   event newJobPosting(address _jobPoster);
   address availableJob;
   address[] availableJobs;
-  constructor() {
-  }
+  
+  constructor() {}
   function advertiseJob(address _jobAddress) public {
     availableJobs.push(_jobAddress);
     emit newJobPosting(_jobAddress);
   }
+
+  function _verify(bytes32 data, bytes memory signature, address account) internal pure returns (bool) {
+      return data
+          .toEthSignedMessageHash()
+          .recover(signature) == account;
+  }
 }
 
-contract GigMeJobNegotiation is Ownable {
+contract GigMeJobNegotiation is Ownable, EIP712 {
+  using ECDSA for bytes32;
   event newOfferSubmitted(address _job, address _sender);
   event newMessageAvailable(address _address, string _message);
   address jobAddress;
@@ -78,5 +89,11 @@ contract GigMeJobNegotiation is Ownable {
 
   function withdrawNegotiation() public {
     status = NegotiationStatus.CLOSED;
+  }
+
+  function _verify(bytes32 data, bytes memory signature, address account) internal pure returns (bool) {
+      return data
+          .toEthSignedMessageHash()
+          .recover(signature) == account;
   }
 }

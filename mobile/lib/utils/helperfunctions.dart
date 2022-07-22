@@ -2,6 +2,9 @@ import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:flutter/material.dart';
 
 String truncateString(String text, int front, int end) {
   int size = front + end;
@@ -94,6 +97,125 @@ Future<String> signMessageWithMetamask(
   }
 }
 
-String devRpcUrl = "http://10.0.2.2:7545";
-String devWsUrl = "ws://10.0.2.2:7545/";
-String devPrivateKey = "Enter Private Key";
+// Client httpClient = new Client();
+// Web3Client ethereumClient = null;
+TextEditingController controller = TextEditingController();
+String private_key = "";
+
+String polygonClientUrl =
+    'https://polygon-mumbai.infura.io/v3/a4377cb55c9340f5a731d51c05fc0f22';
+
+// GigMe Job Smart Contract Information
+var smartContracts = [
+  {
+    "contractName": "GigMeJob",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJob",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJobAcceptance",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJobCompletion",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeProfile",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJobRating",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJobAdvertisement",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+  {
+    "contractName": "GigMeJobNegotiation",
+    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+  },
+];
+
+int balance = 0;
+bool loading = false;
+
+Future<List<dynamic>> query(Web3Client ethereumClient, String contractName,
+    String functionName, List<dynamic> args) async {
+  DeployedContract contract = await getContract(contractName);
+  ContractFunction function = contract.function(functionName);
+  List<dynamic> result = await ethereumClient.call(
+      contract: contract, function: function, params: args);
+  return result;
+}
+
+Future<String> transaction(Web3Client ethereumClient, String contractName,
+    String functionName, List<dynamic> args) async {
+  EthPrivateKey credential = EthPrivateKey.fromHex(private_key);
+  DeployedContract contract = await getContract(contractName);
+  ContractFunction function = contract.function(functionName);
+  dynamic result = await ethereumClient.sendTransaction(
+    credential,
+    Transaction.callContract(
+      contract: contract,
+      function: function,
+      parameters: args,
+    ),
+    fetchChainIdFromNetworkId: true,
+    chainId: null,
+  );
+
+  return result;
+}
+
+Future<DeployedContract> getContract(String abiName) async {
+  String abiJson = await rootBundle.loadString("assets/${abiName}");
+  // String contractAddress = "0xd55B64d9b7816f2e2D9be07CbC52303A77B7163b";
+  String contractAddress = getContractAddress(abiName);
+
+  DeployedContract contract = DeployedContract(
+    ContractAbi.fromJson(abiJson, abiName),
+    EthereumAddress.fromHex(contractAddress),
+  );
+
+  return contract;
+}
+
+String getContractAddress(String abiFileName) {
+  String contractAddress = 'Abi file not found';
+  smartContracts.forEach((element) {
+    if (element['contractName'] == abiFileName) {
+      contractAddress = element['contractAddress'].toString();
+    }
+  });
+  return contractAddress;
+}
+/*
+  Future<void> getBalance() async {
+    loading = true;
+    setState(() {});
+    List<dynamic> result = await query('balance', []);
+    balance = int.parse(result[0].toString());
+    loading = false;
+    print(balance.toString());
+    setState(() {});
+  }
+
+Future<void> deposit(int amount) async {
+  BigInt parsedAmount = BigInt.from(amount);
+  var result = await transaction("deposit", [parsedAmount]);
+  print("deposited");
+  print(result);
+}
+
+Future<void> withdraw(int amount) async {
+  BigInt parsedAmount = BigInt.from(amount);
+  var result = await transaction("withdraw", [parsedAmount]);
+  print("withdraw done");
+  print(result);
+}
+*/
