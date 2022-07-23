@@ -133,7 +133,8 @@ var smartContracts = [
   },
   {
     "contractName": "GigMeJobAdvertisement",
-    "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+    "contractAddress":
+        "0x428a36a6c738afad3fa248888be0850417b26ee67b0fb17afd9e7008e852dd25"
   },
   {
     "contractName": "GigMeJobNegotiation",

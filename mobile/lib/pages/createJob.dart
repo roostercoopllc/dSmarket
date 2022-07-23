@@ -14,7 +14,7 @@ class _CreateJobState extends State<CreateJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Job Posting'),
+          title: const Text('Create Job'),
         ),
         body: Form(
             key: _JobCreateKey,
@@ -25,12 +25,12 @@ class _CreateJobState extends State<CreateJobPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Create Job Posting',
+                      'Create Job Posting Information',
                     ),
                   ],
                 ),
                 Text(
-                  'Profile Alias',
+                  'Job Title',
                 ),
                 TextFormField(
                   // The validator receives the text that the user has entered.
@@ -42,7 +42,7 @@ class _CreateJobState extends State<CreateJobPage> {
                   },
                 ),
                 Text(
-                  'First Name',
+                  'Job Description',
                 ),
                 TextFormField(
                   // The validator receives the text that the user has entered.
@@ -54,7 +54,7 @@ class _CreateJobState extends State<CreateJobPage> {
                   },
                 ),
                 Text(
-                  'Last Name',
+                  'Soliciters Address',
                 ),
                 TextFormField(
                   // The validator receives the text that the user has entered.
@@ -66,7 +66,7 @@ class _CreateJobState extends State<CreateJobPage> {
                   },
                 ),
                 Text(
-                  'Contact Type',
+                  'Contract Amount',
                 ),
                 TextFormField(
                   // The validator receives the text that the user has entered.
@@ -78,7 +78,19 @@ class _CreateJobState extends State<CreateJobPage> {
                   },
                 ),
                 Text(
-                  'Contact Value',
+                  'Completion Duration',
+                ),
+                TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter somemore text';
+                    }
+                    return null;
+                  },
+                ),
+                Text(
+                  'Contract Start Time',
                 ),
                 TextFormField(
                   // The validator receives the text that the user has entered.

@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 
-contract GigMeJobAdvertisement is EIP712 {
+contract GigMeJobAdvertisement {
   using ECDSA for bytes32;
 
   event newJobPosting(address _jobPoster);
@@ -26,7 +26,7 @@ contract GigMeJobAdvertisement is EIP712 {
   }
 }
 
-contract GigMeJobNegotiation is Ownable, EIP712 {
+contract GigMeJobNegotiation is Ownable {
   using ECDSA for bytes32;
   event newOfferSubmitted(address _job, address _sender);
   event newMessageAvailable(address _address, string _message);

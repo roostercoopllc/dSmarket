@@ -170,6 +170,7 @@ contract GigMeProfile is Ownable {
     string public profileAlias;
     string firstname;
     string lastname;
+    /*
     enum ContactType {
         PHONE,
         EMAIL,
@@ -177,7 +178,8 @@ contract GigMeProfile is Ownable {
         SOCIAL,
         OTHER
     }
-    ContactType public contactType;
+    */
+    // ContactType public contactType;
     string contactValue;
     GigMeJob[] jobHistory;
 
@@ -186,16 +188,20 @@ contract GigMeProfile is Ownable {
         contactValue = _contactValue;
     }
 
-    function addJobHistory(GigMeJob _jobAddress) public {
-        jobHistory.push(_jobAddress);
+    function updateProfileInfo(
+        string memory _alias,
+        string memory _firstname,
+        string memory _lastname,
+        string memory _contactValue
+    ) public onlyOwner {
+        profileAlias = _alias;
+        firstname = _firstname;
+        lastname = _lastname;
+        contactValue = _contactValue;
     }
 
-    function _verify(
-        bytes32 data,
-        bytes memory signature,
-        address account
-    ) internal pure returns (bool) {
-        return data.toEthSignedMessageHash().recover(signature) == account;
+    function addJobHistory(GigMeJob _jobAddress) public onlyOwner {
+        jobHistory.push(_jobAddress);
     }
 }
 
