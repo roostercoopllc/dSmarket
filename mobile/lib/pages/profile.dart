@@ -15,13 +15,14 @@ class _ProfilePageState extends State<ProfilePage> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _ProfileKey = GlobalKey<FormState>();
-  var editing = true;
 
-  var profileAliasStr,
+  var contractAddress,
+      profileAliasStr,
       firstnameStr,
       lastnameStr,
       contactTypeEnum,
       contactValueStr;
+
   var contactTypeOptions = ['PHONE', 'EMAIL', 'IPFS', 'SOCIAL', 'OTHER'];
 
   @override
@@ -36,34 +37,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Edit Profile',
-                        ),
-                        FlutterSwitch(
-                          width: 50.0,
-                          height: 20.0,
-                          // valueFontSize: 25.0,
-                          toggleSize: 10.0,
-                          value: editing,
-                          // padding: 8.0,
-                          // showOnOff: true,
-                          onToggle: (val) {
-                            setState(() {
-                              editing = val;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
                     Text(
                       'Profile Alias',
                     ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
-                      enabled: editing,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
@@ -76,7 +54,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
-                      enabled: editing,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter somemore text';
@@ -89,7 +66,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
-                      enabled: editing,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter somemore text';
@@ -102,7 +78,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
-                      enabled: editing,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter somemore text';
@@ -115,7 +90,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
-                      enabled: editing,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter somemore text';
@@ -124,33 +98,29 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: (editing)
-                          ? ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Color.fromARGB(255, 209, 219, 210))),
-                              onPressed: () {
-                                // Validate returns true if the form is valid, or false otherwise.
-                                if (editing &&
-                                    _ProfileKey.currentState!.validate()) {
-                                  // If the form is valid, display a snackbar. In the real world,
-                                  // you'd often call a server or save the information in a database.
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Processing Data')),
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                "Submit Changes to Profile",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 33, 47, 243),
-                                ),
-                              ))
-                          : Container(),
-                    ),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 209, 219, 210))),
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (_ProfileKey.currentState!.validate()) {
+                                // If the form is valid, display a snackbar. In the real world,
+                                // you'd often call a server or save the information in a database.
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Processing Data')),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              "Submit Changes to Profile",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 33, 47, 243),
+                              ),
+                            ))),
                   ],
                 ))));
   }

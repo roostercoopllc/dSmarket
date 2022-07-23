@@ -39,6 +39,7 @@ dependencies:
   slider_button: ^2.0.0
   web3dart: ^2.3.5
   flutter_switch: ^0.3.2
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:

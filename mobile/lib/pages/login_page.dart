@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gigme/pages/profile.dart';
 import 'package:gigme/pages/searchJob.dart';
 import 'package:gigme/pages/negotiateJob.dart';
 import 'package:gigme/pages/createJob.dart';
@@ -140,41 +139,30 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('GigMe Home'),
+        actions: (_session != null)
+            ? <Widget>[
+                IconButton(
+                  icon: Icon(Icons.qr_code),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => QrProfileCard(
+                              walletAddress: _session.accounts[0],
+                              accountLogo:
+                                  'assets/images/rooster_coop_logo.png',
+                              displayAccount:
+                                  '${_session.accounts[0].substring(0, 6)}...${_session.accounts[0].substring(_session.accounts[0].length - 4)}',
+                              networkName: getNetworkName(_session.chainId),
+                              accountBalance: 100,
+                            )));
+                  },
+                )
+              ]
+            : <Widget>[Container()],
       ),
       body: SingleChildScrollView(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         (_session != null)
             ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Image.asset(
-                          account_logo,
-                          height: 100,
-                          width: 100,
-                        ),
-                      ],
-                    ),
-                    Column(children: [
-                      Text(
-                        '${_session.accounts[0].substring(0, 6)}...${_session.accounts[0].substring(_session.accounts[0].length - 4)}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        '${getNetworkName(_session.chainId)}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        'Account Balance: \$100',
-                      ),
-                    ]),
-                  ],
-                ),
-                /*
-                  Current Activity
-                */
                 Text(
                   'Current Activity',
                   style: TextStyle(fontSize: 20),
@@ -241,14 +229,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: Image(
                         image:
                             AssetImage('assets/images/rooster_coop_logo.png')),
-                  ),
-                  ListTile(
-                    title: const Text('Profile'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
-                    },
                   ),
                   ListTile(
                     title: const Text('Create Jobs'),
