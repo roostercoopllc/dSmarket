@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import {ERC20} from "@openzeppelin/token/ERC20/ERC20.sol";
+// import "@openzeppelin/token/ERC20/ERC20.sol";
 
 contract GigMeJob is Ownable {
     using SafeMath for uint256;
@@ -43,7 +43,7 @@ contract GigMeJob is Ownable {
     GigMeJobCompletion public gigMeJobCompletion;
 
     // Owner sets final aspects of job and confirms funds released
-    GigMeJobCloseout public gigMeJobCloseout;
+    address public gigMeJobCloseout;
     bool public fundsReleased;
 
     constructor(
@@ -63,21 +63,12 @@ contract GigMeJob is Ownable {
         status = JobStatus.OPEN;
     }
 
-    function canClose(address _contractor) public view returns (bool) {
-        return gigMeContractorAddress == _contractor;
-    }
-
     function acceptContractor(address _contractor) public onlyOwner {
-        gigMeContractorAddress = _contractor;
         status = JobStatus.ACCEPTED;
         emit ContractorSelected(_contractor);
     }
 
-    function completeContract(GigMeJobCompletion _gigMeJobCompletion) public {
-        require(
-            this.canClose(msg.sender),
-            "The Sender is not the Contractor and cannot complete Job"
-        );
+    function completeContract(GigMeJobCompletion _gigMeJobCompletion) public onlyOwner{
         gigMeJobCompletion = _gigMeJobCompletion;
         status = JobStatus.COMPLETED;
         emit JobMarkedCompleted(msg.sender);
@@ -227,13 +218,5 @@ contract GigMeJobRating is Ownable {
 
     constructor(address _gigMeJob) {
         job = _gigMeJob;
-    }
-
-    function _verify(
-        bytes32 data,
-        bytes memory signature,
-        address account
-    ) onlyOwner internal pure returns (bool) {
-        return data.toEthSignedMessageHash().recover(signature) == account;
     }
 }
