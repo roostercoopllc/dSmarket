@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -169,5 +170,35 @@ Icon getIconForJobType(String jobType) {
       return Icon(CommunityMaterialIcons.crystal_ball);
     default:
       return Icon(CommunityMaterialIcons.ethereum);
+  }
+}
+
+class DebugWidget extends StatefulWidget {
+  const DebugWidget({Key? key}) : super(key: key);
+
+  @override
+  _DebugWidgetState createState() => _DebugWidgetState();
+}
+
+class _DebugWidgetState extends State<DebugWidget> {
+  var storageValues = LocalStorage('gigme_local_storage.json');
+
+  printTheState() {
+    print('DebugWidget State');
+    print(storageValues.getItem('walletAddress').toString());
+    print(storageValues.getItem('profileAddress').toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Debug Info'), actions: []),
+        body: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+              ElevatedButton(
+                  onPressed: printTheState, child: Text('LocalStorage')),
+            ])));
   }
 }

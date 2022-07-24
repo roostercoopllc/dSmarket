@@ -63,17 +63,18 @@ class _LoginPageState extends State<LoginPage> {
         'connect',
         (session) => setState(
               () {
+                print('Connected');
                 _session = _session;
                 startLocalStorage(storage);
-                storage.setItem('accounts.walletAddress', _session.accounts[0]);
+                storage.setItem(
+                    'accounts', {"walletAddress": _session.accounts[0]});
               },
             ));
     connector.on(
         'session_update',
         (payload) => setState(() {
               _session = payload;
-              print(
-                  'WalletAddress ${storage.getItem("accounts.walletAddress")}');
+              print('Session Updated');
               // print(_session.accounts[0]);
               // print(_session.chainId);
             }));
@@ -166,6 +167,13 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text('GigMe Home'),
         actions: (_session != null)
             ? <Widget>[
+                IconButton(
+                  icon: Icon(CommunityMaterialIcons.android_debug_bridge),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => DebugWidget()));
+                  },
+                ),
                 IconButton(
                   icon: Icon(CommunityMaterialIcons.card_account_details_star),
                   onPressed: () {

@@ -96,19 +96,17 @@ Future<String> signMessageWithMetamask(
   }
 }
 
-void startLocalStorage(LocalStorage storage) {
-  if (!storage.getItem('initialized')) {
+bool startLocalStorage(LocalStorage storage) {
+  if (storage.getItem('initialized') == null) {
     storage.setItem('initialized', true);
-    storage.setItem('accounts', [
-      {
-        'walletAddress': '0x0000000000000000000000000000000000000000',
-        'profileAddress': '0x0000000000000000000000000000000000000000',
-      }
-    ]);
+    storage.setItem(
+        'walletAddress', '0x0000000000000000000000000000000000000000');
+    storage.setItem(
+        'profileAddress', '0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d');
     storage.setItem('contracts', [
       {
         "contractName": "GigMeJob",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+        "contractAddress": "0xA3A71D814362C881778B0413e47480488Ba5D3A9"
       },
       {
         "contractName": "GigMeJobAcceptance",
@@ -128,8 +126,7 @@ void startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeJobAdvertisement",
-        "contractAddress":
-            "0x428a36a6c738afad3fa248888be0850417b26ee67b0fb17afd9e7008e852dd25"
+        "contractAddress": "0xABa83698D1F9A418cc365889A6E02F599b179Ac5"
       },
       {
         "contractName": "GigMeJobNegotiation",
