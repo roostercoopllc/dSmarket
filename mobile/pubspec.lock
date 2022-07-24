@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.0"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.3.1"
   args:
     dependency: transitive
     description:
@@ -106,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  community_material_icon:
+    dependency: "direct main"
+    description:
+      name: community_material_icon
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.9.55"
   convert:
     dependency: transitive
     description:
@@ -174,13 +188,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_lints:
+  flutter_launcher_icons:
     dependency: "direct dev"
     description:
-      name: flutter_lints
+      name: flutter_launcher_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "0.9.3"
   flutter_switch:
     dependency: "direct main"
     description:
@@ -226,6 +240,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   js:
     dependency: transitive
     description:
@@ -247,13 +268,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  lints:
-    dependency: transitive
+  localstorage:
+    dependency: "direct main"
     description:
-      name: lints
+      name: localstorage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "4.0.0+1"
   logging:
     dependency: transitive
     description:
@@ -352,6 +373,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   platform:
     dependency: transitive
     description:
@@ -616,6 +644,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0"
   yaml:
     dependency: transitive
     description:

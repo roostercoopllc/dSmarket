@@ -6,6 +6,8 @@ import 'package:gigme/utils/helperfunctions.dart';
 import 'package:gigme/utils/helperwidgets.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,6 +17,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // For device coordination
+  final LocalStorage storage = new LocalStorage('gigme_local_storage.json');
+
+  // For walletconnect
   var connector = WalletConnect(
       bridge: 'https://bridge.walletconnect.org',
       clientMeta: const PeerMeta(
@@ -34,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
           _uri = uri;
           await launchUrlString(uri, mode: LaunchMode.externalApplication);
         });
-        print(session.accounts[0]);
-        print(session.chainId);
+        // print(session.accounts[0]);
+        // print(session.chainId);
         setState(() {
           _session = session;
         });
@@ -58,12 +64,16 @@ class _LoginPageState extends State<LoginPage> {
         (session) => setState(
               () {
                 _session = _session;
+                startLocalStorage(storage);
+                storage.setItem('accounts.walletAddress', _session.accounts[0]);
               },
             ));
     connector.on(
         'session_update',
         (payload) => setState(() {
               _session = payload;
+              print(
+                  'WalletAddress ${storage.getItem("accounts.walletAddress")}');
               // print(_session.accounts[0]);
               // print(_session.chainId);
             }));
@@ -75,65 +85,80 @@ class _LoginPageState extends State<LoginPage> {
 
     var account_logo = 'assets/images/rooster_coop_logo.png';
 
-    List<Map<String, String>> currentActivity = [
+    List<Map<String, dynamic>> currentActivity = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
         'status': 'Pending',
-        'price': '\$100',
+        'salary': '100',
+        "jobTypeIcon": 'SERVICE' // Icon(CommunityMaterialIcons.crystal_ball),
       },
+      /*
       {
         'title': 'Totally Do This Job2!',
         'decription': 'This is a description of the job2',
         'status': 'Pending',
-        'price': '\$200',
+        'salary': '200',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.access_point),
       },
       {
         'title': 'Totally Do This Job3!',
         'decription': 'This is a description of the job3',
         'status': 'Pending',
-        'price': '\$300',
+        'salary': '300',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.crosshairs_gps),
       }
+      */
     ];
-    List<Map<String, String>> marketHighlights = [
+    List<Map<String, dynamic>> marketHighlights = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
         'status': 'Pending',
-        'price': '\$100',
+        'salary': '100',
+        "jobTypeIcon": 'LABOR' // Icon(CommunityMaterialIcons.gamepad),
       },
+      /*
       {
         'title': 'Totally Do This Job2!',
         'decription': 'This is a description of the job2',
         'status': 'Pending',
-        'price': '\$200',
+        'salary': '200',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
       },
       {
         'title': 'Totally Do This Job3!',
         'decription': 'This is a description of the job3',
         'status': 'Pending',
-        'price': '\$300',
+        'salary': '300',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
       }
+      */
     ];
-    List<Map<String, String>> recommendationHighlights = [
+    List<Map<String, dynamic>> recommendationHighlights = [
       {
         'title': 'Totally Do This Job!',
         'decription': 'This is a description of the job',
         'status': 'Pending',
-        'price': '\$100',
+        'salary': '100',
+        "jobTypeIcon": 'TRANSPORT' // Icon(CommunityMaterialIcons.dice_1),
       },
+      /*
       {
         'title': 'Totally Do This Job2!',
         'decription': 'This is a description of the job2',
         'status': 'Pending',
-        'price': '\$200',
+        'salary': '200',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
       },
       {
         'title': 'Totally Do This Job3!',
         'decription': 'This is a description of the job3',
         'status': 'Pending',
-        'price': '\$300',
+        'salary': '300',
+        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
       }
+      */
     ];
 
     return Scaffold(
@@ -142,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
         actions: (_session != null)
             ? <Widget>[
                 IconButton(
-                  icon: Icon(Icons.qr_code),
+                  icon: Icon(CommunityMaterialIcons.card_account_details_star),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => QrProfileCard(
@@ -171,6 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
+                    salary: i['salary'].toString(),
+                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
 
                 /*
@@ -184,6 +211,8 @@ class _LoginPageState extends State<LoginPage> {
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
+                    salary: i['salary'].toString(),
+                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
                 /*
                   Job Recommendations
@@ -196,6 +225,8 @@ class _LoginPageState extends State<LoginPage> {
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
+                    salary: i['salary'].toString(),
+                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
               ])
             : Column(mainAxisAlignment: MainAxisAlignment.center, children: [

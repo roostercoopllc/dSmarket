@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 class JobViewCard extends StatelessWidget {
-  const JobViewCard({
-    Key? key,
-    this.jobTitle = 'Default Job Title',
-    this.jobDescription = 'Default Job Description',
-  }) : super(key: key);
+  const JobViewCard(
+      {Key? key,
+      this.jobTitle = 'Default Job Title',
+      this.jobDescription = 'Default Job Description',
+      this.salary = 'Default Salary',
+      this.negotiationAddress = 'Default Negotiation Address',
+      this.jobTypeIcon = const Icon(CommunityMaterialIcons.crystal_ball)})
+      : super(key: key);
   final String jobTitle;
   final String jobDescription;
+  final String salary;
+  final String negotiationAddress;
+  final Icon jobTypeIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +25,15 @@ class JobViewCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.album),
+            // leading: jobTypeIcon,
             title: Text(jobTitle),
             subtitle: Text(jobDescription),
+            trailing: jobTypeIcon,
           ),
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Icon(CommunityMaterialIcons.ethereum),
+            Text('Salary: ${salary}'),
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -142,5 +154,20 @@ class QrProfileCard extends StatelessWidget {
                 ),
               ]))
             ])));
+  }
+}
+
+Icon getIconForJobType(String jobType) {
+  switch (jobType) {
+    case 'SERVICE':
+      return Icon(CommunityMaterialIcons.hammer_wrench);
+    case 'LABOR':
+      return Icon(CommunityMaterialIcons.shovel);
+    case 'TRANSPORT':
+      return Icon(CommunityMaterialIcons.car_arrow_left);
+    case 'OTHER':
+      return Icon(CommunityMaterialIcons.crystal_ball);
+    default:
+      return Icon(CommunityMaterialIcons.ethereum);
   }
 }
