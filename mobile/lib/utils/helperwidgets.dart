@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gigme/utils/helperfunctions.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:web3dart/web3dart.dart';
 
 class JobViewCard extends StatelessWidget {
   const JobViewCard(
@@ -189,6 +191,12 @@ class _DebugWidgetState extends State<DebugWidget> {
     print(storageValues.getItem('profileAddress').toString());
   }
 
+  checkContract() async {
+    DeployedContract deployed =
+        await getContract(storageValues, 'GigMeProfile');
+    print(deployed);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,6 +207,8 @@ class _DebugWidgetState extends State<DebugWidget> {
                 children: <Widget>[
               ElevatedButton(
                   onPressed: printTheState, child: Text('LocalStorage')),
+              ElevatedButton(
+                  onPressed: checkContract, child: Text('Get Contract'))
             ])));
   }
 }

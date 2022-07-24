@@ -178,7 +178,8 @@ Future<String> transaction(Web3Client ethereumClient, LocalStorage storage,
 
 Future<DeployedContract> getContract(
     LocalStorage storage, String abiName) async {
-  String abiJson = await rootBundle.loadString("assets/${abiName}");
+  String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
+  print(abiJson);
   // String contractAddress = "0xd55B64d9b7816f2e2D9be07CbC52303A77B7163b";
   String contractAddress = getContractAddress(storage, abiName);
 
