@@ -37,62 +37,91 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Profile Alias',
-                    ),
+                    // Text(
+                    //   'Profile Alias',
+                    // ),
                     TextFormField(
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                        hintText: "Profile Alias",
+                        labelText: "Profile Alias",
+                      ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Field cannot remain blank';
+                        }
+                        return null;
+                      },
+                      // style: TextStyle(
+                      //   color: Color.fromARGB(255, 255, 255, 255),
+                      // ),
+                      
+                    ),
+                    // Text(
+                    //   'First Name',
+                    // ),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.contact_page),
+                        hintText: "First Name",
+                        labelText: "First Name",
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Field cannot remain blank';
                         }
                         return null;
                       },
                     ),
-                    Text(
-                      'First Name',
-                    ),
+                    // Text(
+                    //   'Last Name',
+                    // ),
                     TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.contact_page),
+                        hintText: "Last Name",
+                        labelText: "Last Name",
+                      ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter somemore text';
+                          return 'Field cannot remain blank';
                         }
                         return null;
                       },
                     ),
-                    Text(
-                      'Last Name',
-                    ),
+                    // Text(
+                    //   'Contact Type',
+                    // ),
                     TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.contact_page),
+                        hintText: "Contact Type",
+                        labelText: "Contact Type",
+                      ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter somemore text';
+                          return 'Field cannot remain blank';
                         }
                         return null;
                       },
                     ),
-                    Text(
-                      'Contact Type',
-                    ),
+                    // Text(
+                    //   'Contact Value',
+                    // ),
                     TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.contact_page),
+                        hintText: "Contact Value",
+                        labelText: "Contact Value",
+                      ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter somemore text';
-                        }
-                        return null;
-                      },
-                    ),
-                    Text(
-                      'Contact Value',
-                    ),
-                    TextFormField(
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter somemore text';
+                          return 'Field cannot remain blank';
                         }
                         return null;
                       },
