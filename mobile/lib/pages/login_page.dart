@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 209, 219, 210))),
+                            Color.fromARGB(255, 57, 212, 65))),
                     onPressed: () => loginUsingMetamask(context),
                     child: const Text(
                       "Connect with Metamask App",
@@ -256,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 209, 219, 210))),
+                            Color.fromARGB(255, 57, 212, 65))),
                     onPressed: () => loginUsingMetamask(context),
                     child: const Text(
                       "Create a Profile",

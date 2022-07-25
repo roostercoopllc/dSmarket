@@ -10,8 +10,7 @@ contract GigMeJobAdvertisement {
   using ECDSA for bytes32;
 
   event newJobPosting(address _jobPoster);
-  address availableJob;
-  address[] availableJobs;
+  address[] public availableJobs;
   
   constructor() {}
   function advertiseJob(address _jobAddress) public {

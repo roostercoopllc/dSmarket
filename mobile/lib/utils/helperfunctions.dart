@@ -103,8 +103,8 @@ bool startLocalStorage(LocalStorage storage) {
     storage.setItem('initialized', true);
     storage.setItem(
         'walletAddress', '0x0000000000000000000000000000000000000000');
-    storage.setItem(
-        'profileAddress', '0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d');
+    //storage.setItem(
+    //    'profileAddress', '0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d');
     storage.setItem('contracts', [
       {
         "contractName": "GigMeCreatorUtil",
@@ -116,12 +116,12 @@ bool startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeJobAdvertisement",
-        "contractAddress": "0xABa83698D1F9A418cc365889A6E02F599b179Ac5"
+        "contractAddress": "0xf9851ed7f6005226f770B5f43CF2BC8B471954D7"
       },
     ]);
-    storage.setItem('negotiations', []);
-    storage.setItem('jobs', []);
-    storage.setItem('jobReviews', []);
+    storage.setItem('myNegotiations', []);
+    storage.setItem('myJobs', []);
+    storage.setItem('myJobReviews', []);
   }
   return storage.getItem('initialized');
 }
