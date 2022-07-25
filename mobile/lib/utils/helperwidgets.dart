@@ -4,7 +4,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import 'package:gigme/utils/helperfunctions.dart';
 
