@@ -4,8 +4,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart';
 
 import 'package:gigme/utils/helperfunctions.dart';
+import 'package:gigme/pages/negotiateJob.dart';
 
 class JobViewCard extends StatelessWidget {
   const JobViewCard(
@@ -43,7 +45,10 @@ class JobViewCard extends StatelessWidget {
             children: <Widget>[
               TextButton(
                 child: const Text('Negotiate'),
-                onPressed: () {/* ... */},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const NegotiateJobPage()));
+                },
               ),
               const SizedBox(width: 8),
               TextButton(
@@ -185,8 +190,14 @@ class DebugWidget extends StatefulWidget {
 
 class _DebugWidgetState extends State<DebugWidget> {
   final _CheaterKey = GlobalKey<FormState>();
+  final _DebugContractKey = GlobalKey<FormState>();
   var storageValues = LocalStorage('gigme_local_storage.json');
   final _debugController = TextEditingController();
+  final _cheaterController = TextEditingController();
+
+  static Client httpClient = Client(); // = Client(http.IOClient());
+  Web3Client ethereumClient =
+      Web3Client(polygonClientUrl, httpClient); // Ethereum client
 
   // final sender = Address.fromAlgorandAddress(address: session.accounts[0]);
 
@@ -199,7 +210,32 @@ class _DebugWidgetState extends State<DebugWidget> {
   checkContract() async {
     DeployedContract deployed =
         await getContract(storageValues, 'GigMeProfile');
-    print('Deployed Contract: ${deployed.abi.functions[1].name}');
+    deployed.abi.functions.forEach((element) => {
+          print('Contract: ${element.name}, Params: ${element.parameters}'),
+          print('')
+        });
+    // print('Deployed Contract: ${deployed.abi.functions}');
+  }
+
+  checkProfileContract() async {
+    //try {
+    print('Query Contract');
+    var profileContract = await query(
+        ethereumClient, storageValues, 'GigMeProfile', 'profileAlias', []);
+    print('Query completed');
+    print(profileContract);
+    //} catch (e) {
+    //  print('Error: ${e.toString()}');
+    //}
+  }
+
+  getContractInformation(var contractNameParam) async {
+    DeployedContract deployed =
+        await getContract(storageValues, contractNameParam);
+    deployed.abi.functions.forEach((element) => {
+          print('Contract: ${element.name}, Params: ${element.parameters}'),
+          print('')
+        });
   }
 
   @override
@@ -212,6 +248,9 @@ class _DebugWidgetState extends State<DebugWidget> {
         ElevatedButton(onPressed: printTheState, child: Text('LocalStorage')),
         ElevatedButton(onPressed: checkContract, child: Text('Get Contract')),
         ElevatedButton(
+            onPressed: checkProfileContract,
+            child: Text('Query Default Profile Contract')),
+        ElevatedButton(
             onPressed: () {
               print(storageValues.getItem('cheaterPrivateKey'));
             },
@@ -220,7 +259,7 @@ class _DebugWidgetState extends State<DebugWidget> {
             key: _CheaterKey,
             child: Column(children: [
               TextFormField(
-                controller: _debugController,
+                controller: _cheaterController,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.contact_page),
                   hintText: "Straight string of Private Key",
@@ -231,9 +270,28 @@ class _DebugWidgetState extends State<DebugWidget> {
                   child: Text('Set Cheater Private Key'),
                   onPressed: () {
                     print(
-                        'This is pressed. With this value: ${_debugController.text}');
+                        'This is pressed. With this value: ${_cheaterController.text}');
                     storageValues.setItem(
-                        'cheaterPrivateKey', _debugController.text);
+                        'cheaterPrivateKey', _cheaterController.text);
+                  }),
+            ])),
+        Form(
+            key: _DebugContractKey,
+            child: Column(children: [
+              TextFormField(
+                controller: _debugController,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.contact_page),
+                  hintText: "Get Contract Information",
+                  labelText: "Contract Name",
+                ),
+              ),
+              ElevatedButton(
+                  child: Text('Print Contract Info'),
+                  onPressed: () {
+                    print(
+                        'This is pressed. With this value: ${_debugController.text}');
+                    getContractInformation(_debugController.text);
                   }),
             ]))
       ])),

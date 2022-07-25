@@ -268,7 +268,7 @@ contract GigMeCreatorUtil {
         jobToProfile[msg.sender] = contractAddress;
     }
     
-    function createNewGigMeProfile(
+    function createNewGigMeJobRating(
         address _gigMeJob
     ) public {
         GigMeJobRating contractAddress = new GigMeJobRating(_gigMeJob);

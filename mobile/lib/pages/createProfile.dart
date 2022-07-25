@@ -106,7 +106,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                         Color.fromARGB(255, 209, 219, 210))),
                             onPressed: () {
                               // Validate returns true if the form is valid, or false otherwise.
-                              if (_ProfileKey.currentState!.validate()) {
+                              if (_CreateProfileKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(

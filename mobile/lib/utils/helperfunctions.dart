@@ -111,33 +111,13 @@ bool startLocalStorage(LocalStorage storage) {
         "contractAddress": "0xf9851ed7f6005226f770B5f43CF2BC8B471954D7"
       },
       {
-        "contractName": "GigMeJob",
-        "contractAddress": "0xA3A71D814362C881778B0413e47480488Ba5D3A9"
-      },
-      {
-        "contractName": "GigMeJobAcceptance",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
-      },
-      {
-        "contractName": "GigMeJobCompletion",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
-      },
-      {
         "contractName": "GigMeProfile",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
-      },
-      {
-        "contractName": "GigMeJobRating",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
+        "contractAddress": "0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d"
       },
       {
         "contractName": "GigMeJobAdvertisement",
         "contractAddress": "0xABa83698D1F9A418cc365889A6E02F599b179Ac5"
       },
-      {
-        "contractName": "GigMeJobNegotiation",
-        "contractAddress": "0x8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b8f8b"
-      }
     ]);
     storage.setItem('negotiations', []);
     storage.setItem('jobs', []);
@@ -154,10 +134,15 @@ String polygonClientUrl =
 
 Future<List<dynamic>> query(Web3Client ethereumClient, LocalStorage storage,
     String contractName, String functionName, List<dynamic> args) async {
+  print('Ethereum Client: ${ethereumClient}');
   DeployedContract contract = await getContract(storage, contractName);
+  print('Contract: ${contract.function(functionName)}');
   ContractFunction function = contract.function(functionName);
+  print('Function: ${function.name}');
+  print(ethereumClient);
   List<dynamic> result = await ethereumClient.call(
       contract: contract, function: function, params: args);
+  print('Result: ${result}');
   return result;
 }
 
@@ -165,6 +150,7 @@ Future<String> transaction(Web3Client ethereumClient, LocalStorage storage,
     String contractName, String functionName, List<dynamic> args) async {
   EthPrivateKey credential = EthPrivateKey.fromHex(private_key);
   DeployedContract contract = await getContract(storage, contractName);
+  print(contract);
   ContractFunction function = contract.function(functionName);
   dynamic result = await ethereumClient.sendTransaction(
     credential,
@@ -183,10 +169,10 @@ Future<String> transaction(Web3Client ethereumClient, LocalStorage storage,
 Future<DeployedContract> getContract(
     LocalStorage storage, String abiName) async {
   String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
-  print(abiJson);
+  // print(abiJson);
   // String contractAddress = "0xd55B64d9b7816f2e2D9be07CbC52303A77B7163b";
   String contractAddress = getContractAddress(storage, abiName);
-
+  print(contractAddress);
   DeployedContract contract = DeployedContract(
     ContractAbi.fromJson(abiJson, abiName),
     EthereumAddress.fromHex(contractAddress),
