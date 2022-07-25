@@ -226,3 +226,52 @@ contract GigMeJobRating is Ownable {
         job = _gigMeJob;
     }
 }
+
+contract GigMeCreatorUtil {
+    mapping(address => GigMeJob) jobToAddress;
+    mapping(address => GigMeJobCloseout) jobToCloseOut;
+    mapping(address => GigMeJobCompletion) jobToCompletion;
+    mapping(address => GigMeProfile) jobToProfile;
+    mapping(address => GigMeJobRating) jobToRating;
+
+    function createNewJob(
+        string memory _title,
+        string memory _description,
+        address _soliciter,
+        uint256 _salary,
+        uint256 _duration,
+        uint256 _startTime
+    ) public {
+        GigMeJob contractAddress = new GigMeJob(_title, _description, _soliciter, _salary, _duration, _startTime);
+        jobToAddress[msg.sender] = contractAddress;
+    }
+
+    function createNewJobCloseout(
+        address _contractor, 
+        uint256 _expectedTime
+    ) public {
+        GigMeJobCloseout contractAddress = new GigMeJobCloseout(_contractor, _expectedTime);
+        jobToCloseOut[msg.sender] = contractAddress;
+    }
+
+    function createNewJobCompletion(
+        address _job, string memory _Summary
+    ) public {
+        GigMeJobCompletion contractAddress = new GigMeJobCompletion(_job, _Summary);
+        jobToCompletion[msg.sender] = contractAddress;
+    }
+
+    function createNewGigMeProfile(
+        string memory _alias, string memory _contactValue
+    ) public {
+        GigMeProfile contractAddress = new GigMeProfile(_alias, _contactValue);
+        jobToProfile[msg.sender] = contractAddress;
+    }
+    
+    function createNewGigMeProfile(
+        address _gigMeJob
+    ) public {
+        GigMeJobRating contractAddress = new GigMeJobRating(_gigMeJob);
+        jobToRating[msg.sender] = contractAddress;
+    }
+}

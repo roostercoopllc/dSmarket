@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gigme/utils/helperfunctions.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+
+import 'package:gigme/utils/helperfunctions.dart';
 
 class JobViewCard extends StatelessWidget {
   const JobViewCard(
@@ -183,32 +185,59 @@ class DebugWidget extends StatefulWidget {
 }
 
 class _DebugWidgetState extends State<DebugWidget> {
+  final _CheaterKey = GlobalKey<FormState>();
   var storageValues = LocalStorage('gigme_local_storage.json');
+  final _debugController = TextEditingController();
+
+  // final sender = Address.fromAlgorandAddress(address: session.accounts[0]);
 
   printTheState() {
     print('DebugWidget State');
-    print(storageValues.getItem('walletAddress').toString());
-    print(storageValues.getItem('profileAddress').toString());
+    print('Storage: ${storageValues.getItem('walletAddress').toString()}');
+    print('Profile: ${storageValues.getItem('profileAddress').toString()}');
   }
 
   checkContract() async {
     DeployedContract deployed =
         await getContract(storageValues, 'GigMeProfile');
-    print(deployed);
+    print('Deployed Contract: ${deployed.abi.functions[1].name}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Debug Info'), actions: []),
-        body: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+      appBar: AppBar(title: Text('Debug Info'), actions: []),
+      body: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+              Widget>[
+        ElevatedButton(onPressed: printTheState, child: Text('LocalStorage')),
+        ElevatedButton(onPressed: checkContract, child: Text('Get Contract')),
+        ElevatedButton(
+            onPressed: () {
+              print(storageValues.getItem('cheaterPrivateKey'));
+            },
+            child: Text('Cheater Private Key Reveal')),
+        Form(
+            key: _CheaterKey,
+            child: Column(children: [
+              TextFormField(
+                controller: _debugController,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.contact_page),
+                  hintText: "Straight string of Private Key",
+                  labelText: "Cheater Private Key",
+                ),
+              ),
               ElevatedButton(
-                  onPressed: printTheState, child: Text('LocalStorage')),
-              ElevatedButton(
-                  onPressed: checkContract, child: Text('Get Contract'))
-            ])));
+                  child: Text('Set Cheater Private Key'),
+                  onPressed: () {
+                    print(
+                        'This is pressed. With this value: ${_debugController.text}');
+                    storageValues.setItem(
+                        'cheaterPrivateKey', _debugController.text);
+                  }),
+            ]))
+      ])),
+    );
   }
 }

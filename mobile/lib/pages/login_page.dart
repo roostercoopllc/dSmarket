@@ -66,8 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 print('Connected');
                 _session = _session;
                 startLocalStorage(storage);
-                storage.setItem(
-                    'accounts', {"walletAddress": _session.accounts[0]});
+                storage.setItem("walletAddress", _session.accounts[0]);
               },
             ));
     connector.on(
@@ -75,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         (payload) => setState(() {
               _session = payload;
               print('Session Updated');
+              print(_session.toString());
               // print(_session.accounts[0]);
               // print(_session.chainId);
             }));

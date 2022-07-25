@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:localstorage/localstorage.dart';
 
+import 'package:gigme/utils/helperfunctions.dart';
+
 String truncateString(String text, int front, int end) {
   int size = front + end;
 
@@ -105,6 +107,10 @@ bool startLocalStorage(LocalStorage storage) {
         'profileAddress', '0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d');
     storage.setItem('contracts', [
       {
+        "contractName": "GigMeCreatorUtil",
+        "contractAddress": "0xf9851ed7f6005226f770B5f43CF2BC8B471954D7"
+      },
+      {
         "contractName": "GigMeJob",
         "contractAddress": "0xA3A71D814362C881778B0413e47480488Ba5D3A9"
       },
@@ -140,8 +146,6 @@ bool startLocalStorage(LocalStorage storage) {
   return storage.getItem('initialized');
 }
 
-// Client httpClient = new Client();
-// Web3Client ethereumClient = null;
 TextEditingController controller = TextEditingController();
 String private_key = "";
 
@@ -200,32 +204,3 @@ String getContractAddress(LocalStorage storage, String abiFileName) {
   });
   return contractAddress;
 }
-/*
-  Future<void> getBalance() async {
-    loading = true;
-    setState(() {});
-    List<dynamic> result = await query('balance', []);
-    balance = int.parse(result[0].toString());
-    loading = false;
-    print(balance.toString());
-    setState(() {});
-  }
-
-Future<void> deposit(int amount) async {
-  BigInt parsedAmount = BigInt.from(amount);
-  var result = await transaction("deposit", [parsedAmount]);
-  print("deposited");
-  print(result);
-}
-
-Future<void> withdraw(int amount) async {
-  BigInt parsedAmount = BigInt.from(amount);
-  var result = await transaction("withdraw", [parsedAmount]);
-  print("withdraw done");
-  print(result);
-}
-String getAccountBalance(String accountAddress) {
-  String balance = '0';
-  return balance;
-}
-*/
