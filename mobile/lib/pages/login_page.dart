@@ -8,6 +8,8 @@ import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,7 +21,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // For device coordination
   final LocalStorage storage = new LocalStorage('gigme_local_storage.json');
-
+  static Client httpClient = Client(); // = Client(http.IOClient());
+  Web3Client ethereumClient =
+      Web3Client(polygonClientUrl, httpClient); // Ethereum client
   // For walletconnect
   var connector = WalletConnect(
       bridge: 'https://bridge.walletconnect.org',
@@ -32,6 +36,70 @@ class _LoginPageState extends State<LoginPage> {
           ]));
 
   var _session, _uri, _signature;
+
+  List<dynamic> currentActivity = [];
+  List<dynamic> marketHighlights = [];
+  List<dynamic> recommendations = [];
+
+  getCurrentActivity() {
+    var holder = [];
+    var demoJobs = storage.getItem('demoJobs');
+    demoJobs.forEach((value) {
+      // print(value);
+      getJob(ethereumClient, value).then((value) => {
+            print('This is returning $value'),
+            holder.add(value),
+            print(holder),
+            setState(() {
+              currentActivity = holder;
+            })
+          });
+    });
+  }
+
+  getMarketHighlights() async {
+    var holder = [];
+    var demoJobs = storage.getItem('demoJobs');
+    demoJobs.forEach((value) {
+      // print(value);
+      getJob(ethereumClient, value).then((value) => {
+            print('This is returning $value'),
+            holder.add(value),
+            print(holder),
+            setState(() {
+              marketHighlights = holder;
+            })
+          });
+    });
+  }
+
+  getRecommendations() {
+    var holder = [];
+    var demoJobs = storage.getItem('demoJobs');
+    demoJobs.forEach((value) {
+      // print(value);
+      getJob(ethereumClient, value).then((value) => {
+            print('This is returning $value'),
+            holder.add(value),
+            print(holder),
+            setState(() {
+              recommendations = holder;
+            })
+          });
+    });
+  }
+
+  /*
+    List<dynamic> recommendations = [
+      {
+        'title': 'Totally Do This Job!',
+        'decription': 'This is a description of the job',
+        'status': 'Pending',
+        'salary': '100',
+        "jobTypeIcon": 'TRANSPORT' // Icon(CommunityMaterialIcons.dice_1),
+      }
+    ];
+    */
 
   loginUsingMetamask(BuildContext context) async {
     if (!connector.connected) {
@@ -67,6 +135,9 @@ class _LoginPageState extends State<LoginPage> {
                 _session = _session;
                 startLocalStorage(storage);
                 storage.setItem("walletAddress", _session.accounts[0]);
+                getCurrentActivity();
+                getMarketHighlights();
+                getRecommendations();
               },
             ));
     connector.on(
@@ -85,82 +156,6 @@ class _LoginPageState extends State<LoginPage> {
             }));
 
     var account_logo = 'assets/images/rooster_coop_logo.png';
-
-    List<Map<String, dynamic>> currentActivity = [
-      {
-        'title': 'Totally Do This Job!',
-        'decription': 'This is a description of the job',
-        'status': 'Pending',
-        'salary': '100',
-        "jobTypeIcon": 'SERVICE' // Icon(CommunityMaterialIcons.crystal_ball),
-      },
-      /*
-      {
-        'title': 'Totally Do This Job2!',
-        'decription': 'This is a description of the job2',
-        'status': 'Pending',
-        'salary': '200',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.access_point),
-      },
-      {
-        'title': 'Totally Do This Job3!',
-        'decription': 'This is a description of the job3',
-        'status': 'Pending',
-        'salary': '300',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.crosshairs_gps),
-      }
-      */
-    ];
-    List<Map<String, dynamic>> marketHighlights = [
-      {
-        'title': 'Totally Do This Job!',
-        'decription': 'This is a description of the job',
-        'status': 'Pending',
-        'salary': '100',
-        "jobTypeIcon": 'LABOR' // Icon(CommunityMaterialIcons.gamepad),
-      },
-      /*
-      {
-        'title': 'Totally Do This Job2!',
-        'decription': 'This is a description of the job2',
-        'status': 'Pending',
-        'salary': '200',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
-      },
-      {
-        'title': 'Totally Do This Job3!',
-        'decription': 'This is a description of the job3',
-        'status': 'Pending',
-        'salary': '300',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
-      }
-      */
-    ];
-    List<Map<String, dynamic>> recommendationHighlights = [
-      {
-        'title': 'Totally Do This Job!',
-        'decription': 'This is a description of the job',
-        'status': 'Pending',
-        'salary': '100',
-        "jobTypeIcon": 'TRANSPORT' // Icon(CommunityMaterialIcons.dice_1),
-      },
-      /*
-      {
-        'title': 'Totally Do This Job2!',
-        'decription': 'This is a description of the job2',
-        'status': 'Pending',
-        'salary': '200',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
-      },
-      {
-        'title': 'Totally Do This Job3!',
-        'decription': 'This is a description of the job3',
-        'status': 'Pending',
-        'salary': '300',
-        "jobTypeIcon": Icon(CommunityMaterialIcons.crystal_ball),
-      }
-      */
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -196,45 +191,69 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         (_session != null)
             ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  'Current Activity',
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Current Activity',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                        onPressed: getCurrentActivity,
+                        icon: Icon(Icons.refresh_outlined))
+                  ],
                 ),
                 for (var i in currentActivity)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
                     salary: i['salary'].toString(),
-                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
+                    // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
 
                 /*
                   Market Highlights
                 */
-                Text(
-                  'Market Highlights',
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Market Highlights',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                        onPressed: getMarketHighlights,
+                        icon: Icon(Icons.refresh_outlined))
+                  ],
                 ),
                 for (var i in marketHighlights)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
                     salary: i['salary'].toString(),
-                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
+                    // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
                 /*
                   Job Recommendations
                 */
-                Text(
-                  'Job Recommendations',
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Job Recommendations',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                        onPressed: getRecommendations,
+                        icon: Icon(Icons.refresh_outlined))
+                  ],
                 ),
-                for (var i in recommendationHighlights)
+                for (var i in recommendations)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['decription'].toString(),
                     salary: i['salary'].toString(),
-                    jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
+                    // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
               ])
             : Column(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -43,7 +43,7 @@
         "type": "string"
       },
       {
-        "internalType": "address",
+        "internalType": "address payable",
         "name": "_soliciter",
         "type": "address"
       },

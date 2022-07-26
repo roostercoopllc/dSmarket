@@ -20,7 +20,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract GigMeJob",
 				"name": "_jobAddress",
 				"type": "address"
 			}
@@ -41,12 +41,12 @@
 		"name": "availableJobs",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract GigMeJob",
 				"name": "",
 				"type": "address"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
-	}
-]
+	},
+	

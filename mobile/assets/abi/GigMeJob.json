@@ -12,7 +12,7 @@
 				"type": "string"
 			},
 			{
-				"internalType": "address",
+				"internalType": "address payable",
 				"name": "_soliciter",
 				"type": "address"
 			},
@@ -83,7 +83,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract GigMeJobCloseout",
 				"name": "_gigMeJobCloseout",
 				"type": "address"
 			}
@@ -96,7 +96,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
+				"internalType": "address payable",
 				"name": "_contractor",
 				"type": "address"
 			}
@@ -134,6 +134,32 @@
 	},
 	{
 		"inputs": [],
+		"name": "duration",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "endtime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "fundsReleased",
 		"outputs": [
 			{
@@ -150,7 +176,7 @@
 		"name": "gigMeJobCloseout",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract GigMeJobCloseout",
 				"name": "",
 				"type": "address"
 			}
@@ -186,6 +212,13 @@
 	},
 	{
 		"inputs": [],
+		"name": "releaseFunds",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "renounceOwnership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -193,10 +226,23 @@
 	},
 	{
 		"inputs": [],
+		"name": "salary",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "soliciter",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "address payable",
 				"name": "",
 				"type": "address"
 			}

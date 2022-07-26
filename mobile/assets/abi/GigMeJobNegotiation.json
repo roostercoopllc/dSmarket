@@ -2,7 +2,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract GigMeJob",
 				"name": "_jobAddress",
 				"type": "address"
 			},
@@ -63,7 +63,7 @@
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "address",
+				"internalType": "contract GigMeJob",
 				"name": "_job",
 				"type": "address"
 			},

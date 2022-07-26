@@ -5,6 +5,7 @@ import 'package:gigme/pages/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import 'package:gigme/utils/helperfunctions.dart';
 import 'package:gigme/pages/negotiateJob.dart';
@@ -185,7 +186,6 @@ Icon getIconForJobType(String jobType) {
 
 class DebugWidget extends StatefulWidget {
   const DebugWidget({Key? key}) : super(key: key);
-
   @override
   _DebugWidgetState createState() => _DebugWidgetState();
 }
@@ -200,18 +200,28 @@ class _DebugWidgetState extends State<DebugWidget> {
   static Client httpClient = Client(); // = Client(http.IOClient());
   Web3Client ethereumClient =
       Web3Client(polygonClientUrl, httpClient); // Ethereum client
-
   // final sender = Address.fromAlgorandAddress(address: session.accounts[0]);
 
-  printTheState() {
+  // this is broke var walletProvider = EthereumWalletConnectProvider(widget.connector);
+
+  printTheStore() {
     print('DebugWidget State');
+    /*
     print('Storage: ${storageValues.getItem('walletAddress').toString()}');
     print('Profile: ${storageValues.getItem('profileAddress').toString()}');
+    print('Contracts: ${storageValues.getItem('contracts').toString()}');
+    print(
+        'Negotiations: ${storageValues.getItem('myNegotiations').toString()}');
+    print('Jobs: ${storageValues.getItem('myJobs').toString()}');
+    print('JobReviews: ${storageValues.getItem('profileAddress').toString()}');
+    // checkProfileContract();
+    */
+    getCurrentActivity();
   }
 
   checkContract() async {
     DeployedContract deployed =
-        await getContract(storageValues, 'GigMeProfile');
+        await getContractFromStorage(storageValues, 'GigMeProfile');
     deployed.abi.functions.forEach((element) => {
           print('Contract: ${element.name}, Params: ${element.parameters}'),
           print('')
@@ -222,7 +232,7 @@ class _DebugWidgetState extends State<DebugWidget> {
   checkProfileContract() async {
     //try {
     print('Query Contract');
-    var profileContract = await query(
+    var profileContract = await queryFromStorage(
         ethereumClient, storageValues, 'GigMeProfile', 'profileAlias', []);
     print('Query completed');
     print(profileContract);
@@ -233,16 +243,29 @@ class _DebugWidgetState extends State<DebugWidget> {
 
   getContractInformation(var contractNameParam) async {
     DeployedContract deployed =
-        await getContract(storageValues, contractNameParam);
+        await getContractFromStorage(storageValues, contractNameParam);
     deployed.abi.functions.forEach((element) => {
           print('Contract: ${element.name}, Params: ${element.parameters}'),
           // print('')
         });
   }
 
+  getCurrentActivity() async {
+    // var retJobList = [];
+    var demoJobs = storageValues.getItem('demoJobs');
+    // print(demoJobs);
+    demoJobs.forEach((value) async {
+      print(value);
+      Map<String, String> demoJobMap = await getJob(ethereumClient, value);
+      print(demoJobMap);
+      // retJobList.add(value);
+    });
+  }
+  // return retJobList;
+
   doCannedTransaction() async {
     print('Doing Canned Transaction');
-    var result = await transaction(
+    var result = await transactionFromStorage(
         ethereumClient, storageValues, 'GigMeCreatorUtil', 'createNewJob', [
       'Updated Profile Alias',
       'Updated Name',
@@ -261,7 +284,7 @@ class _DebugWidgetState extends State<DebugWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
             ElevatedButton(
-                onPressed: printTheState, child: Text('LocalStorage')),
+                onPressed: printTheStore, child: Text('LocalStorage')),
             /*
         ElevatedButton(onPressed: checkContract, child: Text('Get Contract')),
         ElevatedButton(
@@ -310,7 +333,7 @@ class _DebugWidgetState extends State<DebugWidget> {
                       onPressed: () {
                         print(
                             'This is pressed. With this value: ${_debugController.text}');
-                        getContractInformation(_debugController.text);
+                        // getContractInformation(_debugController.text);
                       }),
                   ElevatedButton(
                       child: Text('Transact Info'),

@@ -30,26 +30,28 @@ contract GigMeJob is Ownable {
     }
 
     // Initialize the job
-    address public soliciter; // The address of the person who created the job
+    address payable public soliciter; // The address of the person who created the job
     string public title;
     string public description;
     uint256 public startTime;
     JobStatus public status;
-    uint256 salary;
+    uint256 public salary;
+    uint256 public duration;
+    uint256 public endtime;
 
-    // Contractor fills out this information
-    uint256 duration;
-    uint256 endtime;
+    // Contractor for job
+    address payable contractor;
+
     GigMeJobCompletion public gigMeJobCompletion;
 
     // Owner sets final aspects of job and confirms funds released
-    address public gigMeJobCloseout;
+    GigMeJobCloseout public gigMeJobCloseout;
     bool public fundsReleased;
 
     constructor(
         string memory _title,
         string memory _description,
-        address _soliciter,
+        address payable _soliciter,
         uint256 _salary,
         uint256 _duration,
         uint256 _startTime
@@ -63,8 +65,9 @@ contract GigMeJob is Ownable {
         status = JobStatus.OPEN;
     }
 
-    function acceptContractor(address _contractor) public onlyOwner {
+    function acceptContractor(address payable _contractor) public onlyOwner {
         status = JobStatus.ACCEPTED;
+        contractor = _contractor;
         emit ContractorSelected(_contractor);
     }
 
@@ -75,12 +78,18 @@ contract GigMeJob is Ownable {
         // start timer to release funds
     }
 
-    function acceptContract(address _gigMeJobCloseout)
+    function acceptContract(GigMeJobCloseout _gigMeJobCloseout)
         public
         onlyOwner
     {
         gigMeJobCloseout = _gigMeJobCloseout;
-        
+    }
+
+    function releaseFunds() 
+        public 
+        onlyOwner 
+    {
+        fundsReleased = true;
     }
 }
 
@@ -168,19 +177,9 @@ contract GigMeProfile is Ownable {
     using ECDSA for bytes32;
 
     string public profileAlias;
-    string firstname;
-    string lastname;
-    /*
-    enum ContactType {
-        PHONE,
-        EMAIL,
-        IPFS,
-        SOCIAL,
-        OTHER
-    }
-    */
-    // ContactType public contactType;
-    string contactValue;
+    string public firstname;
+    string public lastname;
+    string public contactValue;
     GigMeJob[] jobHistory;
 
     constructor(string memory _alias, string memory _contactValue) {
@@ -237,7 +236,7 @@ contract GigMeCreatorUtil {
     function createNewJob(
         string memory _title,
         string memory _description,
-        address _soliciter,
+        address payable _soliciter,
         uint256 _salary,
         uint256 _duration,
         uint256 _startTime
@@ -288,18 +287,17 @@ contract GigMeJobAdvertisement {
     emit newJobPosting(msg.sender);
   }
 
-  function _verify(bytes32 data, bytes memory signature, address account) internal pure returns (bool) {
-      return data
-          .toEthSignedMessageHash()
-          .recover(signature) == account;
+  function totalAvailableJobs() public view returns (uint256){
+      return availableJobs.length;
   }
+
 }
 
 contract GigMeJobNegotiation is Ownable {
   using ECDSA for bytes32;
-  event newOfferSubmitted(address _job, address _sender);
+  event newOfferSubmitted(GigMeJob _job, address _sender);
   event newMessageAvailable(address _address, string _message);
-  address jobAddress;
+  GigMeJob jobAddress;
   address jobOwner;
   address contractor;
   struct Message {
@@ -317,7 +315,7 @@ contract GigMeJobNegotiation is Ownable {
   }
   NegotiationStatus status;
 
-  constructor(address _jobAddress, address _jobOwner, address _contractor) {
+  constructor(GigMeJob _jobAddress, address _jobOwner, address _contractor) {
     jobAddress = _jobAddress;
     jobOwner = _jobOwner;
     contractor = _contractor;
