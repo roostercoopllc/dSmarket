@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Color.fromARGB(255, 33, 47, 243),
                       ),
                     )),
-                ElevatedButton(
+                /* ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromARGB(255, 57, 212, 65))),
@@ -263,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         color: Color.fromARGB(255, 33, 47, 243),
                       ),
-                    )),
+                    )), */
               ]),
       ])),
       drawer: (_session != null)

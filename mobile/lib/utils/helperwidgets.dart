@@ -154,11 +154,13 @@ class QrProfileCard extends StatelessWidget {
                       },
                     ),
                     const SizedBox(width: 8),
+                    /*
                     TextButton(
                       child: const Text('Remove'),
                       onPressed: () {/* ... */},
                     ),
                     const SizedBox(width: 8),
+                    */
                   ],
                 ),
               ]))
@@ -234,8 +236,20 @@ class _DebugWidgetState extends State<DebugWidget> {
         await getContract(storageValues, contractNameParam);
     deployed.abi.functions.forEach((element) => {
           print('Contract: ${element.name}, Params: ${element.parameters}'),
-          print('')
+          // print('')
         });
+  }
+
+  doCannedTransaction() async {
+    print('Doing Canned Transaction');
+    var result = await transaction(
+        ethereumClient, storageValues, 'GigMeCreatorUtil', 'createNewJob', [
+      'Updated Profile Alias',
+      'Updated Name',
+      'Updated Surname',
+      'updatedcontact@email.com'
+    ]);
+    print('Transaction Result: ${result.toString()}');
   }
 
   @override
@@ -243,58 +257,71 @@ class _DebugWidgetState extends State<DebugWidget> {
     return Scaffold(
       appBar: AppBar(title: Text('Debug Info'), actions: []),
       body: SingleChildScrollView(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-              Widget>[
-        ElevatedButton(onPressed: printTheState, child: Text('LocalStorage')),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            ElevatedButton(
+                onPressed: printTheState, child: Text('LocalStorage')),
+            /*
         ElevatedButton(onPressed: checkContract, child: Text('Get Contract')),
         ElevatedButton(
             onPressed: checkProfileContract,
             child: Text('Query Default Profile Contract')),
-        ElevatedButton(
-            onPressed: () {
-              print(storageValues.getItem('cheaterPrivateKey'));
-            },
-            child: Text('Cheater Private Key Reveal')),
-        Form(
-            key: _CheaterKey,
-            child: Column(children: [
-              TextFormField(
-                controller: _cheaterController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.contact_page),
-                  hintText: "Straight string of Private Key",
-                  labelText: "Cheater Private Key",
-                ),
-              ),
-              ElevatedButton(
-                  child: Text('Set Cheater Private Key'),
-                  onPressed: () {
-                    print(
-                        'This is pressed. With this value: ${_cheaterController.text}');
-                    storageValues.setItem(
-                        'cheaterPrivateKey', _cheaterController.text);
-                  }),
-            ])),
-        Form(
-            key: _DebugContractKey,
-            child: Column(children: [
-              TextFormField(
-                controller: _debugController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.contact_page),
-                  hintText: "Get Contract Information",
-                  labelText: "Contract Name",
-                ),
-              ),
-              ElevatedButton(
-                  child: Text('Print Contract Info'),
-                  onPressed: () {
-                    print(
-                        'This is pressed. With this value: ${_debugController.text}');
-                    getContractInformation(_debugController.text);
-                  }),
-            ]))
-      ])),
+            */
+            ElevatedButton(
+                onPressed: () {
+                  print(
+                      'Private Key: ${storageValues.getItem('cheaterPrivateKey')}');
+                },
+                child: Text('Cheater Private Key Reveal')),
+            Form(
+                key: _CheaterKey,
+                child: Column(children: [
+                  TextFormField(
+                    controller: _cheaterController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.contact_page),
+                      hintText: "Straight string of Private Key",
+                      labelText: "Cheater Private Key",
+                    ),
+                  ),
+                  ElevatedButton(
+                      child: Text('Set Cheater Private Key'),
+                      onPressed: () {
+                        print(
+                            'This is pressed. With this value: ${_cheaterController.text}');
+                        storageValues.setItem(
+                            'cheaterPrivateKey', _cheaterController.text);
+                      }),
+                ])),
+            Form(
+                key: _DebugContractKey,
+                child: Column(children: [
+                  TextFormField(
+                    controller: _debugController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.contact_page),
+                      hintText: "Get Contract Information",
+                      labelText: "Contract Name",
+                    ),
+                  ),
+                  ElevatedButton(
+                      child: Text('Print Contract Info'),
+                      onPressed: () {
+                        print(
+                            'This is pressed. With this value: ${_debugController.text}');
+                        getContractInformation(_debugController.text);
+                      }),
+                  ElevatedButton(
+                      child: Text('Transact Info'),
+                      onPressed: () {
+                        //print(
+                        //    'This is pressed. With this value: ${_debugController.text}');
+                        //getContractInformation(_debugController.text);
+                        doCannedTransaction();
+                      }),
+                ]))
+          ])),
     );
   }
 }

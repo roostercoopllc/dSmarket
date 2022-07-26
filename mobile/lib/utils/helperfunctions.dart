@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-
 import 'package:walletconnect_dart/walletconnect_dart.dart';
-
 import 'package:url_launcher/url_launcher_string.dart';
-
 import 'package:localstorage/localstorage.dart';
-
-import 'package:gigme/utils/helperfunctions.dart';
 
 String truncateString(String text, int front, int end) {
   int size = front + end;
@@ -127,7 +122,6 @@ bool startLocalStorage(LocalStorage storage) {
 }
 
 TextEditingController controller = TextEditingController();
-String private_key = "";
 
 String polygonClientUrl =
     'https://polygon-mumbai.infura.io/v3/a4377cb55c9340f5a731d51c05fc0f22';
@@ -148,7 +142,8 @@ Future<List<dynamic>> query(Web3Client ethereumClient, LocalStorage storage,
 
 Future<String> transaction(Web3Client ethereumClient, LocalStorage storage,
     String contractName, String functionName, List<dynamic> args) async {
-  EthPrivateKey credential = EthPrivateKey.fromHex(private_key);
+  EthPrivateKey credential =
+      EthPrivateKey.fromHex(storage.getItem('cheaterPrivateKey'));
   DeployedContract contract = await getContract(storage, contractName);
   print(contract);
   ContractFunction function = contract.function(functionName);
@@ -166,11 +161,53 @@ Future<String> transaction(Web3Client ethereumClient, LocalStorage storage,
   return result;
 }
 
+Future<void> createJob(
+    Web3Client ethereumClient,
+    LocalStorage storage,
+    String _title,
+    String _description,
+    BigInt _salary,
+    BigInt _starttime,
+    BigInt _duration) async {
+  print('Making a new Job Posting');
+  var results = await transaction(
+      ethereumClient, storage, 'GigMeCreatorUtil', 'createNewJob', [
+    _title,
+    _description,
+    EthereumAddress.fromHex(storage.getItem('walletAddress')),
+    _salary,
+    _starttime,
+    _duration,
+  ]);
+  print(results);
+}
+
+Future<void> createProfile(Web3Client ethereumClient, LocalStorage storage,
+    String _alias, String _contactValue) async {
+  var results = await transaction(
+      ethereumClient, storage, 'GigMeCreatorUtil', 'createNewGigMeProfile', [
+    _alias,
+    _contactValue,
+  ]);
+  print(results);
+}
+
+Future<void> getProfileAlias(Web3Client ethereumClient, LocalStorage storage,
+    String contractName, String functionName, List<dynamic> args) async {
+  var results =
+      await query(ethereumClient, storage, 'GigMeProfile', 'getAlias', []);
+}
+
+Future<void> updateAliasTest(Web3Client ethereumClient, LocalStorage storage,
+    String contractName, String functionName, List<dynamic> args) async {
+  var results = await transaction(
+      ethereumClient, storage, contractName, functionName, args);
+  print(results);
+}
+
 Future<DeployedContract> getContract(
     LocalStorage storage, String abiName) async {
   String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
-  // print(abiJson);
-  // String contractAddress = "0xd55B64d9b7816f2e2D9be07CbC52303A77B7163b";
   String contractAddress = getContractAddress(storage, abiName);
   print(contractAddress);
   DeployedContract contract = DeployedContract(

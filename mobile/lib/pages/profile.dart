@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:gigme/utils/helperfunctions.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,12 +20,15 @@ class _ProfilePageState extends State<ProfilePage> {
   final _ProfileKey = GlobalKey<FormState>();
   final _ProfileAliasController = TextEditingController();
   final _ProfileFirstnameController = TextEditingController();
-  final _ProfileLastnameController = TextEditingController();\
+  final _ProfileLastnameController = TextEditingController();
   final _ProfileContactValueController = TextEditingController();
   // Profile Address
   final _ProfileAddressKey = GlobalKey<FormState>();
   final _ProfileAddressController = TextEditingController();
   final LocalStorage pstorage = new LocalStorage('gigme_local_storage.json');
+
+  static Client httpClient = Client(); // = Client(http.IOClient());
+  Web3Client ethereumClient = Web3Client(polygonClientUrl, httpClient);
 
   var contractAddress,
       profileAliasStr,
@@ -178,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // you'd often call a server or save the information in a database.
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text('Processing Data')),
+                                        content: Text('Updating Profile...')),
                                   );
                                 }
                               },
@@ -187,7 +193,41 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 33, 47, 243),
                                 ),
-                              )))
+                              ))),
+                      (pstorage.getItem('profileAddress') == null)
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Color.fromARGB(
+                                                  255, 57, 212, 65))),
+                                  onPressed: () {
+                                    // Validate returns true if the form is valid, or false otherwise.
+                                    if (_ProfileKey.currentState!.validate()) {
+                                      // If the form is valid, display a snackbar. In the real world,
+                                      // you'd often call a server or save the information in a database.
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Creating Profile')),
+                                      );
+                                      createProfile(
+                                          ethereumClient,
+                                          pstorage,
+                                          _ProfileAliasController.text,
+                                          _ProfileContactValueController.text);
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Create Profile",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 33, 47, 243),
+                                    ),
+                                  )))
+                          : Column()
                     ],
                   ))
             ])));
