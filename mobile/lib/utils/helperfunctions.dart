@@ -109,7 +109,7 @@ bool startLocalStorage(LocalStorage storage) {
         "contractAddress": "0xd9145CCE52D386f254917e481eB44e9943F39138"
       },
       {
-        "contractName": "GigMeJobAdvertisement",
+        "contractName": "GigMeJobMarketplace",
         "contractAddress": "0x9cd9c033ECaA25A4B00163A4721f46e134F4789F"
       },
       //Example holder for the profile address that gets created.
@@ -292,6 +292,18 @@ Future<Map<String, String>> getProfile(
   };
   // print('Returning Profile');
   return profile;
+}
+
+Future<Map<String, String>> getJobFromMarket(
+    Web3Client ethereumclient, LocalStorage storage, int index) async {
+  var jobAddress = await query(
+      ethereumclient,
+      getContractAddressFromStorage(storage, 'GigMeMarketPlace'),
+      'GigMeMarketPlace',
+      'availableJobs',
+      [index]);
+  var job = await getJob(ethereumclient, jobAddress[0].toString());
+  return job;
 }
 
 Future<void> createProfile(Web3Client ethereumClient, LocalStorage storage,

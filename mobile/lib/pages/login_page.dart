@@ -43,10 +43,16 @@ class _LoginPageState extends State<LoginPage> {
 
   getCurrentActivity() {
     var holder = [];
-    var demoJobs = storage.getItem('demoJobs');
-    demoJobs.forEach((value) {
+    // var demoJobs = storage.getItem('demoJobs');
+    transactionFromStorage(ethereumClient, storage, 'GigMeMarketPlace',
+        'totalAvailableJobs', []).then((jobLen) {
+          int jobLenInt = int.parse(jobLen);
+      Future.wait([
+        getJobFromMarket(ethereumClient, storage, jobLenInt - 1)
+      ]).then((jobAddresses) => {
+        jobAddresses.forEach((address) {
       // print(value);
-      getJob(ethereumClient, value).then((value) => {
+      getJob(ethereumClient, address.toString()).then((value) => {
             print('This is returning $value'),
             holder.add(value),
             print(holder),
@@ -54,6 +60,9 @@ class _LoginPageState extends State<LoginPage> {
               currentActivity = holder;
             })
           });
+        }
+    });
+    
     });
   }
 
@@ -88,18 +97,6 @@ class _LoginPageState extends State<LoginPage> {
           });
     });
   }
-
-  /*
-    List<dynamic> recommendations = [
-      {
-        'title': 'Totally Do This Job!',
-        'decription': 'This is a description of the job',
-        'status': 'Pending',
-        'salary': '100',
-        "jobTypeIcon": 'TRANSPORT' // Icon(CommunityMaterialIcons.dice_1),
-      }
-    ];
-    */
 
   loginUsingMetamask(BuildContext context) async {
     if (!connector.connected) {
@@ -206,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                 for (var i in currentActivity)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
-                    jobDescription: i['decription'].toString(),
+                    jobDescription: i['description'].toString(),
                     salary: i['salary'].toString(),
                     // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
@@ -229,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                 for (var i in marketHighlights)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
-                    jobDescription: i['decription'].toString(),
+                    jobDescription: i['description'].toString(),
                     salary: i['salary'].toString(),
                     // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
@@ -251,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                 for (var i in recommendations)
                   JobViewCard(
                     jobTitle: i['title'].toString(),
-                    jobDescription: i['decription'].toString(),
+                    jobDescription: i['description'].toString(),
                     salary: i['salary'].toString(),
                     // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),

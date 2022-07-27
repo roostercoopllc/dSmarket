@@ -275,7 +275,7 @@ contract GigMeCreatorUtil {
     }
 }
 
-contract GigMeJobAdvertisement {
+contract GigMeJobMarketPlace {
   using ECDSA for bytes32;
 
   event newJobPosting(address _jobPoster);
