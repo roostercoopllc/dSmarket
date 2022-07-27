@@ -110,7 +110,7 @@ bool startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeJobMarketplace",
-        "contractAddress": "0x9cd9c033ECaA25A4B00163A4721f46e134F4789F"
+        "contractAddress": "0xE144Fe9d034b5d5E3e52E74A6eF5A18aeACBC906"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(

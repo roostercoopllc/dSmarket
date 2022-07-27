@@ -46,23 +46,21 @@ class _LoginPageState extends State<LoginPage> {
     // var demoJobs = storage.getItem('demoJobs');
     transactionFromStorage(ethereumClient, storage, 'GigMeMarketPlace',
         'totalAvailableJobs', []).then((jobLen) {
-          int jobLenInt = int.parse(jobLen);
-      Future.wait([
-        getJobFromMarket(ethereumClient, storage, jobLenInt - 1)
-      ]).then((jobAddresses) => {
-        jobAddresses.forEach((address) {
-      // print(value);
-      getJob(ethereumClient, address.toString()).then((value) => {
-            print('This is returning $value'),
-            holder.add(value),
-            print(holder),
-            setState(() {
-              currentActivity = holder;
-            })
-          });
-        }
-    });
-    
+      int jobLenInt = int.parse(jobLen);
+      Future.wait([getJobFromMarket(ethereumClient, storage, jobLenInt - 1)])
+          .then((jobAddresses) => {
+                jobAddresses.forEach((address) {
+                  // print(value);
+                  getJob(ethereumClient, address.toString()).then((value) => {
+                        print('This is returning $value'),
+                        holder.add(value),
+                        print(holder),
+                        setState(() {
+                          currentActivity = holder;
+                        })
+                      });
+                }),
+              });
     });
   }
 

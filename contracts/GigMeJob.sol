@@ -232,6 +232,7 @@ contract GigMeCreatorUtil {
     mapping(address => GigMeJobCompletion) jobToCompletion;
     mapping(address => GigMeProfile) jobToProfile;
     mapping(address => GigMeJobRating) jobToRating;
+    mapping(address => GigMeJobNegotiation) jobToNegotiation;
 
     function createNewJob(
         string memory _title,
@@ -272,6 +273,15 @@ contract GigMeCreatorUtil {
     ) public {
         GigMeJobRating contractAddress = new GigMeJobRating(_gigMeJob);
         jobToRating[msg.sender] = contractAddress;
+    }
+
+    function createNewNegotiation(
+        GigMeJob _jobAddress,
+        address _solicitor,
+        address _contractor
+    ) public {
+        GigMeJobNegotiation contractAddress = new GigMeJobNegotiation(_jobAddress, _solicitor, _contractor);
+        jobToNegotiation[msg.sender] = contractAddress;
     }
 }
 
