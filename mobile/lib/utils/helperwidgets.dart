@@ -9,6 +9,7 @@ import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import 'package:gigme/utils/helperfunctions.dart';
 import 'package:gigme/pages/negotiateJob.dart';
+import 'dart:math';
 
 class JobViewCard extends StatelessWidget {
   const JobViewCard(
@@ -25,6 +26,23 @@ class JobViewCard extends StatelessWidget {
   final String negotiationAddress;
   final Icon jobTypeIcon;
 
+  getRandomIcon() {
+    int random = Random().nextInt(10);
+    List<Icon> icons = [
+      const Icon(CommunityMaterialIcons.crystal_ball),
+      const Icon(CommunityMaterialIcons.allergy),
+      const Icon(CommunityMaterialIcons.wordpress),
+      const Icon(CommunityMaterialIcons.face_agent),
+      const Icon(CommunityMaterialIcons.account_heart),
+      const Icon(CommunityMaterialIcons.lightbulb),
+      const Icon(CommunityMaterialIcons.contactless_payment),
+      const Icon(CommunityMaterialIcons.earth),
+      const Icon(CommunityMaterialIcons.warehouse),
+      const Icon(CommunityMaterialIcons.leaf)
+    ];
+    return icons[random];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,7 +50,7 @@ class JobViewCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            // leading: jobTypeIcon,
+            leading: getRandomIcon(),
             title: Text(jobTitle),
             subtitle: Text(jobDescription),
             trailing: jobTypeIcon,
@@ -52,11 +70,13 @@ class JobViewCard extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 8),
+              /*
               TextButton(
                 child: const Text('Remove'),
                 onPressed: () {/* ... */},
               ),
               const SizedBox(width: 8),
+              */
             ],
           ),
         ],
