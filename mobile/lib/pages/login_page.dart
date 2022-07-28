@@ -10,6 +10,7 @@ import 'package:localstorage/localstorage.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
+import 'dart:math';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -35,63 +36,105 @@ class _LoginPageState extends State<LoginPage> {
             'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
           ]));
 
-  var _session, _uri, _signature;
+  var _session, _uri, _signature, balance;
+  int totalJobs = 4;
 
   List<dynamic> currentActivity = [];
   List<dynamic> marketHighlights = [];
   List<dynamic> recommendations = [];
 
-  getCurrentActivity() {
-    var holder = [];
-    // var demoJobs = storage.getItem('demoJobs');
-    transactionFromStorage(ethereumClient, storage, 'GigMeMarketPlace',
+  getBalance() async {
+    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketPlace',
         'totalAvailableJobs', []).then((jobLen) {
-      int jobLenInt = int.parse(jobLen);
-      Future.wait([getJobFromMarket(ethereumClient, storage, jobLenInt - 1)])
-          .then((jobAddresses) => {
-                jobAddresses.forEach((address) {
-                  // print(value);
-                  getJob(ethereumClient, address.toString()).then((value) => {
-                        print('This is returning $value'),
-                        holder.add(value),
-                        print(holder),
-                        setState(() {
-                          currentActivity = holder;
-                        })
-                      });
-                }),
-              });
+      print('Job Length: $jobLen');
+      int jobLenInt = int.parse(jobLen[0].toString());
+      setState(() {
+        totalJobs = jobLenInt;
+      });
+    }).catchError((e) {
+      print(e);
     });
   }
 
+  getTotalJobs() async {
+    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketPlace',
+        'totalAvailableJobs', []).then((jobLen) {
+      print('Job Length: $jobLen');
+      int jobLenInt = int.parse(jobLen[0].toString());
+      setState(() {
+        totalJobs = jobLenInt;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  getCurrentActivity() async {
+    var jobAddressList = [];
+    getJobFromMarket(ethereumClient, storage, totalJobs - 1).then((jobOne) => {
+          jobAddressList.add(jobOne),
+          getJobFromMarket(ethereumClient, storage, totalJobs - 2)
+              .then((jobTwo) => {
+                    jobAddressList.add(jobTwo),
+                    getJobFromMarket(ethereumClient, storage, totalJobs - 3)
+                        .then((jobThree) => {jobAddressList.add(jobThree)})
+                        .then((output) => {
+                              setState(() {
+                                currentActivity = jobAddressList;
+                              })
+                            })
+                  })
+        });
+  }
+
   getMarketHighlights() async {
-    var holder = [];
-    var demoJobs = storage.getItem('demoJobs');
-    demoJobs.forEach((value) {
-      // print(value);
-      getJob(ethereumClient, value).then((value) => {
-            print('This is returning $value'),
-            holder.add(value),
-            print(holder),
-            setState(() {
-              marketHighlights = holder;
-            })
+    var jobAddressList = [];
+    getTotalJobs().then((jobs) {
+      int randomJob = Random().nextInt(totalJobs);
+      getJobFromMarket(ethereumClient, storage, randomJob).then((jobOne) => {
+            randomJob = Random().nextInt(totalJobs),
+            jobAddressList.add(jobOne),
+            getJobFromMarket(ethereumClient, storage, randomJob)
+                .then((jobTwo) => {
+                      randomJob = Random().nextInt(totalJobs),
+                      jobAddressList.add(jobTwo),
+                      getJobFromMarket(ethereumClient, storage, randomJob)
+                          .then((jobThree) => {
+                                randomJob = Random().nextInt(totalJobs),
+                                jobAddressList.add(jobThree)
+                              })
+                          .then((output) => {
+                                setState(() {
+                                  marketHighlights = jobAddressList;
+                                })
+                              })
+                    })
           });
     });
   }
 
-  getRecommendations() {
-    var holder = [];
-    var demoJobs = storage.getItem('demoJobs');
-    demoJobs.forEach((value) {
-      // print(value);
-      getJob(ethereumClient, value).then((value) => {
-            print('This is returning $value'),
-            holder.add(value),
-            print(holder),
-            setState(() {
-              recommendations = holder;
-            })
+  getRecommendations() async {
+    var jobAddressList = [];
+    getTotalJobs().then((jobs) {
+      int randomJob = Random().nextInt(totalJobs);
+      getJobFromMarket(ethereumClient, storage, randomJob).then((jobOne) => {
+            randomJob = Random().nextInt(totalJobs),
+            jobAddressList.add(jobOne),
+            getJobFromMarket(ethereumClient, storage, randomJob)
+                .then((jobTwo) => {
+                      randomJob = Random().nextInt(totalJobs),
+                      jobAddressList.add(jobTwo),
+                      getJobFromMarket(ethereumClient, storage, randomJob)
+                          .then((jobThree) => {
+                                randomJob = Random().nextInt(totalJobs),
+                                jobAddressList.add(jobThree)
+                              })
+                          .then((output) => {
+                                setState(() {
+                                  recommendations = jobAddressList;
+                                })
+                              })
+                    })
           });
     });
   }
@@ -187,10 +230,16 @@ class _LoginPageState extends State<LoginPage> {
         (_session != null)
             ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('Balance of Wallet: $balance'),
+                  ],
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Current Activity',
+                      'Recently added jobs',
                       style: TextStyle(fontSize: 20),
                     ),
                     IconButton(

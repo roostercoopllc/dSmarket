@@ -109,8 +109,8 @@ bool startLocalStorage(LocalStorage storage) {
         "contractAddress": "0xd9145CCE52D386f254917e481eB44e9943F39138"
       },
       {
-        "contractName": "GigMeJobMarketplace",
-        "contractAddress": "0xE144Fe9d034b5d5E3e52E74A6eF5A18aeACBC906"
+        "contractName": "GigMeJobMarketPlace",
+        "contractAddress": "0x92E36F4D80d4818721b6e0fa661d3B05873869D4"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(
@@ -124,7 +124,7 @@ bool startLocalStorage(LocalStorage storage) {
     storage.setItem('demoJobs', [
       '0x81b4cEa98fa2bf4B3A56E3727283D4d0626c257b',
       '0xD3553DDb5dCC19326276DE74250B062283fDca7D',
-      '0x81b4cEa98fa2bf4B3A56E3727283D4d0626c257b'
+      '0x396d2f67BffB372C0A83e89aD06be7B50036820C'
     ]);
   }
   return storage.getItem('initialized');
@@ -204,7 +204,7 @@ Future<String> transactionFromStorage(
       EthPrivateKey.fromHex(storage.getItem('cheaterPrivateKey'));
   DeployedContract contract =
       await getContractFromStorage(storage, contractName);
-  // print(contract);
+  print(contract);
   ContractFunction function = contract.function(functionName);
   dynamic result = await ethereumClient.sendTransaction(
     credential,
@@ -298,10 +298,10 @@ Future<Map<String, String>> getJobFromMarket(
     Web3Client ethereumclient, LocalStorage storage, int index) async {
   var jobAddress = await query(
       ethereumclient,
-      getContractAddressFromStorage(storage, 'GigMeMarketPlace'),
-      'GigMeMarketPlace',
+      getContractAddressFromStorage(storage, 'GigMeJobMarketPlace'),
+      'GigMeJobMarketPlace',
       'availableJobs',
-      [index]);
+      [BigInt.from(index)]);
   var job = await getJob(ethereumclient, jobAddress[0].toString());
   return job;
 }
@@ -344,9 +344,10 @@ Future<DeployedContract> getContract(String address, String abiName) async {
 
 Future<DeployedContract> getContractFromStorage(
     LocalStorage storage, String abiName) async {
+  print(abiName);
   String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
   String contractAddress = getContractAddressFromStorage(storage, abiName);
-  // print(contractAddress);
+  print(contractAddress);
   DeployedContract contract = DeployedContract(
     ContractAbi.fromJson(abiJson, abiName),
     EthereumAddress.fromHex(contractAddress),
