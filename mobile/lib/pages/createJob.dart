@@ -112,7 +112,7 @@ class _CreateJobState extends State<CreateJobPage> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color.fromARGB(255, 57, 212, 65))),
-                      onPressed: () {
+                      onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_JobCreateKey.currentState!.validate()) {
                           // If the form is valid, display a snackbar. In the real world,
@@ -121,7 +121,7 @@ class _CreateJobState extends State<CreateJobPage> {
                             const SnackBar(content: Text('Posting Job...')),
                           );
                         }
-                        createJob(
+                        var jobTx = await createJob(
                             ethereumClient,
                             jstorage,
                             _jobTitle.text,
@@ -129,6 +129,9 @@ class _CreateJobState extends State<CreateJobPage> {
                             BigInt.parse(_jobSalary.text),
                             BigInt.parse(_jobStarttime.text),
                             BigInt.parse(_jobDuration.text));
+                        var holder = jstorage.getItem('pendingJobs');
+                        holder.append(jobTx);
+                        jstorage.setItem('pendingJobs', holder);
                       },
                       child: const Text(
                         "Create Job Posting",

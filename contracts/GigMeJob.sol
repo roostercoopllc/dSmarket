@@ -329,8 +329,11 @@ contract GigMeJobMarketPlace is Ownable {
   }
 
   function removeBadJob(uint256 index) public onlyOwner {
-      delete availableJobs[index];
-      availableJobs[index] = availableJobs[availableJobs.length - 1];
+      require (index <= availableJobs.length, "Job is not in the available jobs");
+      if (index != availableJobs.length) {
+          delete availableJobs[index];
+          availableJobs[index] = availableJobs[availableJobs.length - 1];
+      }
       availableJobs.pop();
   }
 

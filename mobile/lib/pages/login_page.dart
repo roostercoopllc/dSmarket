@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
             'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
           ]));
 
-  var _session, _uri, _signature, balance;
+  var _session, _uri, _signature, balance, pendingTransactions;
   int totalJobs = 4;
 
   // This is the cheaterstuff to remove
@@ -54,10 +54,17 @@ class _LoginPageState extends State<LoginPage> {
       print('Job Length: $jobLen');
       int jobLenInt = int.parse(jobLen[0].toString());
       setState(() {
-        totalJobs = jobLenInt;
+        balance = jobLenInt;
       });
     }).catchError((e) {
       print(e);
+    });
+  }
+
+  getPendingTransactions() async {
+    setState(() {
+      var pT = storage.getItem('pendingJobs');
+      pendingTransactions = pT.length;
     });
   }
 
@@ -76,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
 
   getCurrentActivity() async {
     var jobAddressList = [];
+    getPendingTransactions();
     getJobFromMarket(ethereumClient, storage, totalJobs - 1).then((jobOne) => {
           jobAddressList.add(jobOne),
           getJobFromMarket(ethereumClient, storage, totalJobs - 2)
@@ -181,6 +189,8 @@ class _LoginPageState extends State<LoginPage> {
                 getCurrentActivity();
                 getMarketHighlights();
                 getRecommendations();
+                getBalance();
+                getPendingTransactions();
               },
             ));
     connector.on(
@@ -189,8 +199,11 @@ class _LoginPageState extends State<LoginPage> {
               _session = payload;
               print('Session Updated');
               print(_session.toString());
-              // print(_session.accounts[0]);
-              // print(_session.chainId);
+              getCurrentActivity();
+              getMarketHighlights();
+              getRecommendations();
+              getBalance();
+              getPendingTransactions();
             }));
     connector.on(
         'disconnect',
@@ -237,6 +250,8 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Text('Pending Transactions: $pendingTransactions'),
+                    Spacer(),
                     Text('Balance of Wallet: $balance'),
                   ],
                 ),

@@ -106,15 +106,14 @@ bool startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeJobMarketplace",
-        "contractAddress": "0x5f0236BfF85eFc9c9D94aa1fc6f38c005C5760b2"
+        "contractAddress": "0x2771c8f932524695c8364f01F52e0bb049A1074f"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(
       //    'profileAddress', '0x0c9Bf82F3dA04981a5648bA2674BEF973CFBf23d');
     ]);
-    storage.setItem('myNegotiations', []);
-    storage.setItem('myJobs', []);
-    storage.setItem('myJobReviews', []);
+    storage.setItem('pendingJobs', []);
+    storage.setItem('pendingNegotiations', []);
     storage.setItem(
         'demoProfile', '0x3bE5B5d37d1920fFfceFC949A780b1565f518e21');
     storage.setItem('demoJobs', [
@@ -216,7 +215,7 @@ Future<String> transactionFromStorage(
   return result;
 }
 
-Future<void> createJob(
+Future<String> createJob(
     Web3Client ethereumClient,
     LocalStorage storage,
     String _title,
@@ -235,7 +234,7 @@ Future<void> createJob(
     _duration,
   ]);
   // Then push to the marketplace
-  print(results);
+  return results;
 }
 
 Future<Map<String, String>> getJob(
