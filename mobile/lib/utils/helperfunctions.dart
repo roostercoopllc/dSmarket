@@ -106,31 +106,7 @@ bool startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeJobMarketplace",
-        "contractAddress": "0x92E36F4D80d4818721b6e0fa661d3B05873869D4"
-      },
-      {
-        "contractName": "GigMeCreateJobUtil",
-        "contractAddress": "0x3a8837c47bCD1016516cA3FDECBd8Fb43aCFc441"
-      },
-      {
-        "contractName": "GigMeCreateJobCloseoutUtil",
-        "contractAddress": "0x9c93B6E7f43ACA155769067Cdea5ddf40e2Fae58"
-      },
-      {
-        "contractName": "GigMeCreateJobCompletionUtil",
-        "contractAddress": "0xdA65f009856A7205194189C33E5183E66C0bF4C3"
-      },
-      {
-        "contractName": "GigMeCreateJobProfileUtil",
-        "contractAddress": "0x013afFfA9739a9773664285109b2b8D299075D8D"
-      },
-      {
-        "contractName": "GigMeCreateJobRatingUtil",
-        "contractAddress": "0xaA92fa509b0F2FE874Cf3801c37FE7952d66b372"
-      },
-      {
-        "contractName": "GigMeCreateJobNegotiationUtil",
-        "contractAddress": "0x01BcFD8205599b19A7027766f638285e58356f48"
+        "contractAddress": "0x5f0236BfF85eFc9c9D94aa1fc6f38c005C5760b2"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(

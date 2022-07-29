@@ -226,23 +226,7 @@ contract GigMeJobRating is Ownable {
     }
 }
 
-contract GigMeCreateJobUtil {
-    mapping(address => GigMeJob) jobToAddress;
-    mapping(GigMeJob => address) addressToJob;
-    function createNewJob(
-        string memory _title,
-        string memory _description,
-        address payable _soliciter,
-        uint256 _salary,
-        uint256 _duration,
-        uint256 _startTime
-    ) public returns (address retAddress) {
-        GigMeJob contractAddress = new GigMeJob(_title, _description, _soliciter, _salary, _duration, _startTime);
-        jobToAddress[msg.sender] = contractAddress;
-        return addressToJob[contractAddress];
-    }
-}
-
+/*
 contract GigMeCreateJobCloseoutUtil {
     mapping(address => GigMeJobCloseout) jobToCloseout;
     mapping(GigMeJobCloseout => address) closeoutToJob;
@@ -311,21 +295,43 @@ contract GigMeCreateJobNegotiationUtil {
         return negotiationToAddress[contractAddress];
     }
 }
+*/
 
-contract GigMeJobMarketPlace {
+contract GigMeJobMarketPlace is Ownable {
   using ECDSA for bytes32;
 
   event newJobPosting(address _jobPoster);
   GigMeJob[] public availableJobs;
   
   constructor() {}
-  function advertiseJob(GigMeJob _jobAddress) public {
+  
+  function createNewJob(
+        string memory _title,
+        string memory _description,
+        address payable _soliciter,
+        uint256 _salary,
+        uint256 _duration,
+        uint256 _startTime
+    ) public returns (GigMeJob retAddress) {
+        GigMeJob contractAddress = new GigMeJob(_title, _description, _soliciter, _salary, _duration, _startTime);
+        // jobToAddress[msg.sender] = contractAddress;
+        availableJobs.push(contractAddress);
+        return contractAddress;
+    } 
+
+  function advertiseExternalJob(GigMeJob _jobAddress) public {
     availableJobs.push(_jobAddress);
     emit newJobPosting(msg.sender);
   }
 
   function totalAvailableJobs() public view returns (uint256){
       return availableJobs.length;
+  }
+
+  function removeBadJob(uint256 index) public onlyOwner {
+      delete availableJobs[index];
+      availableJobs[index] = availableJobs[availableJobs.length - 1];
+      availableJobs.pop();
   }
 
 }

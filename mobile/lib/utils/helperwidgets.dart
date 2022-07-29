@@ -17,14 +17,12 @@ class JobViewCard extends StatelessWidget {
       this.jobTitle = 'Default Job Title',
       this.jobDescription = 'Default Job Description',
       this.salary = 'Default Salary',
-      this.negotiationAddress = 'Default Negotiation Address',
-      this.jobTypeIcon = const Icon(CommunityMaterialIcons.crystal_ball)})
+      this.negotiationAddress = 'Default Negotiation Address'})
       : super(key: key);
   final String jobTitle;
   final String jobDescription;
   final String salary;
   final String negotiationAddress;
-  final Icon jobTypeIcon;
 
   getRandomIcon() {
     int random = Random().nextInt(10);
@@ -53,7 +51,11 @@ class JobViewCard extends StatelessWidget {
             leading: getRandomIcon(),
             title: Text(jobTitle),
             subtitle: Text(jobDescription),
-            trailing: jobTypeIcon,
+            trailing: IconButton(
+                onPressed: () {
+                  print('Get QR Code');
+                },
+                icon: const Icon(CommunityMaterialIcons.crystal_ball)),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Icon(CommunityMaterialIcons.ethereum),
