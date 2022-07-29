@@ -1,26 +1,26 @@
 [
+	{
+		"inputs": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_contractor",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_expectedTime",
-						"type": "uint256"
-					}
-				],
-				"name": "createNewJobCloseout",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "retAddress",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
+				"internalType": "address",
+				"name": "_contractor",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expectedTime",
+				"type": "uint256"
 			}
-		]
+		],
+		"name": "createNewJobCloseout",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "retAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
