@@ -225,8 +225,9 @@ contract GigMeJobRating is Ownable {
         job = _gigMeJob;
     }
 }
+
 contract GigMeCreateJobUtil {
-    // mapping(address => GigMeJob) jobToAddress;
+    mapping(address => GigMeJob) jobToAddress;
     mapping(GigMeJob => address) addressToJob;
     function createNewJob(
         string memory _title,
@@ -237,12 +238,13 @@ contract GigMeCreateJobUtil {
         uint256 _startTime
     ) public returns (address retAddress) {
         GigMeJob contractAddress = new GigMeJob(_title, _description, _soliciter, _salary, _duration, _startTime);
-        // jobToAddress[msg.sender] = contractAddress;
+        jobToAddress[msg.sender] = contractAddress;
         return addressToJob[contractAddress];
     }
 }
+
 contract GigMeCreateJobCloseoutUtil {
-    // mapping(address => GigMeJobCloseout) jobToCloseout;
+    mapping(address => GigMeJobCloseout) jobToCloseout;
     mapping(GigMeJobCloseout => address) closeoutToJob;
     
     function createNewJobCloseout(
@@ -250,49 +252,53 @@ contract GigMeCreateJobCloseoutUtil {
         uint256 _expectedTime
     ) public returns (address retAddress){
         GigMeJobCloseout contractAddress = new GigMeJobCloseout(_contractor, _expectedTime);
-        // jobToCloseout[msg.sender] = contractAddress;
+        jobToCloseout[msg.sender] = contractAddress;
         return closeoutToJob[contractAddress];
     }
 
 }
+
 contract GigMeCreateJobCompletionUtil {
-    // mapping(address => GigMeJobCompletion) jobToCompletion;
+    mapping(address => GigMeJobCompletion) jobToCompletion;
     mapping(GigMeJobCompletion => address) completionToAddress;
 
     function createNewJobCompletion(
         address _job, string memory _Summary
     ) public returns (address retAddress) {
         GigMeJobCompletion contractAddress = new GigMeJobCompletion(_job, _Summary);
-        // jobToCompletion[msg.sender] = contractAddress;
+        jobToCompletion[msg.sender] = contractAddress;
         return completionToAddress[contractAddress];
     }
 }
+
 contract GigMeCreateJobProfileUtil {
-    // mapping(address => GigMeProfile) jobToProfile;
+    mapping(address => GigMeProfile) jobToProfile;
     mapping(GigMeProfile => address) profileToAddress;
 
     function createNewJobProfile(
         string memory _alias, string memory _contact
     ) public returns (address retAddress) {
         GigMeProfile contractAddress = new GigMeProfile(_alias, _contact);
-        // jobToCompletion[msg.sender] = contractAddress;
+        jobToProfile[msg.sender] = contractAddress;
         return profileToAddress[contractAddress];
     }
 }
+
 contract GigMeCreateJobRatingUtil {
-    // mapping(address => GigMeJobRating) jobToRating;
+    mapping(address => GigMeJobRating) jobToRating;
     mapping(GigMeJobRating => address) ratingToAddress;
 
     function createNewGigMeJobRating(
         address _gigMeJob
     ) public returns (address retAddress) {
         GigMeJobRating contractAddress = new GigMeJobRating(_gigMeJob);
-        // jobToRating[msg.sender] = contractAddress;
+        jobToRating[msg.sender] = contractAddress;
         return ratingToAddress[contractAddress];
     }
 }
+
 contract GigMeCreateJobNegotiationUtil {
-    // mapping(address => GigMeJobNegotiation) jobToNegotiation;
+    mapping(address => GigMeJobNegotiation) jobToNegotiation;
     mapping(GigMeJobNegotiation => address) negotiationToAddress;
 
     function createNewNegotiation(
@@ -301,7 +307,7 @@ contract GigMeCreateJobNegotiationUtil {
         address _contractor
     ) public returns (address retAddress) {
         GigMeJobNegotiation contractAddress = new GigMeJobNegotiation(_jobAddress, _solicitor, _contractor);
-        // jobToNegotiation[msg.sender] = contractAddress;
+        jobToNegotiation[msg.sender] = contractAddress;
         return negotiationToAddress[contractAddress];
     }
 }
