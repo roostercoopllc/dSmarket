@@ -110,27 +110,27 @@ bool startLocalStorage(LocalStorage storage) {
       },
       {
         "contractName": "GigMeCreateJobUtil",
-        "contractAddress": "0xb9Bb4733a21e0bD1a8aeeDA1D158D5e61BBFB7A9"
+        "contractAddress": "0x3a8837c47bCD1016516cA3FDECBd8Fb43aCFc441"
       },
       {
         "contractName": "GigMeCreateJobCloseoutUtil",
-        "contractAddress": "0x5359B2D6D026E1b9E79bB71dE0FE8Ab525fe4350"
+        "contractAddress": "0x9c93B6E7f43ACA155769067Cdea5ddf40e2Fae58"
       },
       {
         "contractName": "GigMeCreateJobCompletionUtil",
-        "contractAddress": "0x82931d97952f4EC4c659dd80a106ABB1B39cA146"
+        "contractAddress": "0xdA65f009856A7205194189C33E5183E66C0bF4C3"
       },
       {
         "contractName": "GigMeCreateJobProfileUtil",
-        "contractAddress": "0x992D0f68B7f202Ed9e4f753a8e989c6EBa6A1624"
+        "contractAddress": "0x013afFfA9739a9773664285109b2b8D299075D8D"
       },
       {
         "contractName": "GigMeCreateJobRatingUtil",
-        "contractAddress": "0x9637EE4e71a27911A096838fbC741D08E5F5DB74"
+        "contractAddress": "0xaA92fa509b0F2FE874Cf3801c37FE7952d66b372"
       },
       {
         "contractName": "GigMeCreateJobNegotiationUtil",
-        "contractAddress": "0x758c6287F4186e9f4dE77911A7758328891303C1"
+        "contractAddress": "0x01BcFD8205599b19A7027766f638285e58356f48"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(
@@ -329,8 +329,8 @@ Future<Map<String, String>> getJobFromMarket(
 
 Future<void> createProfile(Web3Client ethereumClient, LocalStorage storage,
     String _alias, String _contactValue) async {
-  var results = await transactionFromStorage(
-      ethereumClient, storage, 'GigMeCreatorUtil', 'createNewGigMeProfile', [
+  var results = await transactionFromStorage(ethereumClient, storage,
+      'GigMeCreateJobProfileUtil', 'createNewGigMeProfile', [
     _alias,
     _contactValue,
   ]);

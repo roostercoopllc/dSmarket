@@ -39,6 +39,11 @@ class _LoginPageState extends State<LoginPage> {
   var _session, _uri, _signature, balance;
   int totalJobs = 4;
 
+  // This is the cheaterstuff to remove
+  final _cheaterController = TextEditingController();
+  final _CheaterKey = GlobalKey<FormState>();
+  bool _cheater = false;
+
   List<dynamic> currentActivity = [];
   List<dynamic> marketHighlights = [];
   List<dynamic> recommendations = [];
@@ -316,6 +321,33 @@ class _LoginPageState extends State<LoginPage> {
                         color: Color.fromARGB(255, 33, 47, 243),
                       ),
                     )),
+                (!_cheater)
+                    ? Form(
+                        key: _CheaterKey,
+                        child: Column(children: [
+                          TextFormField(
+                            controller: _cheaterController,
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.contact_page),
+                              hintText: "Straight string of Private Key",
+                              labelText: "Cheater Private Key",
+                            ),
+                          ),
+                          ElevatedButton(
+                              child: Text('Set Cheater Private Key'),
+                              onPressed: () {
+                                print(
+                                    'This is pressed. With this value: ${_cheaterController.text}');
+                                if (_cheaterController != null) {
+                                  setState(() {
+                                    _cheater = true;
+                                  });
+                                  storage.setItem('cheaterPrivateKey',
+                                      _cheaterController.text);
+                                }
+                              }),
+                        ]))
+                    : Container()
                 /* ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
