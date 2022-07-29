@@ -107,6 +107,7 @@ class QrProfileCard extends StatelessWidget {
   // final String profileDescription;
   // final String profileImage;
 
+  getWalletURL() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +159,8 @@ class QrProfileCard extends StatelessWidget {
                 ),
                 */
                 QrImage(
-                  data: walletAddress,
+                  data:
+                      'https://mumbai.polygonscan.com/address/${walletAddress}',
                   backgroundColor: Colors.white,
                   // gapless: false,
                   // version: QrVersions.auto,

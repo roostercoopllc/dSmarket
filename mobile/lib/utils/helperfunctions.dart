@@ -101,16 +101,36 @@ bool startLocalStorage(LocalStorage storage) {
         'walletAddress', '0x0000000000000000000000000000000000000000');
     storage.setItem('contracts', [
       {
-        "contractName": "GigMeCreatorUtil",
-        "contractAddress": "0xeB52E53B81F386D3b51A92C90537F667627F0a48"
-      },
-      {
         "contractName": "GigMeProfile",
         "contractAddress": "0xd9145CCE52D386f254917e481eB44e9943F39138"
       },
       {
-        "contractName": "GigMeJobMarketPlace",
+        "contractName": "GigMeJobMarketplace",
         "contractAddress": "0x92E36F4D80d4818721b6e0fa661d3B05873869D4"
+      },
+      {
+        "contractName": "GigMeCreateJobUtil",
+        "contractAddress": "0xb9Bb4733a21e0bD1a8aeeDA1D158D5e61BBFB7A9"
+      },
+      {
+        "contractName": "GigMeCreateJobCloseoutUtil",
+        "contractAddress": "0x5359B2D6D026E1b9E79bB71dE0FE8Ab525fe4350"
+      },
+      {
+        "contractName": "GigMeCreateJobCompletionUtil",
+        "contractAddress": "0x82931d97952f4EC4c659dd80a106ABB1B39cA146"
+      },
+      {
+        "contractName": "GigMeCreateJobProfileUtil",
+        "contractAddress": "0x992D0f68B7f202Ed9e4f753a8e989c6EBa6A1624"
+      },
+      {
+        "contractName": "GigMeCreateJobRatingUtil",
+        "contractAddress": "0x9637EE4e71a27911A096838fbC741D08E5F5DB74"
+      },
+      {
+        "contractName": "GigMeCreateJobNegotiationUtil",
+        "contractAddress": "0x758c6287F4186e9f4dE77911A7758328891303C1"
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(
@@ -230,7 +250,7 @@ Future<void> createJob(
     BigInt _duration) async {
   // print('Making a new Job Posting');
   var results = await transaction(ethereumClient, storage,
-      storage.getItem('walletAddress'), 'GigMeCreatorUtil', 'createNewJob', [
+      storage.getItem('walletAddress'), 'GigMeCreateJobUtil', 'createNewJob', [
     _title,
     _description,
     EthereumAddress.fromHex(storage.getItem('walletAddress')),
@@ -238,6 +258,7 @@ Future<void> createJob(
     _starttime,
     _duration,
   ]);
+  // Then push to the marketplace
   print(results);
 }
 
@@ -298,8 +319,8 @@ Future<Map<String, String>> getJobFromMarket(
     Web3Client ethereumclient, LocalStorage storage, int index) async {
   var jobAddress = await query(
       ethereumclient,
-      getContractAddressFromStorage(storage, 'GigMeJobMarketPlace'),
-      'GigMeJobMarketPlace',
+      getContractAddressFromStorage(storage, 'GigMeJobMarketplace'),
+      'GigMeJobMarketplace',
       'availableJobs',
       [BigInt.from(index)]);
   var job = await getJob(ethereumclient, jobAddress[0].toString());

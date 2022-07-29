@@ -1,0 +1,21 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_gigMeJob",
+				"type": "address"
+			}
+		],
+		"name": "createNewGigMeJobRating",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "retAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

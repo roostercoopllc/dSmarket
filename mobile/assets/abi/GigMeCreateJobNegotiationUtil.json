@@ -1,0 +1,31 @@
+[
+			{
+				"inputs": [
+					{
+						"internalType": "contract GigMeJob",
+						"name": "_jobAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_solicitor",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_contractor",
+						"type": "address"
+					}
+				],
+				"name": "createNewNegotiation",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "retAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		]

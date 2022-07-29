@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   List<dynamic> recommendations = [];
 
   getBalance() async {
-    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketPlace',
+    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketplace',
         'totalAvailableJobs', []).then((jobLen) {
       print('Job Length: $jobLen');
       int jobLenInt = int.parse(jobLen[0].toString());
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   getTotalJobs() async {
-    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketPlace',
+    queryFromStorage(ethereumClient, storage, 'GigMeJobMarketplace',
         'totalAvailableJobs', []).then((jobLen) {
       print('Job Length: $jobLen');
       int jobLenInt = int.parse(jobLen[0].toString());

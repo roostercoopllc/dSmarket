@@ -225,15 +225,9 @@ contract GigMeJobRating is Ownable {
         job = _gigMeJob;
     }
 }
-
-contract GigMeCreatorUtil {
-    mapping(address => GigMeJob) jobToAddress;
-    mapping(address => GigMeJobCloseout) jobToCloseOut;
-    mapping(address => GigMeJobCompletion) jobToCompletion;
-    mapping(address => GigMeProfile) jobToProfile;
-    mapping(address => GigMeJobRating) jobToRating;
-    mapping(address => GigMeJobNegotiation) jobToNegotiation;
-
+contract GigMeCreateJobUtil {
+    // mapping(address => GigMeJob) jobToAddress;
+    mapping(GigMeJob => address) addressToJob;
     function createNewJob(
         string memory _title,
         string memory _description,
@@ -241,47 +235,74 @@ contract GigMeCreatorUtil {
         uint256 _salary,
         uint256 _duration,
         uint256 _startTime
-    ) public {
+    ) public returns (address retAddress) {
         GigMeJob contractAddress = new GigMeJob(_title, _description, _soliciter, _salary, _duration, _startTime);
-        jobToAddress[msg.sender] = contractAddress;
+        // jobToAddress[msg.sender] = contractAddress;
+        return addressToJob[contractAddress];
     }
-
+}
+contract GigMeCreateJobCloseoutUtil {
+    // mapping(address => GigMeJobCloseout) jobToCloseout;
+    mapping(GigMeJobCloseout => address) closeoutToJob;
+    
     function createNewJobCloseout(
         address _contractor, 
         uint256 _expectedTime
-    ) public {
+    ) public returns (address retAddress){
         GigMeJobCloseout contractAddress = new GigMeJobCloseout(_contractor, _expectedTime);
-        jobToCloseOut[msg.sender] = contractAddress;
+        // jobToCloseout[msg.sender] = contractAddress;
+        return closeoutToJob[contractAddress];
     }
+
+}
+contract GigMeCreateJobCompletionUtil {
+    // mapping(address => GigMeJobCompletion) jobToCompletion;
+    mapping(GigMeJobCompletion => address) completionToAddress;
 
     function createNewJobCompletion(
         address _job, string memory _Summary
-    ) public {
+    ) public returns (address retAddress) {
         GigMeJobCompletion contractAddress = new GigMeJobCompletion(_job, _Summary);
-        jobToCompletion[msg.sender] = contractAddress;
+        // jobToCompletion[msg.sender] = contractAddress;
+        return completionToAddress[contractAddress];
     }
+}
+contract GigMeCreateJobProfileUtil {
+    // mapping(address => GigMeProfile) jobToProfile;
+    mapping(GigMeProfile => address) profileToAddress;
 
-    function createNewGigMeProfile(
-        string memory _alias, string memory _contactValue
-    ) public {
-        GigMeProfile contractAddress = new GigMeProfile(_alias, _contactValue);
-        jobToProfile[msg.sender] = contractAddress;
+    function createNewJobProfile(
+        string memory _alias, string memory _contact
+    ) public returns (address retAddress) {
+        GigMeProfile contractAddress = new GigMeProfile(_alias, _contact);
+        // jobToCompletion[msg.sender] = contractAddress;
+        return profileToAddress[contractAddress];
     }
-    
+}
+contract GigMeCreateJobRatingUtil {
+    // mapping(address => GigMeJobRating) jobToRating;
+    mapping(GigMeJobRating => address) ratingToAddress;
+
     function createNewGigMeJobRating(
         address _gigMeJob
-    ) public {
+    ) public returns (address retAddress) {
         GigMeJobRating contractAddress = new GigMeJobRating(_gigMeJob);
-        jobToRating[msg.sender] = contractAddress;
+        // jobToRating[msg.sender] = contractAddress;
+        return ratingToAddress[contractAddress];
     }
+}
+contract GigMeCreateJobNegotiationUtil {
+    // mapping(address => GigMeJobNegotiation) jobToNegotiation;
+    mapping(GigMeJobNegotiation => address) negotiationToAddress;
 
     function createNewNegotiation(
         GigMeJob _jobAddress,
         address _solicitor,
         address _contractor
-    ) public {
+    ) public returns (address retAddress) {
         GigMeJobNegotiation contractAddress = new GigMeJobNegotiation(_jobAddress, _solicitor, _contractor);
-        jobToNegotiation[msg.sender] = contractAddress;
+        // jobToNegotiation[msg.sender] = contractAddress;
+        return negotiationToAddress[contractAddress];
     }
 }
 
