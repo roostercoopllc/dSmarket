@@ -225,7 +225,7 @@ Future<String> createJob(
     BigInt _duration) async {
   // print('Making a new Job Posting');
   var results = await transaction(ethereumClient, storage,
-      storage.getItem('walletAddress'), 'GigMeCreateJobUtil', 'createNewJob', [
+      storage.getItem('walletAddress'), 'GigMeJobMarketplace', 'createNewJob', [
     _title,
     _description,
     EthereumAddress.fromHex(storage.getItem('walletAddress')),

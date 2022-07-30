@@ -130,7 +130,7 @@ class _CreateJobState extends State<CreateJobPage> {
                             BigInt.parse(_jobStarttime.text),
                             BigInt.parse(_jobDuration.text));
                         var holder = jstorage.getItem('pendingJobs');
-                        holder.append(jobTx);
+                        holder.add(jobTx);
                         jstorage.setItem('pendingJobs', holder);
                       },
                       child: const Text(
