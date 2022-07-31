@@ -1,4 +1,4 @@
-# GigMe - Market Place: Polygon Blockchain Hackathon
+# dSmarket - The Decentralized Smart Contract Market Place: Polygon Blockchain Hackathon
 
 ## Problem
 Let's be honest. Even with the constant discussion on how blockchain decentralizes control and gives the individual control of their assets, and thus their lives. There are really only 3 different types of dApps that seem to even get created: DeFi, Videogames, or NFT art galleries. The users of these dApps are generally already believers of crypto currency, and have financial resources to fully participate in the #cryptolife or even have the time to understand how a decentralized future would ultimately benefit both sellers and customer. There will be continued resistance, or even governing backlash without this grassroots involvement in the 
@@ -62,8 +62,8 @@ Built and Tested on Pixel 4 (API 30).
 ```Test```
 With an Virtual device running (I used android studios AVD Laucher)
 ```sh
-user@polygon-hackathon-submission$ cd mobile
-user@mobile$ flutter run
+user@polygon-hackathon-submission$ cd dApp
+user@dApp$ flutter run
 # no-sound-null-safety because package:vibration needs this check
 ```
 
