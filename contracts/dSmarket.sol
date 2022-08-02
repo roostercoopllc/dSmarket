@@ -7,8 +7,6 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract dSmarketPlace is Ownable {
-  using ECDSA for bytes32;
-
   mapping(address => address payable) addToPayable; 
 
   event newJobPosting(address _jobPoster);
@@ -16,18 +14,14 @@ contract dSmarketPlace is Ownable {
 
   dSmarketJob[] public availableJobs;
   
-  constructor() {}
-  
   function createNewJob(
         string memory _title,
         string memory _description,
         // address payable _soliciter,
         uint256 _paymentToken,
-        uint256 _paymentInWei,
-        uint256 _duration,
-        uint256 _startTime
+        uint256 _paymentInWei
     ) public returns (dSmarketJob retAddress) {
-        dSmarketJob contractAddress = new dSmarketJob(_title, _description, addToPayable[msg.sender], _paymentToken, _paymentInWei, _duration, _startTime);
+        dSmarketJob contractAddress = new dSmarketJob(_title, _description, _paymentToken, _paymentInWei);
         availableJobs.push(contractAddress);
         return contractAddress;
     } 
@@ -50,17 +44,16 @@ contract dSmarketPlace is Ownable {
       }
       availableJobs.pop();
   }
-
 }
 
 contract dSmarketJob is Ownable {
     using SafeMath for uint256;
     using Strings for string;
-    using ECDSA for bytes32;
 
     //Mappings
     mapping(address => dSmarketJob) addressToJob;
-    
+    mapping(address => address payable) addToPayable;
+
     // Controlled Values
     enum JobStatus {
         OPEN,
@@ -78,50 +71,36 @@ contract dSmarketJob is Ownable {
     address payable public soliciter;
     string public title;
     string public description;
-
     // Internally Manipulated Values
     JobStatus public status;
-
     // Externally manipulated values
     PaymentType paymentToken;
     uint256 public paymentInWei;
-    uint256 public startTime;
-    uint256 public duration;
-    uint256 public endtime;
 
     // Externally referenced values
-    dSmarketProfile public contractor;
     dSmarketCompletion public smarketCompletion;
     dSmarketCloseout public smarketCloseout;
     dSmarketRating public smarketRating;
-
-    dSmarketNegotiation.Message public agreedTerms;
 
     bool public fundsReleased;
 
     // Events
     event JobCreation(string jobCreationEvent);
     event NegotiationStarted(dSmarketNegotiation newNegotiation, string negotiationMessage);
-    
     event RatingPosted(dSmarketRating ratingPosted, string rating);
     
     // The actual Work
     constructor(
         string memory _title,
         string memory _description,
-        address payable _soliciter,
         uint256 _paymentToken,
-        uint256 _paymentInWei,
-        uint256 _duration,
-        uint256 _startTime
+        uint256 _paymentInWei
     ) {
-        soliciter = _soliciter;
+        soliciter = addToPayable[msg.sender];
         title = _title;
         description = _description;
         paymentToken = PaymentType(_paymentToken);
         paymentInWei = _paymentInWei;
-        duration = _duration;
-        startTime = _startTime;
         status = JobStatus.OPEN;
     }
 
@@ -140,6 +119,14 @@ contract dSmarketJob is Ownable {
         return negotiationAddress;
     }
 
+    function setSmarketCompletion(dSmarketCompletion _smarketCompletion) public onlyOwner{
+        smarketCompletion = _smarketCompletion;
+    }
+
+    function setSmarketCloseout(dSmarketCloseout _smarketCloseout) public onlyOwner {
+        smarketCloseout = _smarketCloseout;
+    }
+
     function addJobRating(string memory _ratingDescription, uint256 _rating) public onlyOwner {
         smarketRating = new dSmarketRating(addressToJob[address(this)], _ratingDescription, _rating);
         emit RatingPosted(smarketRating, _ratingDescription);
@@ -151,7 +138,6 @@ contract dSmarketJob is Ownable {
         status = JobStatus(newStatusIndex);
     }
 }
-
 
 contract dSmarketCompletion {
     using SafeMath for uint256;
@@ -246,6 +232,8 @@ contract dSmarketRating is Ownable {
 contract dSmarketNegotiation is Ownable {
   using ECDSA for bytes32;
 
+  mapping(address => dSmarketProfile) addressToProfile;
+
   event NegotiationAccepted(string acceptanceMessage);
   event newOfferSubmitted(dSmarketJob _job, address _sender);
   event newMessageAvailable(address _address, string _message);
@@ -321,14 +309,14 @@ contract dSmarketNegotiation is Ownable {
 
   function acceptOffer() public onlyOwner {
         emit NegotiationAccepted("Negotiation has been accepted. Job commences now!");
-        // Set Values from Negotiation as new values
-        // jobAddress.agreedTerms = getLatestTerms();
         // Create Completion for contractor
-        // jobAddress.smarketCompletion = new dSmarketCompletion(contractor,  "Job is accepted, and started.");
+        dSmarketCompletion completion = new dSmarketCompletion(addressToProfile[contractor],  "Job is accepted, and started.");
         // Create Closeout for contractor
-        // jobAddress.smarketCloseout = new dSmarketCloseout();
+        dSmarketCloseout closeout = new dSmarketCloseout();
+        // Set the values
+        jobAddress.setSmarketCompletion(completion);
+        jobAddress.setSmarketCloseout(closeout);
     } 
-
 }
 
 contract dSmarketProfile is Ownable {
