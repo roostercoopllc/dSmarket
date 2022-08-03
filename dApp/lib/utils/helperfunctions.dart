@@ -79,7 +79,23 @@ bool startLocalStorage(LocalStorage storage) {
     storage.setItem('contracts', [
       {
         "contractName": "dSmarketPlace",
-        "contractAddress": "0x3C5ff3047834EB23d7cC18cE049a1Ef6464c306B"
+        "contractAddress": "0xBCBd7B2CCAfc192E2a873771fcd5Eb0EA3083779",
+        "ipfsAbiAddress": ""
+      },
+      {
+        "contractName": "dSmarketNegotiationUtil",
+        "contractAddress": "0x8b1f8f7B3a1574255AA737013d6195B7A7E11f2f",
+        "ipfsAbiAddress": ""
+      },
+      {
+        "contractName": "dSmarketCreateJob",
+        "contractAddress": "0x73172a2D5B3894F242Ef3a43025D90190B88CB6f",
+        "ipfsAbiAddress": ""
+      },
+      {
+        "contractName": "dSmarketCheckout",
+        "contractAddress": "0xAAefdA70490b4a1914532457df3238564d123c23",
+        "ipfsAbiAddress": ""
       },
       //Example holder for the profile address that gets created.
       //storage.setItem(
@@ -272,7 +288,7 @@ Future<void> createProfile(Web3Client ethereumClient, LocalStorage storage,
 }
 
 Future<DeployedContract> getContract(String address, String abiName) async {
-  String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
+  String abiJson = await rootBundle.loadString("assets/abi/${abiName}.abi");
   String contractAddress = address;
   // print(contractAddress);
   DeployedContract contract = DeployedContract(
@@ -286,7 +302,7 @@ Future<DeployedContract> getContract(String address, String abiName) async {
 Future<DeployedContract> getContractFromStorage(
     LocalStorage storage, String abiName) async {
   print(abiName);
-  String abiJson = await rootBundle.loadString("assets/abi/${abiName}.json");
+  String abiJson = await rootBundle.loadString("assets/abi/${abiName}.abi");
   String contractAddress = getContractAddressFromStorage(storage, abiName);
   print(contractAddress);
   DeployedContract contract = DeployedContract(

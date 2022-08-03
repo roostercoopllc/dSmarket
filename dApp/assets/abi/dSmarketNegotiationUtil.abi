@@ -1,0 +1,40 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract dSmarketNegotiation",
+        "name": "_negotiation",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "message",
+        "type": "string"
+      }
+    ],
+    "name": "NegotiationStarted",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract dSmarketJob",
+        "name": "_job",
+        "type": "address"
+      }
+    ],
+    "name": "startNegotiation",
+    "outputs": [
+      {
+        "internalType": "contract dSmarketNegotiation",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

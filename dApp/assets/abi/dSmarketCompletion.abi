@@ -2,8 +2,8 @@
   {
     "inputs": [
       {
-        "internalType": "contract dSmarketProfile",
-        "name": "_profile",
+        "internalType": "address payable",
+        "name": "_contractor",
         "type": "address"
       },
       {

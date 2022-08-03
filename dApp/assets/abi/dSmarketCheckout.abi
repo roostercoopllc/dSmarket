@@ -1,0 +1,38 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "PaymentMessage",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract dSmarketJob",
+        "name": "_job",
+        "type": "address"
+      },
+      {
+        "internalType": "contract dSmarketCloseout",
+        "name": "_closeout",
+        "type": "address"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_contractor",
+        "type": "address"
+      }
+    ],
+    "name": "completedContractAndPay",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
