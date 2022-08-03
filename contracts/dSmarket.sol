@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract dSmarketPlace is Ownable {
   mapping(address => address payable) addToPayable; 
@@ -13,21 +14,8 @@ contract dSmarketPlace is Ownable {
   event removeJobPosting(address _badJobAddress);
 
   dSmarketJob[] public availableJobs;
-  
-  function createNewJob(
-        string memory _title,
-        string memory _description,
-        // address payable _soliciter,
-        uint256 _paymentToken,
-        uint256 _paymentInWei
-    ) public returns (dSmarketJob retAddress) {
-        dSmarketJob contractAddress = new dSmarketJob(_title, _description, _paymentToken, _paymentInWei);
-        availableJobs.push(contractAddress);
-        return contractAddress;
-    } 
 
-
-  function advertiseExternalJob(dSmarketJob _jobAddress) public {
+  function advertiseJob(dSmarketJob _jobAddress) public {
     availableJobs.push(_jobAddress);
     emit newJobPosting(msg.sender);
   }
@@ -44,6 +32,28 @@ contract dSmarketPlace is Ownable {
       }
       availableJobs.pop();
   }
+}
+
+contract dSmarketCreateJob {
+    mapping(address => ERC20) addToERC20;
+
+    address public LinkToken = 0x70d1F773A9f81C852087B77F6Ae6d3032B02D2AB;
+    address public MaticToken = 0x70F34801Fda881Fa89C410D3052816889A4adb21;
+
+    function createNewJob(
+        dSmarketPlace _marketAddress,
+        string memory _title,
+        string memory _description,
+        uint256 _paymentToken,
+        uint256 _paymentInWei
+    ) public {
+        if (_paymentToken == 0) {
+            require(addToERC20[MaticToken].balanceOf(address(this)) >= _paymentInWei * 10**18, "Not enough MATIC to request this job");
+        } else {
+            require(addToERC20[LinkToken].balanceOf(address(this)) >= _paymentInWei * 10**18, "Not enough LINK to request this job");
+        }
+        _marketAddress.advertiseJob(new dSmarketJob(_title, _description, _paymentToken, _paymentInWei));
+    } 
 }
 
 contract dSmarketJob is Ownable {
@@ -82,11 +92,8 @@ contract dSmarketJob is Ownable {
     dSmarketCloseout public smarketCloseout;
     dSmarketRating public smarketRating;
 
-    bool public fundsReleased;
-
     // Events
     event JobCreation(string jobCreationEvent);
-    event NegotiationStarted(dSmarketNegotiation newNegotiation, string negotiationMessage);
     event RatingPosted(dSmarketRating ratingPosted, string rating);
     
     // The actual Work
@@ -111,31 +118,26 @@ contract dSmarketJob is Ownable {
         }
         // unless link specified return MATIC
         return 0x0000000000000000000000000000000000001010;
-    } 
-
-    function startNegotiation() public returns (dSmarketNegotiation) {
-        dSmarketNegotiation negotiationAddress = new dSmarketNegotiation(addressToJob[address(this)], soliciter, msg.sender);
-        emit NegotiationStarted(negotiationAddress, "Negotiation Started");
-        return negotiationAddress;
     }
 
     function setSmarketCompletion(dSmarketCompletion _smarketCompletion) public onlyOwner{
         smarketCompletion = _smarketCompletion;
     }
-
     function setSmarketCloseout(dSmarketCloseout _smarketCloseout) public onlyOwner {
         smarketCloseout = _smarketCloseout;
     }
-
     function addJobRating(string memory _ratingDescription, uint256 _rating) public onlyOwner {
         smarketRating = new dSmarketRating(addressToJob[address(this)], _ratingDescription, _rating);
         emit RatingPosted(smarketRating, _ratingDescription);
         status = JobStatus.COMPLETED;
     }
-
     function updateStatus(uint256 newStatusIndex) public onlyOwner {
         require (status != JobStatus.COMPLETED);
-        status = JobStatus(newStatusIndex);
+        if (JobStatus(newStatusIndex) == JobStatus.COMPLETED) {
+            status = JobStatus(newStatusIndex);
+        } else {
+            status = JobStatus(newStatusIndex);
+        }
     }
 }
 
@@ -145,35 +147,26 @@ contract dSmarketCompletion {
     using ECDSA for bytes32;
 
     string public jobStatusDescription;
-    dSmarketProfile contractorProfile;
+    address payable contractor;
     enum CompletionStatus {
         INPROGRESS,
         INCOMPLETE,
         COMPLETED
     }
     CompletionStatus public status;
+    
     string[] public ipfsProofs;
 
-    constructor(dSmarketProfile _profile, string memory jobStatusDesc) {
+    constructor(address payable _contractor, string memory jobStatusDesc) {
         require(status != CompletionStatus.COMPLETED, "Job already completed");
-        contractorProfile = _profile;
+        contractor = _contractor;
         jobStatusDescription = jobStatusDesc;
     }
-
     function markJobAsComplete() public {
         status = CompletionStatus.COMPLETED;
     }
-
     function addJobPerformance(string memory _ipfsProof) public {
         ipfsProofs.push(_ipfsProof);
-    }
-
-    function _verify(
-        bytes32 data,
-        bytes memory signature,
-        address account
-    ) internal pure returns (bool) {
-        return data.toEthSignedMessageHash().recover(signature) == account;
     }
 }
 
@@ -191,18 +184,27 @@ contract dSmarketCloseout is Ownable {
     constructor() {
         status = CompletionStatus.INPROGRESS;
     }
-    function markJobAsComplete() public onlyOwner {
+    function setContractAsComplete() public onlyOwner {
         status = CompletionStatus.COMPLETED;
     }
-    // recommended pay transaction as of dec2019
-    /* function completeContractAndPay(address payable _to, address erc20Token) public payable {
-        require(status != CompletionStatus.COMPLETED);
-        // Call returns a boolean value indicating success or failure.
-        // This is the current recommended method to use.
-        (bool sent, bytes memory data) = _to.call{value: msg.value}("");
-        require(sent, "Failed to send Ether");
+    function setContractAsIncomplete() public onlyOwner {
+        status = CompletionStatus.INCOMPLETE;
     }
-    */
+}
+
+contract dSmarketCheckout {
+    event PaymentMessage(bytes data);
+
+    mapping(address => uint256) paymentConversion;
+
+    function completedContractAndPay(dSmarketJob _job, dSmarketCloseout _closeout, address payable _contractor) public {
+        uint256 pay = _job.paymentInWei() * 10**18;
+        (bool sent, bytes memory _data) = _contractor.call{value: pay, gas: 5000}("");
+        emit PaymentMessage(_data);
+        require(sent, "Failed to send token");
+        _closeout.setContractAsComplete();
+        _job.updateStatus(3);
+    }
 }
 
 contract dSmarketRating is Ownable {
@@ -232,15 +234,15 @@ contract dSmarketRating is Ownable {
 contract dSmarketNegotiation is Ownable {
   using ECDSA for bytes32;
 
-  mapping(address => dSmarketProfile) addressToProfile;
+  mapping(address => address payable) addToPay;
 
   event NegotiationAccepted(string acceptanceMessage);
   event newOfferSubmitted(dSmarketJob _job, address _sender);
   event newMessageAvailable(address _address, string _message);
   
   dSmarketJob jobAddress;
-  address jobOwner;
-  address contractor;
+  address payable jobOwner;
+  address payable contractor;
   struct Message {
     address sender;
     string description;
@@ -257,15 +259,15 @@ contract dSmarketNegotiation is Ownable {
   }
   NegotiationStatus status;
 
-  constructor(dSmarketJob _jobAddress, address _jobOwner, address _contractor) {
+  constructor(dSmarketJob _jobAddress, address payable _jobOwner) {
     jobAddress = _jobAddress;
     jobOwner = _jobOwner;
-    contractor = _contractor;
+    contractor = addToPay[msg.sender];
     emit newOfferSubmitted(_jobAddress, msg.sender);
   }
 
   function isNegotiating(address _addressCheck) public view returns(bool){
-    return (jobOwner == _addressCheck || contractor == _addressCheck);
+    return (contractor == _addressCheck || jobOwner == _addressCheck);
   }
 
   function isNegotiationFinal() public view returns(bool){
@@ -281,7 +283,7 @@ contract dSmarketNegotiation is Ownable {
     )
   public
   {
-    require (isNegotiating(msg.sender), "You are not part of this negotiation");
+    // require (isNegotiating(msg.sender), "You are not part of this negotiation");
     require (isNegotiationFinal(), "The negotiation has closed and cannot be updated");
     messages.push(Message(
       msg.sender,
@@ -303,20 +305,33 @@ contract dSmarketNegotiation is Ownable {
   }
 
   function withdrawNegotiation() public {
-      require(msg.sender == contractor, "You are not the contractor, and cannot withdraw contract");
+      require(msg.sender == jobOwner, "You are not the contractor, and cannot withdraw contract");
     status = NegotiationStatus.CLOSED;
   }
 
-  function acceptOffer() public onlyOwner {
+  function acceptOffer() public{
+        require(msg.sender == jobOwner);
         emit NegotiationAccepted("Negotiation has been accepted. Job commences now!");
         // Create Completion for contractor
-        dSmarketCompletion completion = new dSmarketCompletion(addressToProfile[contractor],  "Job is accepted, and started.");
+        dSmarketCompletion completion = new dSmarketCompletion(jobOwner,  "Job is accepted, and started.");
         // Create Closeout for contractor
         dSmarketCloseout closeout = new dSmarketCloseout();
         // Set the values
         jobAddress.setSmarketCompletion(completion);
         jobAddress.setSmarketCloseout(closeout);
     } 
+}
+
+contract dSmarketNegotiationUtil {
+    mapping(address => address payable) addToPay;
+
+    event NegotiationStarted(dSmarketNegotiation _negotiation, string message); 
+
+    function startNegotiation(dSmarketJob _job) public returns (dSmarketNegotiation) {
+        dSmarketNegotiation negotiationAddress = new dSmarketNegotiation(_job, addToPay[msg.sender]);
+        emit NegotiationStarted(negotiationAddress, "Negotiation Started");
+        return negotiationAddress;
+    }
 }
 
 contract dSmarketProfile is Ownable {
