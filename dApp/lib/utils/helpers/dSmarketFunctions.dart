@@ -1,7 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
-import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -40,36 +38,6 @@ String getNetworkName(int chainId) {
   }
 }
 
-Future<String> signMessageWithMetamask(
-  WalletConnect connector,
-  String message,
-  String uri,
-  SessionStatus session,
-) async {
-  if (connector.connected) {
-    try {
-      print("Message received");
-      print(message);
-
-      EthereumWalletConnectProvider provider =
-          EthereumWalletConnectProvider(connector);
-      launchUrlString(uri, mode: LaunchMode.externalApplication);
-      var signature = await provider.personalSign(
-          message: message, address: session.accounts[0], password: "");
-      // print(signature);
-      return signature;
-    } catch (exp) {
-      // print("Error while signing transaction");
-      print(exp);
-      return "Error Occured" + exp.toString();
-    }
-    ;
-  } else {
-    // print("Not connected");
-    return "Not connected";
-  }
-}
-
 bool startLocalStorage(LocalStorage storage) {
   if (storage.getItem('initialized') == null) {
     storage.setItem('initialized', true);
@@ -79,22 +47,22 @@ bool startLocalStorage(LocalStorage storage) {
     storage.setItem('contracts', [
       {
         "contractName": "dSmarketPlace",
-        "contractAddress": "0xa8E6291B34AebF03c07ED40a4FB02aB92d063884",
+        "contractAddress": "0x2aEA5b24ab6ad08ba5C1E0664AC7DF3633C693D3",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketNegotiationUtil",
-        "contractAddress": "0xA1A3fb8D3e82F56a2e069a3f2DbeB9aDA754AAF9",
+        "contractAddress": "0xFc96d8e17F3DD8408e08c386f63c4e8A54478C18",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketCreateJob",
-        "contractAddress": "0x0EC3dE7376b395840c18e61475bfEb5FE9AdA62D",
+        "contractAddress": "0xaDd25A3C72C7ecC589f71F71989f2e102ea7BE82",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketCheckout",
-        "contractAddress": "0xb10116A75D0eAED290cB9d350b6FFb7154E2aC6d",
+        "contractAddress": "0x19CF5eD14F0b6b93Cf4e9F2f2696Df89b89b0Bf0",
         "ipfsAbiAddress": ""
       },
       //Example holder for the profile address that gets created.
@@ -215,17 +183,50 @@ Future<String> createJob(
     LocalStorage storage,
     String _title,
     String _description,
-    BigInt _salary,
-    BigInt _starttime,
-    BigInt _duration) async {
+    BigInt _paymentToken,
+    BigInt _paymentInWei) async {
   var results = await transaction(ethereumClient, storage,
-      storage.getItem('walletAddress'), 'dSmarketPlace', 'createNewJob', [
+      storage.getItem('walletAddress'), 'dSmarketCreateJob', 'createNewJob', [
     _title,
     _description,
-    EthereumAddress.fromHex(storage.getItem('walletAddress')),
-    _salary,
-    _starttime,
-    _duration,
+    _paymentToken,
+    _paymentInWei,
+  ]);
+  return results;
+}
+
+Future<String> createNegotiation(
+    Web3Client ethereumClient,
+    LocalStorage storage,
+    String _jobId,
+    String _description,
+    BigInt _paymentToken,
+    BigInt _paymentInWei) async {
+  var results = await transaction(
+      ethereumClient,
+      storage,
+      storage.getItem('walletAddress'),
+      'dSmarketNegotiationUtil',
+      'startNegotiation', [
+    _jobId,
+    _description,
+    _paymentToken,
+    _paymentInWei,
+  ]);
+  return results;
+}
+
+// TODO: Add a function to get the job details from the jobId.
+Future<String> updateNegotiation(
+    Web3Client ethereumClient, LocalStorage storage, String jobAddress) async {
+  var results = await transaction(
+      ethereumClient,
+      storage,
+      storage.getItem('walletAddress'),
+      'dSmarketNegotiationUtil',
+      'updateNegotiation', [
+    jobAddress,
+    storage.getItem('walletAddress'),
   ]);
   return results;
 }
@@ -236,26 +237,31 @@ Future<Map<String, String>> getJob(
       await query(ethereumClient, jobAddress, 'dSmarketJob', 'title', []);
   var description =
       await query(ethereumClient, jobAddress, 'dSmarketJob', 'description', []);
-  var salary = await query(
+  var paymentType = await query(
+      ethereumClient, jobAddress, 'dSmarketJob', 'getPaymentTypeAddress', []);
+  var paymentInWei = await query(
       ethereumClient, jobAddress, 'dSmarketJob', 'paymentInWei', []);
-  var soliciter =
-      await query(ethereumClient, jobAddress, 'dSmarketJob', 'soliciter', []);
+  /*
   var startTime =
       await query(ethereumClient, jobAddress, 'dSmarketJob', 'startTime', []);
   var duration =
       await query(ethereumClient, jobAddress, 'dSmarketJob', 'duration', []);
-  //var status =
-  //    await query(ethereumClient, jobAddress, 'GigMeJob', 'status', []);
-  //var fundsReleased = await query(
-  //    ethereumClient, jobAddress, 'GigMeJob', 'fundsReleased', []);
-
+  var status =
+      await query(ethereumClient, jobAddress, 'GigMeJob', 'status', []);
+  var fundsReleased = await query(
+      ethereumClient, jobAddress, 'GigMeJob', 'fundsReleased', []);
+      */
+  var tokenName = 'MATIC';
+  if (paymentType[0] == '0x70d1F773A9f81C852087B77F6Ae6d3032B02D2AB') {
+    tokenName = 'LINK';
+  }
   Map<String, String> job = {
     "title": title[0].toString(),
     "description": description[0].toString(),
-    "soliciter": soliciter[0].toString(),
-    "salary": salary[0].toString(),
-    "starttime": startTime[0].toString(),
-    "duration": duration[0].toString(),
+    "paymentType": tokenName,
+    "paymentInWei": paymentInWei[0].toString(),
+    /*"starttime": startTime[0].toString(),
+    "duration": duration[0].toString(),*/
     "address": jobAddress,
   };
   return job;

@@ -3,6 +3,7 @@ import 'package:d_smarket/utils/helpers/dSmarketFunctions.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:flutter/services.dart';
 
 class CreateJobPage extends StatefulWidget {
   const CreateJobPage({Key? key}) : super(key: key);
@@ -16,9 +17,19 @@ class _CreateJobState extends State<CreateJobPage> {
 
   final _jobTitle = TextEditingController();
   final _jobDescription = TextEditingController();
-  final _jobSalary = TextEditingController();
-  final _jobStarttime = TextEditingController();
-  final _jobDuration = TextEditingController();
+  final _jobPaymentInWei = TextEditingController();
+
+  var paymentType = 'MATIC';
+
+  getPaymentTypeInt() {
+    if (paymentType == 'MATIC') {
+      return 0;
+    } else if (paymentType == 'LINK') {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
 
   final LocalStorage jstorage =
       new LocalStorage('d_smarket_local_storage.json');
@@ -65,44 +76,33 @@ class _CreateJobState extends State<CreateJobPage> {
                     return null;
                   },
                 ),
+                DropdownButton(
+                    items: <String>['MATIC', 'LINK', 'ETH']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(paymentType),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        paymentType = value.toString();
+                      });
+                    }),
                 TextFormField(
-                  controller: _jobSalary,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.attach_money),
-                    hintText: 'Enter Job Salary',
-                  ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _jobStarttime,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.access_time),
-                    hintText: 'Enter Job Start Time',
-                  ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _jobDuration,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  controller: _jobPaymentInWei,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.access_time),
-                    hintText: 'Enter Job Duration',
+                    hintText: 'Contract Value in Wei',
                   ),
+
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter somemore text';
+                      return 'Please enter in numbers';
                     }
                     return null;
                   },
@@ -127,9 +127,8 @@ class _CreateJobState extends State<CreateJobPage> {
                             jstorage,
                             _jobTitle.text,
                             _jobDescription.text,
-                            BigInt.parse(_jobSalary.text),
-                            BigInt.parse(_jobStarttime.text),
-                            BigInt.parse(_jobDuration.text));
+                            getPaymentTypeInt(),
+                            BigInt.parse(_jobPaymentInWei.text));
                         var holder = jstorage.getItem('pendingJobs');
                         holder.add(jobTx);
                         jstorage.setItem('pendingJobs', holder);

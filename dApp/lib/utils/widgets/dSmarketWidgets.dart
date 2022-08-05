@@ -3,9 +3,10 @@ import 'package:localstorage/localstorage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:d_smarket/pages/profiles/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:d_smarket/utils/helpers/dSmarketFunctions.dart';
 import 'package:d_smarket/pages/dSmarketPages.dart';
 import 'dart:math';
@@ -208,13 +209,22 @@ Icon getIconForJobType(String jobType) {
 class CryptoExchangeCard extends StatelessWidget {
   const CryptoExchangeCard({
     Key? key,
-    this.name = 'Rando Crypto Exchange',
-    this.url = 'https://www.random.com',
-    this.logo = 'assets/images/rooster_coop_logo.png',
+    this.name = 'Polygon Crypto Exchange',
+    this.url = 'https://faucets.chain.link/mumbai',
+    this.logo = 'https://cryptologos.cc/logos/polygon-matic-logo.png?v=023',
   });
   final String name;
   final String url;
   final String logo;
+
+  _launchExchangeBrowser(uri) async {
+    var parsedUri = Uri.parse(uri);
+    if (await canLaunchUrl(parsedUri)) {
+      await launchUrlString(uri, mode: LaunchMode.inAppWebView);
+    } else {
+      throw 'Could not launch $uri';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,11 +232,9 @@ class CryptoExchangeCard extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ListTile(
-          leading: Image.asset(logo),
-          title: Text(name),
-          subtitle: Text(url),
-        ),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text(name)]),
         IconButton(
             splashRadius: 100,
             iconSize: 200,
@@ -235,7 +243,8 @@ class CryptoExchangeCard extends StatelessWidget {
             ),
             onPressed: () {
               // do something when the button is pressed
-              debugPrint('Hi there');
+              debugPrint('Launching Browser $url');
+              _launchExchangeBrowser(url);
             }),
       ],
     ));
@@ -259,22 +268,9 @@ class _DebugWidgetState extends State<DebugWidget> {
   static Client httpClient = Client(); // = Client(http.IOClient());
   Web3Client ethereumClient =
       Web3Client(polygonClientUrl, httpClient); // Ethereum client
-  // final sender = Address.fromAlgorandAddress(address: session.accounts[0]);
-
-  // this is broke var walletProvider = EthereumWalletConnectProvider(widget.connector);
 
   printTheStore() {
     print('DebugWidget State');
-    /*
-    print('Storage: ${storageValues.getItem('walletAddress').toString()}');
-    print('Profile: ${storageValues.getItem('profileAddress').toString()}');
-    print('Contracts: ${storageValues.getItem('contracts').toString()}');
-    print(
-        'Negotiations: ${storageValues.getItem('myNegotiations').toString()}');
-    print('Jobs: ${storageValues.getItem('myJobs').toString()}');
-    print('JobReviews: ${storageValues.getItem('profileAddress').toString()}');
-    // checkProfileContract();
-    */
     getCurrentActivity();
   }
 
@@ -285,19 +281,14 @@ class _DebugWidgetState extends State<DebugWidget> {
           print('Contract: ${element.name}, Params: ${element.parameters}'),
           print('')
         });
-    // print('Deployed Contract: ${deployed.abi.functions}');
   }
 
   checkProfileContract() async {
-    //try {
     print('Query Contract');
     var profileContract = await queryFromStorage(
         ethereumClient, storageValues, 'd_smarketProfile', 'profileAlias', []);
     print('Query completed');
     print(profileContract);
-    //} catch (e) {
-    //  print('Error: ${e.toString()}');
-    //}
   }
 
   getContractInformation(var contractNameParam) async {
@@ -310,14 +301,11 @@ class _DebugWidgetState extends State<DebugWidget> {
   }
 
   getCurrentActivity() async {
-    // var retJobList = [];
     var demoJobs = storageValues.getItem('demoJobs');
-    // print(demoJobs);
     demoJobs.forEach((value) async {
       print(value);
       Map<String, String> demoJobMap = await getJob(ethereumClient, value);
       print(demoJobMap);
-      // retJobList.add(value);
     });
   }
   // return retJobList;
@@ -344,12 +332,6 @@ class _DebugWidgetState extends State<DebugWidget> {
               children: <Widget>[
             ElevatedButton(
                 onPressed: printTheStore, child: Text('LocalStorage')),
-            /*
-        ElevatedButton(onPressed: checkContract, child: Text('Get Contract')),
-        ElevatedButton(
-            onPressed: checkProfileContract,
-            child: Text('Query Default Profile Contract')),
-            */
             ElevatedButton(
                 onPressed: () {
                   print(

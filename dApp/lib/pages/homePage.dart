@@ -156,8 +156,6 @@ class _LoginPageState extends State<LoginPage> {
           _uri = uri;
           await launchUrlString(uri, mode: LaunchMode.externalApplication);
         });
-        // print(session.accounts[0]);
-        // print(session.chainId);
         setState(() {
           _session = session;
         });
@@ -269,8 +267,7 @@ class _LoginPageState extends State<LoginPage> {
                     jobAddress: i['jobAddress'].toString(),
                     jobTitle: i['title'].toString(),
                     jobDescription: i['description'].toString(),
-                    salary: i['salary'].toString(),
-                    // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
+                    salary: i['paymentInWei'].toString(),
                   ),
 
                 /*
@@ -292,7 +289,7 @@ class _LoginPageState extends State<LoginPage> {
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['description'].toString(),
-                    salary: i['salary'].toString(),
+                    salary: i['paymentInWei'].toString(),
                     // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
                   ),
                 /*
@@ -314,8 +311,7 @@ class _LoginPageState extends State<LoginPage> {
                   JobViewCard(
                     jobTitle: i['title'].toString(),
                     jobDescription: i['description'].toString(),
-                    salary: i['salary'].toString(),
-                    // jobTypeIcon: getIconForJobType(i['jobTypeIcon']),
+                    salary: i['paymentInWei'].toString(),
                   ),
               ])
             : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -361,17 +357,6 @@ class _LoginPageState extends State<LoginPage> {
                               }),
                         ]))
                     : Container()
-                /* ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 57, 212, 65))),
-                    onPressed: () => loginUsingMetamask(context),
-                    child: const Text(
-                      "Create a Profile",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 33, 47, 243),
-                      ),
-                    )), */
               ]),
       ])),
       drawer: (_session != null)
