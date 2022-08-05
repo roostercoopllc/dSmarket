@@ -1,6 +1,6 @@
 import 'package:d_smarket/utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:d_smarket/pages/login_page.dart';
+import 'package:d_smarket/pages/homePage.dart';
 
 void main(List<String> args) {
   runApp(const d_smarket());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:d_smarket/utils/helperfunctions.dart';
+import 'package:d_smarket/utils/helpers/dSmarketFunctions.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
 import 'package:localstorage/localstorage.dart';

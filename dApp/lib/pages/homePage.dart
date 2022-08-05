@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:d_smarket/pages/searchJob.dart';
-import 'package:d_smarket/pages/negotiateJob.dart';
-import 'package:d_smarket/pages/createJob.dart';
-import 'package:d_smarket/utils/helperfunctions.dart';
-import 'package:d_smarket/utils/helperwidgets.dart';
+import 'package:d_smarket/pages/dSmarketPages.dart';
+import 'package:d_smarket/utils/utilities.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:localstorage/localstorage.dart';
@@ -413,6 +410,14 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pop(context);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const NegotiateJobPage()));
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Buy Crypto'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CryptoSalesPage()));
                     },
                   ),
                   ListTile(

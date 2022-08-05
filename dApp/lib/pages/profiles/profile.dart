@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:d_smarket/utils/helperfunctions.dart';
+import 'package:d_smarket/utils/helpers/dSmarketFunctions.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
 
@@ -14,7 +14,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
-  //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _ProfileKey = GlobalKey<FormState>();
@@ -100,9 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         //   color: Color.fromARGB(255, 255, 255, 255),
                         // ),
                       ),
-                      // Text(
-                      //   'First Name',
-                      // ),
                       TextFormField(
                         controller: _ProfileFirstnameController,
                         decoration: const InputDecoration(
@@ -118,9 +114,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           return null;
                         },
                       ),
-                      // Text(
-                      //   'Last Name',
-                      // ),
                       TextFormField(
                         controller: _ProfileLastnameController,
                         decoration: const InputDecoration(
@@ -136,9 +129,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           return null;
                         },
                       ),
-                      // Text(
-                      //   'Contact Type',
-                      // ),
                       TextFormField(
                         controller: _ProfileContactValueController,
                         decoration: const InputDecoration(
@@ -154,9 +144,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           return null;
                         },
                       ),
-                      // Text(
-                      //   'Contact Value',
-                      // ),
                       TextFormField(
                         decoration: const InputDecoration(
                           icon: Icon(Icons.contact_page),

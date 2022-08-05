@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:d_smarket/pages/profile.dart';
+import 'package:d_smarket/pages/profiles/profile.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 
-import 'package:d_smarket/utils/helperfunctions.dart';
-import 'package:d_smarket/pages/negotiateJob.dart';
-import 'package:d_smarket/pages/fullJobView.dart';
+import 'package:d_smarket/utils/helpers/dSmarketFunctions.dart';
+import 'package:d_smarket/pages/dSmarketPages.dart';
 import 'dart:math';
 
 class JobViewCard extends StatelessWidget {
@@ -207,6 +205,44 @@ Icon getIconForJobType(String jobType) {
   }
 }
 
+class CryptoExchangeCard extends StatelessWidget {
+  const CryptoExchangeCard({
+    Key? key,
+    this.name = 'Rando Crypto Exchange',
+    this.url = 'https://www.random.com',
+    this.logo = 'assets/images/rooster_coop_logo.png',
+  });
+  final String name;
+  final String url;
+  final String logo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ListTile(
+          leading: Image.asset(logo),
+          title: Text(name),
+          subtitle: Text(url),
+        ),
+        IconButton(
+            splashRadius: 100,
+            iconSize: 200,
+            icon: Ink.image(
+              image: NetworkImage(logo),
+            ),
+            onPressed: () {
+              // do something when the button is pressed
+              debugPrint('Hi there');
+            }),
+      ],
+    ));
+  }
+}
+
+// I will need to kill this at some point.
 class DebugWidget extends StatefulWidget {
   const DebugWidget({Key? key}) : super(key: key);
   @override

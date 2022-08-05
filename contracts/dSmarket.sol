@@ -47,11 +47,14 @@ contract dSmarketCreateJob {
         uint256 _paymentToken,
         uint256 _paymentInWei
     ) public {
+        /*
         if (_paymentToken == 0) {
-            require(addToERC20[MaticToken].balanceOf(address(this)) >= _paymentInWei * 10**18, "Not enough MATIC to request this job");
+            require( addToERC20[MaticToken].balanceOf(address(this)) > (_paymentInWei * 10**18), "Not enough MATIC to request this job");
         } else {
-            require(addToERC20[LinkToken].balanceOf(address(this)) >= _paymentInWei * 10**18, "Not enough LINK to request this job");
+            require( addToERC20[LinkToken].balanceOf(address(this)) > (_paymentInWei * 10**18), "Not enough LINK to request this job");
         }
+        */
+        // dSmarketJob _job = new dSmarketJob(_title, _description, _paymentToken, _paymentInWei)
         _marketAddress.advertiseJob(new dSmarketJob(_title, _description, _paymentToken, _paymentInWei));
     } 
 }

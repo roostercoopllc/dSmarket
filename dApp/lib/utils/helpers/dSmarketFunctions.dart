@@ -79,22 +79,22 @@ bool startLocalStorage(LocalStorage storage) {
     storage.setItem('contracts', [
       {
         "contractName": "dSmarketPlace",
-        "contractAddress": "0xBCBd7B2CCAfc192E2a873771fcd5Eb0EA3083779",
+        "contractAddress": "0xa8E6291B34AebF03c07ED40a4FB02aB92d063884",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketNegotiationUtil",
-        "contractAddress": "0x8b1f8f7B3a1574255AA737013d6195B7A7E11f2f",
+        "contractAddress": "0xA1A3fb8D3e82F56a2e069a3f2DbeB9aDA754AAF9",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketCreateJob",
-        "contractAddress": "0x73172a2D5B3894F242Ef3a43025D90190B88CB6f",
+        "contractAddress": "0x0EC3dE7376b395840c18e61475bfEb5FE9AdA62D",
         "ipfsAbiAddress": ""
       },
       {
         "contractName": "dSmarketCheckout",
-        "contractAddress": "0xAAefdA70490b4a1914532457df3238564d123c23",
+        "contractAddress": "0xb10116A75D0eAED290cB9d350b6FFb7154E2aC6d",
         "ipfsAbiAddress": ""
       },
       //Example holder for the profile address that gets created.
@@ -103,6 +103,26 @@ bool startLocalStorage(LocalStorage storage) {
     ]);
     storage.setItem('pendingJobs', []);
     storage.setItem('pendingNegotiations', []);
+    storage.setItem('exchanges', [
+      {
+        "name": "Ledger",
+        "url": "https://www.ledger.com/buy",
+        "logo":
+            "https://cryptoast.fr/wp-content/uploads/2021/03/ledger-logo.png"
+      },
+      {
+        "name": "Crypto.com",
+        "url": "https://crypto.com/",
+        "logo":
+            "https://cdn-images-1.medium.com/max/1200/1*XFp-x1Le4CosNrU4t2pl3g.png"
+      },
+      {
+        "name": "Coinbase",
+        "url": "https://www.coinbase.com/",
+        "logo":
+            "https://yt3.ggpht.com/a/AATXAJw3PkjDymHkoh35r3mJNBX1p0JGH-AutrBktQ=s900-c-k-c0xffffffff-no-rj-mo"
+      }
+    ]);
     storage.setItem(
         'demoProfile', '0x3bE5B5d37d1920fFfceFC949A780b1565f518e21');
     storage.setItem('demoJobs', []);
