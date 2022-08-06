@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('dSmarket Home'),
+        title: const Text('dSmarket'),
         actions: (_session != null)
             ? <Widget>[
                 IconButton(
