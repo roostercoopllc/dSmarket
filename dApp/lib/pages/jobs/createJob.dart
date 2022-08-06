@@ -81,7 +81,7 @@ class _CreateJobState extends State<CreateJobPage> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(paymentType),
+                        child: Text(value),
                       );
                     }).toList(),
                     onChanged: (value) {

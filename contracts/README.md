@@ -16,3 +16,11 @@
 * The ```Job Solicitor``` then can create a ```dSmarketRating``` that can reflect the overall appreciation of the job.
 * The ```Job Contractor``` can link IPFS proofs into their ```dSmarketJobCompletion``` contract as validity of the work.
 
+## References
+1. [Polygon Getting Started](https://docs.polygon.technology/docs/develop/getting-started/) 
+2. [Truffle Boxes](https://trufflesuite.com/boxes/)
+3. [Ganache Local Chain](https://github.com/trufflesuite/ganache)
+4. [Solidity Documents](https://docs.soliditylang.org/en/v0.8.15/)
+5. [D&D Chainlink Example](https://github.com/PatrickAlphaC/dungeons-and-dragons-nft/blob/master/contracts/DungeonsAndDragonsCharacter.sol)
+6. [Awesome Solidity](https://github.com/bkrem/awesome-solidity)
+7. [Best ecrecover explaination ever](https://soliditydeveloper.com/ecrecover)
