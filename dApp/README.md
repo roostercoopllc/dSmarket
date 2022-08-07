@@ -1,5 +1,5 @@
 ### dSmarket Mobile App
-Everyone uses a phone. The phone, and ultimately it's next wearable, will be the way the way that you will be able to officially make your will known. For the sake of this hackathon, the interaction vector will be through a mobile app.
+Everyone uses a phone. The phone, and ultimately it's next wearable interface/device, will be the way the way that you will be able to officially make your accept your jobs, publish needs, and crowd source recommendations for your best lifestyle. For the sake of this hackathon, the interaction vector will be through a mobile app on an android device. However, the device can be deployed on android, ios, and through any browser.
 
 Utilizing the [Flutter](https://flutter.dev/) framework, the development team can deploy for iOS, Android and Web Utilizing the same codebase. Big thanks to Bhaskar for the layout on how to use [Flutter with Metamask](https://dev.to/bhaskardutta/building-with-flutter-and-metamask-8h5).
 
@@ -10,14 +10,13 @@ Built and Tested on Pixel 4 (API 30).
 With an Virtual device running (I used android studios AVD Laucher)
 ```sh
 user@polygon-hackathon-submission$ cd dApp
-user@dApp$ flutter run
-# no-sound-null-safety because package:vibration needs this check
+user@dApp$ flutter run -v 
 ```
 
 ```Deployment```
-
 ```sh
-adb push xxx
+flutter build android
+adb push xxx 
 ```
 
 ## Prerequisites to running the app
