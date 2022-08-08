@@ -25,37 +25,43 @@ The deployment of the contracts are currently on the ```Mumbai: Polygon Test Net
 ### dSmarketPlace
 ```
 contractAddress: 0x2aEA5b24ab6ad08ba5C1E0664AC7DF3633C693D3
-PolygonScan Link:
+PolygonScan Link: https://mumbai.polygonscan.com/address/0x2aEA5b24ab6ad08ba5C1E0664AC7DF3633C693D3
 ```
 
 ### dSmarketNegotiationUtil
 ```
 contractAddress: 0xFc96d8e17F3DD8408e08c386f63c4e8A54478C18
-PolygonScan Link:
+PolygonScan Link: https://mumbai.polygonscan.com/address/0xFc96d8e17F3DD8408e08c386f63c4e8A54478C18
 ```
 
 ### dSmarketCreateJob
 ```
 contractAddress: 0xaDd25A3C72C7ecC589f71F71989f2e102ea7BE82
-PolygonScan Link:
+PolygonScan Link: https://mumbai.polygonscan.com/address/0xaDd25A3C72C7ecC589f71F71989f2e102ea7BE82
 ```
 
 ### dSmarketCheckout
 ```
 contractAddress: 0x19CF5eD14F0b6b93Cf4e9F2f2696Df89b89b0Bf0
-PolygonScan Link:
+PolygonScan Link: https://mumbai.polygonscan.com/address/0x19CF5eD14F0b6b93Cf4e9F2f2696Df89b89b0Bf0
 ```
 
 ### dSmarketJob
 ```
-contractAddress: 
-PolygonScan Link:
+Name: Currier Example 
+PolygonScan Link: https://mumbai.polygonscan.com/tx/0xd6a8188fc0f9771a91ddfebd3246f5f6c6e4b659522d304f36d3f13a61874cbd
 
-contractAddress: 
-PolygonScan Link:
+Name: Mobile App Testing
+PolygonScan Link: https://mumbai.polygonscan.com/tx/0x3fc2f865bc5d38f06c06b0e737e295726d99f3331399b80c34af4e3011d07925
 
-contractAddress: 
-PolygonScan Link:
+Name: Fence Repair
+PolygonScan Link: https://mumbai.polygonscan.com/tx/0xe58e79072c7a94df6fd042b8e0975aa9ec0544fa03a06fa7d79c051668c82a9f
+```
+
+### dSmarketProfiles
+```
+Name: Demo Profile
+PolygonScan: https://mumbai.polygonscan.com/address/0x3bE5B5d37d1920fFfceFC949A780b1565f518e21
 ```
 
 ### dSmarketNegotiation
