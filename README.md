@@ -79,6 +79,9 @@ I learned alot about how CI/CD paradigms will likely need to be adapted to have 
 ## What's next for dSmarket
 Do more testing, since the app was defo rushed. I think there is a huge market for making crypto more accessable in the daily lives of people who are generally more affected by large fluxuations in market instability. If you want to know the market strategy: hit me up and or look at the slide deck in the ```presentations``` folder of the repo! 
 
+
+I am also going to do more work with the Portfolio aspect of the application. Use IPFS to house the pictures, receipts, before-and-after artifacts of the job so that job contractors can have a digital "show room of what they have done".
+
 I keep going back and forth between offloading the abi references to IPFS, but I would also like to have stored artifacts that would lead to interactions to take place offline and then register next time that the wallet his some connectivity. This could lead to other fun social solutions to technical problems like the advancements of mesh networks in cities like Baltimore that fill in the gaps where simple services like internet connectivity don't have a firm hold. 
 
 There are a few more interactions in the smart contracs that I would like to flush out and then I can definitely see that becoming the defacto standard of business in a couple of markets. 
