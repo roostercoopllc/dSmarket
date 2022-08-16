@@ -1,5 +1,6 @@
 export 'package:d_smarket/pages/jobs/searchJob.dart';
 export 'package:d_smarket/pages/jobs/negotiateJob.dart';
+export 'package:d_smarket/pages/jobs/negotiationDemo.dart';
 export 'package:d_smarket/pages/jobs/createJob.dart';
 export 'package:d_smarket/pages/jobs/fullJobView.dart';
 

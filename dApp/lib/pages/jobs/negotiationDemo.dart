@@ -3,22 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 
-class NegotiateJobPage extends StatefulWidget {
-  const NegotiateJobPage({Key? key}) : super(key: key);
+class NegotiateJobDemoPage extends StatefulWidget {
+  const NegotiateJobDemoPage({Key? key}) : super(key: key);
 
   @override
-  State<NegotiateJobPage> createState() => _NegotiateJobState();
+  State<NegotiateJobDemoPage> createState() => _NegotiateJobDemoState();
 }
 
-class _NegotiateJobState extends State<NegotiateJobPage> {
+class _NegotiateJobDemoState extends State<NegotiateJobDemoPage> {
   final _NegotiationKey = GlobalKey<FormState>();
-  final _jobAddressKey = GlobalKey<FormState>();
-  final _paymentTypeKey = GlobalKey<FormState>();
   final _description = TextEditingController();
+  final _paymentTypeKey = GlobalKey<FormState>();
   final _paymentInWei = TextEditingController();
   final _duration = TextEditingController();
   final LocalStorage storage = new LocalStorage('d_smarket_local_storage.json');
-  var jobAddress = '0x0000000000000000000000000000000000000000';
 
   var paymentType = 'MATIC';
 
@@ -41,6 +39,22 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
       'paymentType': 'MATIC',
       "author": 'solicitor',
     },
+    {
+      'description':
+          'Contractor will work for 30 hours over the course of 4 weeks to fully implement testing of the application.',
+      'paymentInWei': '2598753',
+      'duration': '321123',
+      'paymentType': 'MATIC',
+      "author": 'contractor',
+    },
+    {
+      'description':
+          'Contractor will work for 50 hours over the course of 4 weeks to fully implement testing of the application.',
+      'paymentInWei': '2598753',
+      'duration': '321123',
+      'paymentType': 'MATIC',
+      "author": 'solicitor',
+    },
   ];
 
   @override
@@ -56,33 +70,8 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    (jobAddress == '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f')
-                        ? Text('Mobile App Testing')
-                        : Text('Select a job')
-                  ],
+                  children: [],
                 ),
-                DropdownButton(
-                    key: _jobAddressKey,
-                    items: <String>[
-                      '0x0000000000000000000000000000000000000000',
-                      '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f',
-                      '0x0A632638e9AdE4e2d0b394982AC0Bb97fA22de81',
-                      '0xe8112638595e26721d6a37599F98AE4b2377cb87'
-                    ].map<DropdownMenuItem<String>>((String address) {
-                      return DropdownMenuItem<String>(
-                        value: address,
-                        child: Text(address.toString().substring(0, 6) +
-                            '...' +
-                            address.toString().substring(37, 42)),
-                      );
-                    }).toList(),
-                    value: jobAddress,
-                    onChanged: (address) {
-                      setState(() {
-                        jobAddress = address.toString();
-                      });
-                    }),
                 TextFormField(
                   controller: _description,
                   decoration: const InputDecoration(
@@ -186,26 +175,26 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                     child: const Text('Submit'),
                   ),
                 ),
-                (jobAddress == '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f')
-                    ? Column(children: [
-                        for (var record in negotationRecords)
-                          Column(
-                            mainAxisAlignment: (record['author'] == 'solicitor')
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                  "Description ${record['description'].toString()}"
-                                      .toString()),
-                              Text("Duration ${record['duration'].toString()}"),
-                              Text(
-                                  "Payment ${record['paymentInWei'].toString()}"),
-                              Text(
-                                  "Payment Token: ${record['paymentType'].toString()}"),
-                            ],
-                          ),
-                      ])
-                    : Text('No Negotiations Selected'),
+                Text('Mobile App Testing'),
+                SizedBox(
+                  height: 15,
+                ),
+                for (var record in negotationRecords)
+                  Column(
+                      mainAxisAlignment: (record['author'] == 'solicitor')
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.end,
+                      children: [
+                        Text("Description ${record['description'].toString()}"
+                            .toString()),
+                        Text("Duration ${record['duration'].toString()}"),
+                        Text("Payment ${record['paymentInWei'].toString()}"),
+                        Text(
+                            "Payment Token: ${record['paymentType'].toString()}"),
+                        SizedBox(
+                          height: 15,
+                        ),
+                      ]),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

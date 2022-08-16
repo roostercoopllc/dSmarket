@@ -23,11 +23,11 @@ class _CreateJobState extends State<CreateJobPage> {
 
   getPaymentTypeInt() {
     if (paymentType == 'MATIC') {
-      return 0;
+      return new BigInt.from(0);
     } else if (paymentType == 'LINK') {
-      return 1;
+      return new BigInt.from(1);
     } else {
-      return 2;
+      return new BigInt.from(2);
     }
   }
 
@@ -81,10 +81,14 @@ class _CreateJobState extends State<CreateJobPage> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(value.toString()),
                       );
                     }).toList(),
+                    value: paymentType,
+                    icon: const Icon(Icons.arrow_downward),
+                    style: TextStyle(color: Color.fromARGB(255, 58, 107, 148)),
                     onChanged: (value) {
+                      print(value.toString());
                       setState(() {
                         paymentType = value.toString();
                       });
