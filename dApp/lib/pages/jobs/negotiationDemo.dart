@@ -13,10 +13,10 @@ class NegotiateJobDemoPage extends StatefulWidget {
 class _NegotiateJobDemoState extends State<NegotiateJobDemoPage> {
   final _NegotiationKey = GlobalKey<FormState>();
   final _description = TextEditingController();
+  final _paymentTypeKey = GlobalKey<FormState>();
   final _paymentInWei = TextEditingController();
   final _duration = TextEditingController();
   final LocalStorage storage = new LocalStorage('d_smarket_local_storage.json');
-  var jobAddress = '';
 
   var paymentType = 'MATIC';
 
@@ -72,22 +72,6 @@ class _NegotiateJobDemoState extends State<NegotiateJobDemoPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [],
                 ),
-                DropdownButton(
-                    items: <String>[
-                      '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f',
-                      '0x0A632638e9AdE4e2d0b394982AC0Bb97fA22de81',
-                      '0xe8112638595e26721d6a37599F98AE4b2377cb87'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        paymentType = value.toString();
-                      });
-                    }),
                 TextFormField(
                   controller: _description,
                   decoration: const InputDecoration(
@@ -103,6 +87,7 @@ class _NegotiateJobDemoState extends State<NegotiateJobDemoPage> {
                   },
                 ),
                 DropdownButton(
+                    key: _paymentTypeKey,
                     items: <String>['MATIC', 'LINK', 'ETH']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(

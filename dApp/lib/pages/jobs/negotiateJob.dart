@@ -12,11 +12,13 @@ class NegotiateJobPage extends StatefulWidget {
 
 class _NegotiateJobState extends State<NegotiateJobPage> {
   final _NegotiationKey = GlobalKey<FormState>();
+  final _jobAddressKey = GlobalKey<FormState>();
+  final _paymentTypeKey = GlobalKey<FormState>();
   final _description = TextEditingController();
   final _paymentInWei = TextEditingController();
   final _duration = TextEditingController();
   final LocalStorage storage = new LocalStorage('d_smarket_local_storage.json');
-  var jobAddress = '';
+  var jobAddress = '0x0000000000000000000000000000000000000000';
 
   var paymentType = 'MATIC';
 
@@ -54,22 +56,31 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('Mobile App Testing')],
+                  children: [
+                    (jobAddress == '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f')
+                        ? Text('Mobile App Testing')
+                        : Text('Select a job')
+                  ],
                 ),
                 DropdownButton(
+                    key: _jobAddressKey,
                     items: <String>[
+                      '0x0000000000000000000000000000000000000000',
                       '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f',
                       '0x0A632638e9AdE4e2d0b394982AC0Bb97fA22de81',
                       '0xe8112638595e26721d6a37599F98AE4b2377cb87'
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    ].map<DropdownMenuItem<String>>((String address) {
                       return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
+                        value: address,
+                        child: Text(address.toString().substring(0, 6) +
+                            '...' +
+                            address.toString().substring(37, 42)),
                       );
                     }).toList(),
-                    onChanged: (value) {
+                    value: jobAddress,
+                    onChanged: (address) {
                       setState(() {
-                        paymentType = value.toString();
+                        jobAddress = address.toString();
                       });
                     }),
                 TextFormField(
@@ -87,6 +98,7 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                   },
                 ),
                 DropdownButton(
+                    key: _paymentTypeKey,
                     items: <String>['MATIC', 'LINK', 'ETH']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -174,19 +186,26 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                     child: const Text('Submit'),
                   ),
                 ),
-                for (var record in negotationRecords)
-                  Column(
-                      mainAxisAlignment: (record['author'] == 'solicitor')
-                          ? MainAxisAlignment.start
-                          : MainAxisAlignment.end,
-                      children: [
-                        Text("Description ${record['description'].toString()}"
-                            .toString()),
-                        Text("Duration ${record['duration'].toString()}"),
-                        Text("Payment ${record['paymentInWei'].toString()}"),
-                        Text(
-                            "Payment Token: ${record['paymentType'].toString()}"),
-                      ]),
+                (jobAddress == '0xD7ed8f5677F8c37AaFEC3D25DD1bD47d3d108c6f')
+                    ? Column(children: [
+                        for (var record in negotationRecords)
+                          Column(
+                            mainAxisAlignment: (record['author'] == 'solicitor')
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                  "Description ${record['description'].toString()}"
+                                      .toString()),
+                              Text("Duration ${record['duration'].toString()}"),
+                              Text(
+                                  "Payment ${record['paymentInWei'].toString()}"),
+                              Text(
+                                  "Payment Token: ${record['paymentType'].toString()}"),
+                            ],
+                          ),
+                      ])
+                    : Text('No Negotiations Selected'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
