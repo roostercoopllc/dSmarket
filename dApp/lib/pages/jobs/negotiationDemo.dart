@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 
-class NegotiateJobPage extends StatefulWidget {
-  const NegotiateJobPage({Key? key}) : super(key: key);
+class NegotiateJobDemoPage extends StatefulWidget {
+  const NegotiateJobDemoPage({Key? key}) : super(key: key);
 
   @override
-  State<NegotiateJobPage> createState() => _NegotiateJobState();
+  State<NegotiateJobDemoPage> createState() => _NegotiateJobDemoState();
 }
 
-class _NegotiateJobState extends State<NegotiateJobPage> {
+class _NegotiateJobDemoState extends State<NegotiateJobDemoPage> {
   final _NegotiationKey = GlobalKey<FormState>();
   final _description = TextEditingController();
   final _paymentInWei = TextEditingController();
@@ -39,6 +39,22 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
       'paymentType': 'MATIC',
       "author": 'solicitor',
     },
+    {
+      'description':
+          'Contractor will work for 30 hours over the course of 4 weeks to fully implement testing of the application.',
+      'paymentInWei': '2598753',
+      'duration': '321123',
+      'paymentType': 'MATIC',
+      "author": 'contractor',
+    },
+    {
+      'description':
+          'Contractor will work for 50 hours over the course of 4 weeks to fully implement testing of the application.',
+      'paymentInWei': '2598753',
+      'duration': '321123',
+      'paymentType': 'MATIC',
+      "author": 'solicitor',
+    },
   ];
 
   @override
@@ -54,7 +70,7 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('Mobile App Testing')],
+                  children: [],
                 ),
                 DropdownButton(
                     items: <String>[
@@ -174,6 +190,10 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                     child: const Text('Submit'),
                   ),
                 ),
+                Text('Mobile App Testing'),
+                SizedBox(
+                  height: 15,
+                ),
                 for (var record in negotationRecords)
                   Column(
                       mainAxisAlignment: (record['author'] == 'solicitor')
@@ -186,6 +206,9 @@ class _NegotiateJobState extends State<NegotiateJobPage> {
                         Text("Payment ${record['paymentInWei'].toString()}"),
                         Text(
                             "Payment Token: ${record['paymentType'].toString()}"),
+                        SizedBox(
+                          height: 15,
+                        ),
                       ]),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

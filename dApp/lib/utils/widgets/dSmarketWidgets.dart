@@ -113,81 +113,97 @@ class QrProfileCard extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text('Account Info'), actions: []),
         body: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      Image.asset(
-                        accountLogo,
-                        height: 100,
-                        width: 100,
-                      ),
-                    ],
+                  Image.asset(
+                    accountLogo,
+                    height: 100,
+                    width: 100,
                   ),
-                  Column(children: [
-                    Text(
-                      displayAccount,
-                      // '${_session.accounts[0].substring(0, 6)}...${_session.accounts[0].substring(_session.accounts[0].length - 4)}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      networkName,
-                      // '${getNetworkName(_session.chainId)}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      'Account Balance: ${accountBalance.toString()}',
-                    ),
-                  ]),
                 ],
               ),
-              /*
+              Column(children: [
+                Text(
+                  displayAccount,
+                  // '${_session.accounts[0].substring(0, 6)}...${_session.accounts[0].substring(_session.accounts[0].length - 4)}',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  networkName,
+                  // '${getNetworkName(_session.chainId)}',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  'Account Balance: ${accountBalance.toString()}',
+                ),
+              ]),
+            ],
+          ),
+          /*
                 Current Activity
               */
-              Card(
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                /*
+          Card(
+              child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            /*
                 ListTile(
                   leading: Icon(Icons.album),
                   title: Text(profileAlias),
                   subtitle: Text(profileDescription),
                 ),
                 */
-                QrImage(
-                  data:
-                      'https://mumbai.polygonscan.com/address/${walletAddress}',
-                  backgroundColor: Colors.white,
-                  // gapless: false,
-                  // version: QrVersions.auto,
-                  size: 200.0,
+            QrImage(
+              data: 'https://mumbai.polygonscan.com/address/${walletAddress}',
+              backgroundColor: Colors.white,
+              // gapless: false,
+              // version: QrVersions.auto,
+              size: 200.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  child: const Text('Edit'),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ProfilePage()));
+                  },
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      child: const Text('Edit'),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ProfilePage()));
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    /*
+                const SizedBox(width: 8),
+                /*
                     TextButton(
                       child: const Text('Remove'),
                       onPressed: () {/* ... */},
                     ),
                     const SizedBox(width: 8),
                     */
-                  ],
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[Text('Current Job Negotiations')],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Mobile App Tester'),
+                TextButton(
+                  child: const Text('View Negotiation'),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NegotiateJobDemoPage()));
+                  },
                 ),
-              ]))
-            ])));
+                const SizedBox(width: 8),
+              ],
+            )
+          ]))
+        ])));
   }
 }
 
