@@ -1,5 +1,12 @@
 # dSmarket - The Decentralized Smart Contract Market Place: Polygon Blockchain
 
+## Project Description
+Defi, NFT Art, and Video games are not inclusive to the greater population in the way that a multi-use, utility blockchain could be. dSmarket aims to allow for people to transact in a human manner, with crypto currencies as a means of value. dSmarket creates an open standard for two parties to decide upon work and compensation for the service or product. The Marketplace contract standard provides a coordinating function for marketplace organizers to insure that the marketplace focuses on what the organizer or organization values.
+
+These standards for market commerce allow for marketplaces to provide either regional, service specific, or organizationally aligned business coordination utilizing the decentralized control of the Ethereum virtual machine. Market places can be monitored and controlled, without baring humans from the entire space. This effectively replaces the backend and central control of companies like Uber, Task Rabbit, or even free services like Craig’s List.
+
+This open standard in service-based labor coordination facilitates democratic processes to flourish and enable inclusion by allowing anonymity in a community-oriented commerce center without compromising the purchasing power of a cryptocurrency. This also provides a means for the cultural shift away from relying on fiat currency to crypto currency.
+
 ## Inspiration
 Let's be honest. Even with the constant discussion on how blockchain decentralizes control and gives the individual control of their assets, and thus their lives, there are really only 3 different types of dApps that seem to even get created: DeFi, Videogames, or NFT art galleries. The users of these dApps are generally already believers of crypto currency, and have financial resources to fully participate in the #cryptolife or and have the time to understand how a decentralized future would ultimately benefit both sellers and customer. Crypto needs to be inclusive of all financial backgrounds in order to fully take hold. There will be continued resistance, government backlash without this grassroots involvement in the adoption of crypto in leu of cash for goods and services. 
 
