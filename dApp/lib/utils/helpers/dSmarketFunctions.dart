@@ -185,8 +185,11 @@ Future<String> createJob(
     String _description,
     BigInt _paymentToken,
     BigInt _paymentInWei) async {
+  EthereumAddress marketAddress = EthereumAddress.fromHex(
+      storage.getItem('contracts')[0]['contractAddress']);
   var results = await transaction(ethereumClient, storage,
       storage.getItem('walletAddress'), 'dSmarketCreateJob', 'createNewJob', [
+    marketAddress,
     _title,
     _description,
     _paymentToken,

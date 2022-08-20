@@ -13,9 +13,9 @@ Let's be honest. Even with the constant discussion on how blockchain decentraliz
 dSmarket aims to eliminate the confusion of crypto, and the financial and technical knowledge barriers that keep people from benefiting from a financial system without central, non-transparent, and often manipulative control. This dApp's concept is not revolutionary. However, the advantages, and implementation of the app in an independant, distributed and decentralized manner truly are. Simply put the dApp is market place infrastructure to coordinate requests for goods or services with service providers through the most beneficial part blockchain technologies: Smart Contracts.
 
 In the words of Vitalik Buterin:
-```
+<em>
 Whereas most technologies tend to automate workers on the periphery doing menial tasks, blockchains automate away the center. Instead of putting the taxi driver out of a job, blockchain puts Uber out of a job and lets the taxi drivers work with the customer directly.
-```
+</em>
 
 With this philosophy in mind, the dSmarketPlace market place allows contractors to select Gigs/Jobs (like traditional gig economy) but for all types of services instead of having to go through a centralized, often non-democratic, corporation that arbatraily takes their cut off the top. The smart contract infrastructure of dSmarket provides tangable, independantly auditable legal agreement between a person requiring work to be performed (a service requestor) and anyone that is able to provide the solution to that work at an acceptable. 
 
@@ -104,6 +104,9 @@ Short answer: Big Plans! but you need to pay to play baby I won't give you every
 ```Mobile App```
 1. Atilla 
 2. Evo
+
+```Video```
+1. Sinfathisar
 
 ## References
 1. [Devpost Submission](https://devpost.com/submit-to/15647-polygon-buidl-it-summer-2022/manage/submissions)

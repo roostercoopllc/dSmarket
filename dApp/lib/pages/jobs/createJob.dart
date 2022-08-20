@@ -126,6 +126,9 @@ class _CreateJobState extends State<CreateJobPage> {
                             const SnackBar(content: Text('Posting Job...')),
                           );
                         }
+                        /* print(getPaymentTypeInt().toString());
+                        print(_jobTitle.text);
+                        print(_jobPaymentInWei.text); */
                         var jobTx = await createJob(
                             ethereumClient,
                             jstorage,

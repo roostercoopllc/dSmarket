@@ -287,6 +287,8 @@ class _DebugWidgetState extends State<DebugWidget> {
 
   printTheStore() {
     print('DebugWidget State');
+    print(storageValues.getItem('pendingJobs'));
+    print(storageValues.getItem('pendingNegotiations'));
     getCurrentActivity();
   }
 
