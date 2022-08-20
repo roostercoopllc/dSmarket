@@ -28,7 +28,7 @@ The app facilitates 4 major components of the ecosystem.
 3. ```Rating Job Performance and Dispute Reconciliation Support``` by having a self notarizing negotiations and Completion history. The ratings of the jobs go to both the speed at which job solicitors pay their contracts, and how well the contractor completes the services. This effectively, and implicitly build in a reputation to price ratio that helps the best work fetch the best price.
 4. Facilitating ```directions to crypto exchanges``` to buy, exchange, or manage your crypto through the MetaMask connector. This marketplace partnership with different exhcanges allow for solicitors to buy crypto to solicit jobs, and for contractors to cash out their crypto for cash (until the future day where this step is made obsolete by governments inflating fiat until it is no longer a viable means of commerce).
 
-![What does it do](https://youtu.be/xiPh_9meXNk)
+[![What does it do](presentations/screenshots/spash-screen-dApp.jpg)](https://youtu.be/xiPh_9meXNk "What does it do")
 
 ### Examples of Jobs supported
 Example jobs that are created for this demo are the following:
