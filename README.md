@@ -33,14 +33,14 @@ The app facilitates 4 major components of the ecosystem.
 ## Demo Video
 <div style="text-align: center;">
 
-[![What does it do](presentations/screenshots/spash-screen-dApp.jpg)](https://youtu.be/xiPh_9meXNk "What does it do")
+<a href="https://youtu.be/xiPh_9meXNk" target="_blank"><img src="presentations/screenshots/youtube-screenshot.jpg" width="450" alt="KDD promo video"/></a>
 
 </div>
 
 ### Examples of Jobs supported
 Example jobs that are created for this demo are the following:
 
-1. ```Currier Service```: A simple job of taking a package across town. Utilizing the system of Profiles (of both solicitor and contractor via their wallets).
+1. ```Courier Service```: A simple job of taking a package across town. Utilizing the system of Profiles (of both solicitor and contractor via their wallets).
 2. ```Unique tasks for people trying to transition career fields```: Allows for job history of individuals to be tracked and also used as a resume builder by individuals who want to work outside of traditional employment paradigms 
 3. ```Ratings for non-industry specific work```: Allows for people with parallel backgrounds to perform side job tasks that would otherwise require extensive background or references. Something like "I need a fence painted". Or "Help me walk my Dog". 
 
