@@ -106,15 +106,19 @@ There are a few more interactions in the smart contracts that I would like to fl
 Short answer: Big Plans! but you need to pay to play baby I won't give you everything for free lol!
 
 ## The Team 
-```Smart Contracts```
-1. Atilla
+### Smart Contracts
 
-```Mobile App```
-1. Atilla 
-2. Evo
+* Atilla
 
-```Video```
-1. Sinfathisar
+### Mobile App
+
+* Atilla 
+* Evo
+
+### Video
+
+* Sinfathisar
+* Atilla 
 
 ## References
 1. [Devpost Submission](https://devpost.com/submit-to/15647-polygon-buidl-it-summer-2022/manage/submissions)
